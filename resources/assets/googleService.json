@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "eloquent-glow-130711",
+  "private_key_id": "64339e7ea3aa826336a2912ba7b45b49d33291d4",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC4h9f41QuG0S/3\nrL9OSHmAI0q9lQDmB239kr0j3YOLgDNs9tvHDEbBlS/WOilH0J/LyWvkL6oPG5VS\nkCpv8GqCO3EuyxydrAySFHxuzEXphlO++d7bMy4WuAPwozrqXsurPC/ZgbTz6vYK\ntwOq3H9m6SIeEPVdNWvp/tJom7mao3ybN8SKjq2IsC2TIzDtWNc9+ps1yFkTUojp\ncfjS2TPfPZLl1SFSauc09x5Bgizh5U/ersSXGlOGmEH8uvoVcW6artQfo/VNpvOW\nzYYD3GVrw7DquLDjyX/gF9witZMNPkLlNJCVZDHmcsaGqQ2KvSOG6jjA/FjSO2FV\nMw47r+FJAgMBAAECggEBAJGj/axSEZflUJONTyws/WBJ+npouN3UrVX+U7OT6HfY\nxj3RFCMkqE+vPKM7Ikug+A3yOmpNyE3GOnOAf038FUQWQD1rZ3l2SjGdY5xbMy6d\nq0lGk0K0QUMDF3D8k8pY6SyMA0QLIFOHdYt9aLKY9yC1Dg1m2xEm0bZMPar8hV/r\nH6J3nQ1qc7jNnUD5KBYzdUMp4xsjFxXFaiay2hCsm3wu4RgRPlaqafxk0adTvNrS\n25wt9k+DFqIcF+Ac6A9RHnkIyIS2GJDTV6nyAc0aVU4Bzkc2LEK0h0WuQBGy5CTe\nruceXYcGhCH/i2saPMu3/reD2D4k2BqZvpi8UZhbioUCgYEA/Raw+xBUqOZ5Ppfs\n0IPJirSmupTqu5ba+2bq6S9MGDRl3pyutLWl/iJ64j2srYYEPbVn8wBtf1d0uV0c\natr6uzmKakdmX/JB4HNSLFAS0RePDoMaR5BPTsiXrmKcZKrs7qcZFdhbui3ky10b\nesKOzglkfDdi4CrKVmgeq4v1Ox8CgYEAuqdCVhhtS+5pXbkLOUqsejrTq7S3VinJ\njCIn35GzbKShJbP6XnU9oRxt5rL2FmCoGRSBuiqXZdq9ls6ai3dBItDnqycN6S7P\n+ym6u1Sm+ih38VrpbgnS18WJ3FXgs3xFvTKI396Vdgzrz9fgkqN+RGNc4vVmETFW\nnh6QCne3vpcCgYEAmBWIqHX5yb0lYp286tgmxjkkb76JB8zxLl18EEAhw/HIvWr9\n+Q2m//4MReO13lhIOCTIoFfDdOBC/hibuQJ55QQAzzi0pjdXqt7hpEtB42/6wUe7\nBQINBlS4AUy0mjG0Sv0Sr/PhuxFVCXebybscQWeXgKVvvzE3gZDzzTY/WRUCgYBh\navyfbN5WnBdYOEUYYNYGcX+ahZaOnP65afY/pI7t7DrDL91DwZMp7Gmb19nCsi3p\n8R8IKESef30mIazdj59qaXgQhzCmfK1GXHA+Z59Cvy5ixN1CdlQaE9qxKg0+AGVx\nqtdvaH+/flzxPK3UOwqi7O1E82mTHZokqrTpEbTP/wKBgHJAqJ4WXWqeYubWZhgp\nwzmwUen0qiC1hLQ6xMMR7MQwN8/RCOUC5YOel5pGDsjNUiQuKxi6KA7DS3Z/wKkW\nvu9sSTiB7rA6RgraKpoKT/JiK8Z226o369UxQ3paXzfN66a1BpFnyes9Gc1vYhts\nZOfWAsuhAW3Cwvz7zCMrkcvo\n-----END PRIVATE KEY-----\n",
+  "client_email": "kvdt-api@eloquent-glow-130711.iam.gserviceaccount.com",
+  "client_id": "110897302934527625106",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://accounts.google.com/o/oauth2/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kvdt-api%40eloquent-glow-130711.iam.gserviceaccount.com"
+}
