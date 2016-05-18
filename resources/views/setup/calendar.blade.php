@@ -7,8 +7,7 @@
             <h1>select the calendars you want to follow</h1>
             {{ Form::open(array('url' => URL::route('setCalendars'), 'method' => 'Post')) }}
             @foreach($calendarList as $key => $value)
-                {{ Form::checkbox('calendar[]', $key) }} {{ $value }} <br \>
-                {{-- {{ $key . " - " . $value }} --}}
+                {{ Form::checkbox('calendar[]', $key, FALSE, ['id'=>'link' . $value]) }} {{ Form::label('link' . $value, $value) }} <br \>
             @endforeach
             {{ Form::submit('Submit!') }}
             {{ Form::close() }}

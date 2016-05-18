@@ -25,6 +25,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'preference'], function () {
             Route::get('calendars', ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
             Route::post('/setcalendars', ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
+            Route::get('events', ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
+
     });
 
     Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
