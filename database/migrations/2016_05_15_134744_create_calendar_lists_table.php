@@ -15,7 +15,8 @@ class CreateCalendarListsTable extends Migration
         Schema::create('calendar_lists', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->string('calendarId');
+            $table->string('calendar_id');
+            $table->string('calendar_name');
             $table->integer('follow');
             $table->timestamps();
         });

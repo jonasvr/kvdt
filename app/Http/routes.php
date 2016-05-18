@@ -17,10 +17,16 @@ Route::get('/', function () {
 
 Route::get('/test', 'TestController@Test');
 Route::get('/test2', 'TestController@Test2');
-Route::get('/test3', 'TestController@Test3');
 
 
 Route::group(['middleware' => 'web'], function () {
+    Route::get('/test3', 'TestController@Test3');
+
+    Route::group(['prefix' => 'preference'], function () {
+            Route::get('calendars', ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
+            Route::post('/setcalendars', ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
+    });
+
     Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
     Route::get('social/login/{provider}', 'Auth\AuthController@handleProviderCallback');
 

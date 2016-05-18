@@ -12,7 +12,7 @@ class calendarList extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'calendarID', 'follow',
+        'user_id', 'calendar_id','calendar_name', 'follow',
     ];
 
 }
