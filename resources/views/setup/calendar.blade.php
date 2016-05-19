@@ -7,9 +7,13 @@
             <h1>select the calendars you want to follow</h1>
             {{ Form::open(array('url' => URL::route('setCalendars'), 'method' => 'Post')) }}
             @foreach($calendarList as $key => $value)
-                {{ Form::checkbox('calendar[]', $key, FALSE, ['id'=>'link' . $value]) }} {{ Form::label('link' . $value, $value) }} <br \>
+                {{-- {{ ($value['checked']) ? $class => '.green'}} --}}
+
+                {{ Form::checkbox('calendar[]', $value['id'], false, ['id'=>"link$key"]) }}
+                {{ Form::label("link$key", $value['title'], [ "class" =>($value['checked']) ? 'green':'']) }} <br \>
             @endforeach
-            {{ Form::submit('Submit!') }}
+            {{ Form::submit('follow!', ['name' => 'action']) }}
+            {{ Form::submit('unfollow!',['name' => 'action']) }}
             {{ Form::close() }}
         </div>
     </div>

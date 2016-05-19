@@ -18,14 +18,42 @@ use Session;
 class preferenceController extends Controller
 {
     public function getCalendars(){
+        // Get the API client and construct the service object.
         $client = $this->getClient('http://kvdt.dev/preference/calendars');
         $service = new Google_Service_Calendar($client);
-        $calendarList  = $service->calendarList->listCalendarList();;
 
+        // Get list of followed callendars
+        $calendarList  = $service->calendarList->listCalendarList();
         $calendars =array();
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
-                $calendars[$calendarListEntry->id] = $calendarListEntry->getSummary();
+                // check if exist & followed or not
+                $find = calendarList::where('calendar_id', '=', $calendarListEntry->id)
+                                        ->where('user_id', '=', Auth::user()->id)
+                                        ->first();
+                $checked = false;
+
+                if($find)
+                {
+                    if($find->follow)
+                    {
+                        $checked = true;
+                    }
+                }else {
+
+                    $input = new calendarList();
+                    $input->user_id = Auth::user()->id;
+                    $input->calendar_id = $calendarListEntry->id;
+                    $input->follow = 0;
+                    $input->save();
+                }
+
+                $calendars[] = [
+                                'id' => $calendarListEntry->id,
+                                'title' =>  $calendarListEntry->getSummary(),
+                                'checked' => $checked,
+                            ];
+                // $calendars[$calendarListEntry->id] = $calendarListEntry->getSummary();
             }
             $pageToken = $calendarList->getNextPageToken();
            if ($pageToken) {
@@ -35,7 +63,6 @@ class preferenceController extends Controller
                 break;
            }
        }
-
        $data = [
            'calendarList' => $calendars,
        ];
@@ -44,18 +71,26 @@ class preferenceController extends Controller
 
     public function setCalendars(Request $request){
         $data = $request->all();
-
         $validator = Validator::make($request->all(), [
             'calendar.*' => 'required|max:255',
         ]);
 
         foreach ($data['calendar'] as $key => $calendar) {
-            $input = new calendarList();
-            $input->user_id = Auth::user()->id;
-            $input->calendar_id = $calendar;
-            $input->follow = 1;
-            $input->save();
+            $update = calendarList::where('calendar_id', '=', $calendar)
+                                    ->where('user_id', '=', Auth::user()->id)
+                                    ->first();
+            $update->save();
+            if ($data['action']=='follow!')
+            {
+                $update->follow = 1;
+            }
+            elseif ($data['action']=='unfollow!')
+            {
+                $update->follow = 0;
+            }
+            $update->save();
         }
+
         return redirect()->route('calendars');
     }
 
@@ -134,32 +169,38 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
+        //   $client->setApprovalPrompt('force');
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.
           if (isset($_COOKIE['accessToken'])) {
             $accessToken = $_COOKIE['accessToken'];
         } elseif(!isset($_GET['code'])) {
+
             // Request authorization from the user.
             $authUrl = $client->createAuthUrl();
-            return Redirect($authUrl);
-        }elseif (isset($_GET['code'])) {
-            $authCode = $_GET['code'];
+            dd($authUrl);
+             return Redirect($authUrl);
 
+        }elseif (isset($_GET['code'])) {
+            dd('in');
+            $authCode = $_GET['code'];
             // Exchange authorization code for an access token.
             $accessToken = $client->authenticate($authCode);
-
             // Store the credentials to cookie.
             setcookie('accessToken', $accessToken, time() + (86400 * 30), "/"); // 86400 = 1 day
           }
 
+          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          // Refresh the token if it's expired.
+        //   if ($client->isAccessTokenExpired()) {
+        //     //   dd('refresh');
+        //     $client->refreshToken($client->getRefreshToken());
+        //     setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
+        //   }
           $client->setAccessToken($accessToken);
 
-          // Refresh the token if it's expired.
-          if ($client->isAccessTokenExpired()) {
-            $client->refreshToken($client->getRefreshToken());
-            setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
-          }
+        //   dd('for return client');
           return $client;
     }
 }

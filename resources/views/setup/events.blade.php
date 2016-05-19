@@ -8,9 +8,8 @@
             {{ Form::open(array('url' => URL::route('setEvents'), 'method' => 'Post')) }}
             @foreach($events as $key => $event)
                 <div value="event">
-                    {{ Form::checkbox('event['.$key.']', $event['data'], FALSE, ['id'=>'link' . $key]) }}
-                    {{ Form::label('link' . $key, $event['start'] . ' => ' .$event['summary']) }}
-                    {{-- {!! Form::datetime('alarm['.$key.']',$min = $event['start'], ['class' => 'form-control']) !!} --}}
+                    {{ Form::checkbox("event[$key]", $event['data'], FALSE, ['id'=>'link' . $key]) }}
+                    {{ Form::label("link$key" , $event['start'] . ' => ' .$event['summary']) }}
                     {{ Form::input('datetime-local', 'alarm['.$key.']',$event['start'] )}}
                 </div>
             @endforeach
