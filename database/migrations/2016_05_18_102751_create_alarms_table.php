@@ -14,6 +14,11 @@ class CreateAlarmsTable extends Migration
     {
         Schema::create('alarms', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('event_id');
+            $table->string('calendar_id');
+            $table->dateTime('start');
+            $table->dateTime('end');
+            $table->datetime('alarm');
             $table->timestamps();
         });
     }

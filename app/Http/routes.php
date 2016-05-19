@@ -26,6 +26,8 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('calendars', ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
             Route::post('/setcalendars', ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
             Route::get('events', ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
+            Route::post('/setEvents', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
+            Route::get('test', ['as' => 'test', 'uses' => 'preferenceController@test']);
 
     });
 

@@ -49,6 +49,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/home') }}">Home</a></li>
                     <li><a href="{{ URL::route('calendars') }}">calendarList</a></li>
+                    <li><a href="{{ URL::route('events') }}">events</a></li>
                 </ul>
 
                 <!-- Right Side Of Navbar -->
