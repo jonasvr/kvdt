@@ -14,7 +14,6 @@ use App\calendarList;
 use Carbon\Carbon;
 use App\Alarms;
 use Session;
-use SteamCondenser\Exceptions\SocketException;
 
 class preferenceController extends Controller
 {
@@ -137,12 +136,13 @@ class preferenceController extends Controller
                 if (!$find) {
                     $start         =   new Carbon( $item['modelData']['start']['dateTime']);
                     $end           =   new Carbon( $item['modelData']['end']['dateTime']);
+                    $summary       =   $item['summary'];
                     $pieces        =   explode(' ',$start);
                     $startDate     =   $pieces[0];
                     $startTime     =   $pieces[1];
-                    $data          =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end;
+                    $data          =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end.'/'. $summary;
                     $event = [
-                        'summary'  => $item['summary'],
+                        'summary'  => $summary,
                         'start'    => $start, //->format('Y-m-d\TH:i')
                         'end'      => $end,
                         'startDate'=> $startDate,
@@ -185,11 +185,13 @@ class preferenceController extends Controller
             $setAlarm->calendar_id  =   $pieces[1];
             $setAlarm->start        =   $pieces[2];
             $setAlarm->end          =   $pieces[3];
-            $setAlarm->alarm        =   $dates[$key] . " " . $alarms[$key];
+            $setAlarm->summary      =   $pieces[4];
+            $setAlarm->alarmTime    =   $alarms[$key];
+            $setAlarm->alarmDate    =   $dates[$key];
             $setAlarm->save();
         }
+        return Redirect()->route('alarms');
     }
-
 
     public function getClient($uri){
         // based on =>

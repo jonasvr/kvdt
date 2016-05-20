@@ -19,7 +19,9 @@ class CreateAlarmsTable extends Migration
             $table->string('calendar_id');
             $table->dateTime('start');
             $table->dateTime('end');
-            $table->datetime('alarm');
+            $table->date('alarmDate');
+            $table->time('alarmTime');
+            $table->string('summary');
             $table->timestamps();
         });
     }

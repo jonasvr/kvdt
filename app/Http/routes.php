@@ -31,6 +31,14 @@ Route::group(['middleware' => 'web'], function () {
 
     });
 
+    Route::group(['prefix' => 'alarms'], function () {
+        Route::get('get',   ['as'   =>  'alarms',        'uses'  =>'AlarmController@getAlarms']);
+        Route::post('set',  ['as'   =>  'updateAlarm', 'uses'    =>'AlarmController@setAlarms']);
+
+    });
+    Route::get('alarms', ['as'=>'alarms', 'uses'=>'AlarmController@getAlarms']);
+    Route::post('', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
+
     Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
     Route::get('social/login/{provider}', 'Auth\AuthController@handleProviderCallback');
 
