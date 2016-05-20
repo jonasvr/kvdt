@@ -54,7 +54,7 @@ class AuthController extends Controller
           ];
       $parameters = [
           'access_type' => 'offline',
-           'approval_prompt' => 'force',
+        //    'approval_prompt' => 'force',
       ];
        return Socialite::driver($provider)->scopes($scopes)->with($parameters)->redirect();
    }

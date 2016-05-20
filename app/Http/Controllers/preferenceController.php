@@ -127,18 +127,21 @@ class preferenceController extends Controller
              $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
              foreach ($items as $key => $item) { //item binnen calendar
 
-                 $start =   new Carbon( $item['modelData']['start']['dateTime']);
-                 $end   =   new Carbon( $item['modelData']['end']['dateTime']);
-                 $pieces=   explode(' ',$start);
-                 $min   =   $pieces[1];
-                 $data  =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end;
+                 $start         =   new Carbon( $item['modelData']['start']['dateTime']);
+                 $end           =   new Carbon( $item['modelData']['end']['dateTime']);
+                 $pieces        =   explode(' ',$start);
+                 $startDate     =   $pieces[0];
+                 $startTime     =   $pieces[1];
+                 $data          =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end;
                  $event = [
                      'summary'  => $item['summary'],
-                     'start'    => $start->format('Y-m-d\TH:i'),
+                     'start'    => $start, //->format('Y-m-d\TH:i')
                      'end'      => $end,
-                     'min'      => $min,
+                     'startDate'=> $startDate,
+                     'startTime'=> $startTime,
                      'data'     => $data,
                  ];
+                //  dd($event);
                  $events[]=$event;
              }
          }
@@ -155,13 +158,14 @@ class preferenceController extends Controller
 
     public function setEvents(Request $request){
         $data = $request->all();
-
+        // dd($data);
         $validator = Validator::make($request->all(), [
             'event.*' => 'required|unique:alarms,event_id|max:255',
         ]);
 
         $events =   $data['event'];
         $alarms =   $data['alarm'];
+        $dates =   $data['date'];
 
         foreach ($events as $key => $event) {
             $pieces = explode('/',$event);
@@ -171,7 +175,7 @@ class preferenceController extends Controller
             $setAlarm->calendar_id  =   $pieces[1];
             $setAlarm->start        =   $pieces[2];
             $setAlarm->end          =   $pieces[3];
-            $setAlarm->alarm        =   $alarms[$key];
+            $setAlarm->alarm        =   $dates[$key] . " " . $alarms[$key];
             $setAlarm->save();
         }
     }
@@ -185,7 +189,7 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
-          $client->setApprovalPrompt('force');
+        //   $client->setApprovalPrompt('force');
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.
