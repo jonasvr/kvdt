@@ -14,13 +14,21 @@ use App\calendarList;
 use Carbon\Carbon;
 use App\Alarms;
 use Session;
+use SteamCondenser\Exceptions\SocketException;
 
 class preferenceController extends Controller
 {
     public function getCalendars(){
         // Get the API client and construct the service object.
         $client = $this->getClient('http://kvdt.dev/preference/calendars');
+        //if client is array => it has redirect Url
+        //if client is not array -=> client object
+        if (is_array($client))
+        {
+            return Redirect($client['redirect']);
+        }
         $service = new Google_Service_Calendar($client);
+
 
         // Get list of followed callendars
         $calendarList  = $service->calendarList->listCalendarList();
@@ -71,9 +79,15 @@ class preferenceController extends Controller
 
     public function setCalendars(Request $request){
         $data = $request->all();
-        $validator = Validator::make($request->all(), [
-            'calendar.*' => 'required|max:255',
-        ]);
+
+        //if no calendar is selected, the validator won't find calendar
+        if (isset($data['calendar'])) {
+            $validator = Validator::make($request->all(), [
+                'calendar.*' => 'required|max:255',
+            ]);
+        }else {
+            return back();
+        }
 
         foreach ($data['calendar'] as $key => $calendar) {
             $update = calendarList::where('calendar_id', '=', $calendar)
@@ -95,11 +109,13 @@ class preferenceController extends Controller
     }
 
     public function getEvents(){
-        // 'http://kvdt.dev/preference/events'
-        $client = $this->getClient('http://kvdt.dev/preference/events');
+         $client = $this->getClient('http://kvdt.dev/preference/events');
          $service = new Google_Service_Calendar($client);
 
          $calList = Auth::user()->getCalendars; //Calendar ID's ophalen
+         if (count($calList) == 0) {
+             return redirect()->route('calendars');
+         }
          $piece = explode(' ',Carbon::today()); //tijd vandaag
          $timeMin = $piece[0].'T00:00:00Z';
          $piece = explode(' ',Carbon::today()->addWeek()); //een week later
@@ -169,21 +185,20 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
-        //   $client->setApprovalPrompt('force');
+          $client->setApprovalPrompt('force');
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.
           if (isset($_COOKIE['accessToken'])) {
             $accessToken = $_COOKIE['accessToken'];
         } elseif(!isset($_GET['code'])) {
-
             // Request authorization from the user.
             $authUrl = $client->createAuthUrl();
-            dd($authUrl);
-             return Redirect($authUrl);
+            // can't redirect from here => would send it to function above as $client
+            return ['redirect'=>$authUrl];
+
 
         }elseif (isset($_GET['code'])) {
-            dd('in');
             $authCode = $_GET['code'];
             // Exchange authorization code for an access token.
             $accessToken = $client->authenticate($authCode);
@@ -192,9 +207,8 @@ class preferenceController extends Controller
           }
 
           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          // Refresh the token if it's expired.
+        //   Refresh the token if it's expired.
         //   if ($client->isAccessTokenExpired()) {
-        //     //   dd('refresh');
         //     $client->refreshToken($client->getRefreshToken());
         //     setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
         //   }

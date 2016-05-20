@@ -26,6 +26,6 @@ class User extends Authenticatable
 
     public function getCalendars()
     {
-        return $this->hasMany('App\calendarList', 'user_id');
+        return $this->hasMany('App\calendarList', 'user_id')->where('follow', '=', 1);
     }
 }
