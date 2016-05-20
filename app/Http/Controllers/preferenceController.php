@@ -20,7 +20,7 @@ class preferenceController extends Controller
 {
     public function getCalendars(){
         // Get the API client and construct the service object.
-        $client = $this->getClient('http://kvdt.dev/preference/calendars');
+        $client = $this->getClient(env('GOOGLE_CALENDARS'));
         //if client is array => it has redirect Url
         //if client is not array -=> client object
         if (is_array($client))
@@ -109,7 +109,7 @@ class preferenceController extends Controller
     }
 
     public function getEvents(){
-         $client = $this->getClient('http://kvdt.dev/preference/events');
+         $client = $this->getClient(env('GOOGLE_EVENTS'));
          $service = new Google_Service_Calendar($client);
 
          $calList = Auth::user()->getCalendars; //Calendar ID's ophalen
