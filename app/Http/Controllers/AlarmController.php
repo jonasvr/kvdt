@@ -7,11 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Auth;
 use App\Alarms;
+use Carbon\Carbon;
 
 class AlarmController extends Controller
 {
     public function getAlarms(){
-        $alarms = Alarms::where('user_id','=',Auth::user()->id)->get();
+        $alarms = Alarms::where('user_id','=',Auth::user()->id)
+                        ->where('alarmDate', '>' , carbon::today())
+                        ->get();
         $data = ['alarms' => $alarms];
 
         return View('alarms.alarms', $data);
