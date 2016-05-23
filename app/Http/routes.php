@@ -15,12 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', 'TestController@Test');
-Route::get('/test2', 'TestController@Test2');
 
+Route::group(['prefix' => 'api','middleware' => 'api'], function () {
+    Route::post('setalarm', 'AlarmController@setAlarm');
+});
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/test3', 'TestController@Test3');
+
 
     Route::group(['prefix' => 'preference'], function () {
             Route::get('calendars', ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
@@ -32,7 +33,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['prefix' => 'alarms'], function () {
         Route::get('get',   ['as'   =>  'alarms',        'uses'  =>'AlarmController@getAlarms']);
-        Route::post('set',  ['as'   =>  'updateAlarm', 'uses'    =>'AlarmController@setAlarms']);
+        Route::post('update',  ['as'   =>  'updateAlarm', 'uses'    =>'AlarmController@updateAlarms']);
     });
 
     Route::group(['prefix' => 'devices'], function () {

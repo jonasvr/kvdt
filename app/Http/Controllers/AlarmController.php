@@ -8,6 +8,7 @@ use App\Http\Requests;
 use Auth;
 use App\Alarms;
 use Carbon\Carbon;
+use App\Devices;
 
 class AlarmController extends Controller
 {
@@ -20,7 +21,7 @@ class AlarmController extends Controller
         return View('alarms.alarms', $data);
     }
 
-    public function setAlarms(Request $request){
+    public function updateAlarms(Request $request){
         $data   =   $request->all();
         if (isset($data['event'])) {
             foreach ($data['event'] as $key => $event) {
@@ -34,7 +35,7 @@ class AlarmController extends Controller
                         $alarm->delete();
                         break;
                     case 'update!':
-                        $this->updateAlarm($alarm, $data['alarmTime'][$key], $data['alarmDate'][$key]);
+                        $this->update($alarm, $data['alarmTime'][$key]);
                         break;
                 }
             }
@@ -46,9 +47,30 @@ class AlarmController extends Controller
     }
 
 
-    public function updateAlarm($alarm,$time,$date){
+    public function update($alarm,$time){
 
         $alarm->alarmTime = $time;
         $alarm->save();
     }
+
+    public function setAlarm(Request $request){
+        $validator = Validator::make($request->all(), [
+            'device_id' => 'required|size:10',
+        ]);
+        $data = $request->all();
+        // dd($data);
+
+        $device = Devices::where('device_id','=',$data['device_id'])
+                            ->first();
+
+        if ($device) {
+            $alarm = Alarms::where('user_id', '=', $device->user_id)
+                            ->where('alarmDate', '>', Carbon::today())
+                            ->orderby('alarmDate','ASC')
+                            ->orderby('alarmTime', 'DESC')
+                            ->first();
+        }
+        return $alarm->alarmTime;
+    }
+
 }
