@@ -55,7 +55,7 @@ class AlarmController extends Controller
 
     public function setAlarm(Request $request){
         $validator = Validator::make($request->all(), [
-            'device_id' => 'required|size:10',
+            'device_id' => 'required',
         ]);
         $data = $request->all();
         // dd($data);
@@ -70,7 +70,7 @@ class AlarmController extends Controller
                             ->orderby('alarmTime', 'DESC')
                             ->first();
         }
-        echo $alarm->alarmTime;
+        return $alarm->alarmTime;
     }
 
 }
