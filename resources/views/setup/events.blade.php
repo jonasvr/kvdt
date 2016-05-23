@@ -10,7 +10,9 @@
                 <div value="event">
                     {{ Form::checkbox("event[$key]", $event['data'], FALSE, ['id'=>'link' . $key]) }}
                     {{ Form::label("link$key" , $event['start'] . ' => ' .$event['summary']) }}
-                    {{ Form::input('datetime-local', 'alarm['.$key.']',$event['start'] )}}
+                    {{-- {{ Form::input('datetime-local', 'alarm['.$key.']',$event['start'] )}} --}}
+                    {{ Form::time("alarm[$key]",$event['startTime']) }}
+                    {{  Form::hidden("date[$key]", $event['startDate'], ['class' => 'time'])}}
                 </div>
             @endforeach
             {{ Form::submit('Submit!') }}

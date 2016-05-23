@@ -14,7 +14,6 @@ use App\calendarList;
 use Carbon\Carbon;
 use App\Alarms;
 use Session;
-use SteamCondenser\Exceptions\SocketException;
 
 class preferenceController extends Controller
 {
@@ -110,6 +109,10 @@ class preferenceController extends Controller
 
     public function getEvents(){
          $client = $this->getClient(env('GOOGLE_EVENTS'));
+         if (is_array($client))
+         {
+             return Redirect($client['redirect']);
+         }
          $service = new Google_Service_Calendar($client);
 
          $calList = Auth::user()->getCalendars; //Calendar ID's ophalen
@@ -127,19 +130,28 @@ class preferenceController extends Controller
              $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
              foreach ($items as $key => $item) { //item binnen calendar
 
-                 $start =   new Carbon( $item['modelData']['start']['dateTime']);
-                 $end   =   new Carbon( $item['modelData']['end']['dateTime']);
-                 $pieces=   explode(' ',$start);
-                 $min   =   $pieces[1];
-                 $data  =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end;
-                 $event = [
-                     'summary'  => $item['summary'],
-                     'start'    => $start->format('Y-m-d\TH:i'),
-                     'end'      => $end,
-                     'min'      => $min,
-                     'data'     => $data,
-                 ];
-                 $events[]=$event;
+                 $find = Alarms::where('event_id','=', $item->id)
+                                ->where('user_id', '=', Auth::user()->id)
+                                ->first();
+                if (!$find) {
+                    $start         =   new Carbon( $item['modelData']['start']['dateTime']);
+                    $end           =   new Carbon( $item['modelData']['end']['dateTime']);
+                    $summary       =   $item['summary'];
+                    $pieces        =   explode(' ',$start);
+                    $startDate     =   $pieces[0];
+                    $startTime     =   $pieces[1];
+                    $data          =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end.'/'. $summary;
+                    $event = [
+                        'summary'  => $summary,
+                        'start'    => $start, //->format('Y-m-d\TH:i')
+                        'end'      => $end,
+                        'startDate'=> $startDate,
+                        'startTime'=> $startTime,
+                        'data'     => $data,
+                    ];
+                   //  dd($event);
+                    $events[]=$event;
+                }
              }
          }
             //sort by start date
@@ -155,27 +167,31 @@ class preferenceController extends Controller
 
     public function setEvents(Request $request){
         $data = $request->all();
-
+        // dd($data);
         $validator = Validator::make($request->all(), [
             'event.*' => 'required|unique:alarms,event_id|max:255',
         ]);
 
         $events =   $data['event'];
         $alarms =   $data['alarm'];
+        $dates =   $data['date'];
 
         foreach ($events as $key => $event) {
             $pieces = explode('/',$event);
 
             $setAlarm   =   new Alarms();
+            $setAlarm->user_id      =   Auth::user()->id;
             $setAlarm->event_id     =   $pieces[0];
             $setAlarm->calendar_id  =   $pieces[1];
             $setAlarm->start        =   $pieces[2];
             $setAlarm->end          =   $pieces[3];
-            $setAlarm->alarm        =   $alarms[$key];
+            $setAlarm->summary      =   $pieces[4];
+            $setAlarm->alarmTime    =   $alarms[$key];
+            $setAlarm->alarmDate    =   $dates[$key];
             $setAlarm->save();
         }
+        return Redirect()->route('alarms');
     }
-
 
     public function getClient($uri){
         // based on =>
@@ -185,7 +201,7 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
-          $client->setApprovalPrompt('force');
+          $client->setApprovalPrompt('force'    );
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.

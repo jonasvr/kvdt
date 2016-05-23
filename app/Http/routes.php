@@ -28,8 +28,21 @@ Route::group(['middleware' => 'web'], function () {
             Route::get('events', ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
             Route::post('/setEvents', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
             Route::get('test', ['as' => 'test', 'uses' => 'preferenceController@test']);
-
     });
+
+    Route::group(['prefix' => 'alarms'], function () {
+        Route::get('get',   ['as'   =>  'alarms',        'uses'  =>'AlarmController@getAlarms']);
+        Route::post('set',  ['as'   =>  'updateAlarm', 'uses'    =>'AlarmController@setAlarms']);
+    });
+
+    Route::group(['prefix' => 'devices'], function () {
+        Route::get('/',   ['as'   =>  'devices',  function(){
+            return view('setup.device');
+        }]);
+        Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'DeviceController@addDevice']);
+    });
+    // Route::get('alarms', ['as'=>'alarms', 'uses'=>'AlarmController@getAlarms']);
+    // Route::post('', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
 
     Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
     Route::get('social/login/{provider}', 'Auth\AuthController@handleProviderCallback');
