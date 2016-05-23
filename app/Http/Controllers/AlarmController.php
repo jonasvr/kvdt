@@ -9,7 +9,7 @@ use Auth;
 use App\Alarms;
 use Carbon\Carbon;
 use App\Devices;
-
+use Validator;
 class AlarmController extends Controller
 {
     public function getAlarms(){
