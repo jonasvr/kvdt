@@ -22,6 +22,7 @@ class CreateAlarmsTable extends Migration
             $table->date('alarmDate');
             $table->time('alarmTime');
             $table->string('summary');
+            $table->integer('set');
             $table->timestamps();
         });
     }
