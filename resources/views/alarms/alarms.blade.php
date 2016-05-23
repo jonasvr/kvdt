@@ -9,7 +9,6 @@
             <h1>select the events you want to set</h1>
             {{ Form::open(array('url' => URL::route('updateAlarm'), 'method' => 'Post')) }}
             @foreach($alarms as $key => $event)
-                {{-- {{ dd($event) }} --}}
                 <div value="event">
                     {{ Form::checkbox("event[$key]", $event['event_id'], FALSE, ['id'=>'link' . $key]) }}
                     {{ Form::time("alarmTime[$key]",$event['alarmTime']) }}
@@ -25,13 +24,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('js')
-    <script type="text/javascript">
-    $(document).ready(function () {
-
-        $( "time" ).css("disabled","disabled");
-    });
-    </script>
 @endsection

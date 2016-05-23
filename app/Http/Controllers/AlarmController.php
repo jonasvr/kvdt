@@ -19,22 +19,26 @@ class AlarmController extends Controller
 
     public function setAlarms(Request $request){
         $data   =   $request->all();
-        foreach ($data['event'] as $key => $event) {
+        if (isset($data['event'])) {
+            foreach ($data['event'] as $key => $event) {
 
-            $alarm = Alarms::where('user_id', '=', Auth::user()->id)
-                            ->where('event_id','=',$event)
-                            ->first();
+                $alarm = Alarms::where('user_id', '=', Auth::user()->id)
+                                ->where('event_id','=',$event)
+                                ->first();
 
-            switch ($data['action']) {
-                case 'remove!':
-                    $alarm->delete();
-                    break;
-                case 'update!':
-                    $this->updateAlarm($alarm, $data['alarmTime'][$key], $data['alarmDate'][$key]);
-                    break;
+                switch ($data['action']) {
+                    case 'remove!':
+                        $alarm->delete();
+                        break;
+                    case 'update!':
+                        $this->updateAlarm($alarm, $data['alarmTime'][$key], $data['alarmDate'][$key]);
+                        break;
+                }
             }
         }
-
+        else{
+            echo 'no change select something';
+        }
         return Redirect()->route('alarms');
     }
 
