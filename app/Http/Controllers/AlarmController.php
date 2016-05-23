@@ -70,7 +70,7 @@ class AlarmController extends Controller
                             ->orderby('alarmTime', 'DESC')
                             ->first();
         }
-        return $alarm->alarmTime;
+        echo $alarm->alarmTime;
     }
 
 }
