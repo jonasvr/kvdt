@@ -14,6 +14,7 @@ use App\calendarList;
 use Carbon\Carbon;
 use App\Alarms;
 use Session;
+use App\Refreshtokens;
 
 class preferenceController extends Controller
 {
@@ -200,11 +201,12 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
-          $client->setApprovalPrompt('force');
+        //   $client->setApprovalPrompt('force');
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.
           if (isset($_COOKIE['accessToken'])) {
+            //   dd("in");
             $accessToken = $_COOKIE['accessToken'];
         } elseif(!isset($_GET['code'])) {
             // Request authorization from the user.
@@ -218,16 +220,21 @@ class preferenceController extends Controller
             // Exchange authorization code for an access token.
             $accessToken = $client->authenticate($authCode);
             // Store the credentials to cookie.
-            dd($accessToken);
-            dd($client->getRefreshToken()); //=> opslaan nr db
+            // dd($accessToken);
+            // dd($client->getRefreshToken());
+            $user = Auth::user();
+            // dd($user);
+            $user->refreshtoken = $client->getRefreshToken();
+            $user->save();
+            // $client->getRefreshToken(); //=> opslaan nr db
             setcookie('accessToken', $accessToken, time() + (86400 * 30), "/"); // 86400 = 1 day
 
           }
 
-          //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        //   Refresh the token if it's expired.
-          if ($client->isAccessTokenExpired()) {
-            $client->refreshToken($client->getRefreshToken());
+          //   Refresh the token if it's expired.
+          if ($client->isAccessTokenExpired())
+          {
+            $client->refreshToken(Auth::user()->refreshtoken);
             setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
           }
           $client->setAccessToken($accessToken);

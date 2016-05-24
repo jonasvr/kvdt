@@ -22,7 +22,8 @@ class CreateAlarmsTable extends Migration
             $table->date('alarmDate');
             $table->time('alarmTime');
             $table->string('summary');
-            $table->integer('set');
+            $table->string('mailTo');
+            $table->integer('contact_user_id');
             $table->timestamps();
         });
     }

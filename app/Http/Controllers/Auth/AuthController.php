@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function redirectToProvider($provider)
    {
        $scopes = [
-            'https://www.googleapis.com/auth/calendar.readonly'
+            // 'https://www.googleapis.com/auth/calendar.readonly'
           ];
       $parameters = [
           'access_type' => 'offline',
@@ -62,10 +62,10 @@ class AuthController extends Controller
     public function handleProviderCallback($provider)
    {
     //notice we are not doing any validation, you should do it
-        // setcookie('accessToken', '', time()-3600, "/");
+        setcookie('accessToken', '', time()-3600, "/");
         // dd( Socialite::driver($provider)->user());
        $user = Socialite::driver($provider)->user();
-    //    dd($user);
+    //  dd($user);
     //  dd($user->getToken());
        // stroing data to our use table and logging them in
        $data = [
@@ -73,9 +73,9 @@ class AuthController extends Controller
            'email' => $user->getEmail(),
        ];
        Auth::login(User::firstOrCreate($data));
-    // $user->getToken() => zelf geschreven in vendor/socialite/src/two/user.php
+    // dd($user); //=> zelf geschreven in vendor/socialite/src/two/user.php
     //    setcookie('accessToken', $user->getToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
-       //after login redirecting to home page
+    //    //after login redirecting to home page
        return redirect($this->redirectPath());
    }
 

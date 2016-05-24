@@ -28,4 +28,5 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\calendarList', 'user_id')->where('follow', '=', 1);
     }
+
 }
