@@ -50,7 +50,7 @@ class AuthController extends Controller
     public function redirectToProvider($provider)
    {
        $scopes = [
-            'https://www.googleapis.com/auth/calendar.readonly',
+            'https://www.googleapis.com/auth/calendar.readonly'
           ];
       $parameters = [
           'access_type' => 'offline',
@@ -62,7 +62,8 @@ class AuthController extends Controller
     public function handleProviderCallback($provider)
    {
     //notice we are not doing any validation, you should do it
-        setcookie('accessToken', '', time()-3600, "/");
+        // setcookie('accessToken', '', time()-3600, "/");
+        // dd( Socialite::driver($provider)->user());
        $user = Socialite::driver($provider)->user();
     //    dd($user);
     //  dd($user->getToken());

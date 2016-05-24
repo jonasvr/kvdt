@@ -200,7 +200,7 @@ class preferenceController extends Controller
           $client->setClientSecret(env('GOOGLE_APP_SECRET'));
           $client->setRedirectUri($uri);
           $client->setAccessType('offline');
-          $client->setApprovalPrompt('force'    );
+          $client->setApprovalPrompt('force');
           $client->setScopes(array('https://www.googleapis.com/auth/calendar.readonly'));
 
           // Load previously authorized credentials from a cookie.
@@ -218,15 +218,18 @@ class preferenceController extends Controller
             // Exchange authorization code for an access token.
             $accessToken = $client->authenticate($authCode);
             // Store the credentials to cookie.
+            dd($accessToken);
+            dd($client->getRefreshToken()); //=> opslaan nr db
             setcookie('accessToken', $accessToken, time() + (86400 * 30), "/"); // 86400 = 1 day
+
           }
 
           //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         //   Refresh the token if it's expired.
-        //   if ($client->isAccessTokenExpired()) {
-        //     $client->refreshToken($client->getRefreshToken());
-        //     setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
-        //   }
+          if ($client->isAccessTokenExpired()) {
+            $client->refreshToken($client->getRefreshToken());
+            setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
+          }
           $client->setAccessToken($accessToken);
 
         //   dd('for return client');

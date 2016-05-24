@@ -10,6 +10,7 @@ use App\Alarms;
 use Carbon\Carbon;
 use App\Devices;
 use Validator;
+
 class AlarmController extends Controller
 {
     public function getAlarms(){
@@ -64,10 +65,14 @@ class AlarmController extends Controller
                             ->first();
 
         if ($device) {
+            $time = Carbon::now();
+            $time = $time->toTimeString();
             $alarm = Alarms::where('user_id', '=', $device->user_id)
-                            ->where('alarmDate', '>', Carbon::today())
                             ->orderby('alarmDate','ASC')
                             ->orderby('alarmTime', 'DESC')
+                            ->where('alarmTime', '<',$time)
+                            ->where('alarmDate', '=', Carbon::today())
+
                             ->first();
         }
         return $alarm->alarmTime;
