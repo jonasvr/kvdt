@@ -130,6 +130,7 @@ class preferenceController extends Controller
          foreach ($calList as $key => $value) { //per calendar
              $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
              foreach ($items as $key => $item) { //item binnen calendar
+                 dd($item);
                  $find = Alarms::where('event_id','=', $item->id)
                                 ->where('user_id', '=', Auth::user()->id)
                                 ->first();
