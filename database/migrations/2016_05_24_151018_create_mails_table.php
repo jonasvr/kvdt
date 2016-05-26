@@ -16,6 +16,7 @@ class CreateMailsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('mail');
+            $table->string('name');
             $table->timestamps();
         });
     }

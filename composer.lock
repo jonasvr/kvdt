@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "7ac1f34c2d617df8e35090ead19f9ac9",
-    "content-hash": "14220208520219f2416248c8d9e08a92",
+    "hash": "7627ab83fcdedb9bf06d1a4ca5fb521d",
+    "content-hash": "7128d9cee79278c09f48c62c8cf0a371",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -162,6 +162,69 @@
             "time": "2015-11-06 14:35:42"
         },
         {
+            "name": "giggsey/libphonenumber-for-php",
+            "version": "7.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/giggsey/libphonenumber-for-php.git",
+                "reference": "8c033bf2986d5eaa24f00bbf26ed46eaed7fded4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/giggsey/libphonenumber-for-php/zipball/8c033bf2986d5eaa24f00bbf26ed46eaed7fded4",
+                "reference": "8c033bf2986d5eaa24f00bbf26ed46eaed7fded4",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*"
+            },
+            "require-dev": {
+                "pear/pear-core-minimal": "^1.9",
+                "pear/pear_exception": "^1.0",
+                "pear/versioncontrol_git": "dev-master",
+                "phing/phing": "~2.7",
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6",
+                "symfony/console": "^2.5"
+            },
+            "suggest": {
+                "ext-intl": "To use the geocoder and carrier mapping"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "7.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "libphonenumber": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joshua Gigg",
+                    "email": "giggsey@gmail.com",
+                    "homepage": "http://giggsey.com/"
+                }
+            ],
+            "description": "PHP Port of Google's libphonenumber",
+            "homepage": "https://github.com/giggsey/libphonenumber-for-php",
+            "keywords": [
+                "geocoding",
+                "geolocation",
+                "libphonenumber",
+                "mobile",
+                "phonenumber",
+                "validation"
+            ],
+            "time": "2016-05-18 14:54:33"
+        },
+        {
             "name": "google/apiclient",
             "version": "1.1.7",
             "source": {
@@ -206,22 +269,22 @@
         },
         {
             "name": "guzzle/guzzle",
-            "version": "v3.9.3",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/guzzle/guzzle3.git",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9"
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/0645b70d953bc1c067bbc8d5bc53194706b628d9",
-                "reference": "0645b70d953bc1c067bbc8d5bc53194706b628d9",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
+                "reference": "4de0618a01b34aa1c8c33a3f13f396dcd3882eba",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "php": ">=5.3.3",
-                "symfony/event-dispatcher": "~2.1"
+                "symfony/event-dispatcher": ">=2.1"
             },
             "replace": {
                 "guzzle/batch": "self.version",
@@ -248,21 +311,18 @@
                 "guzzle/stream": "self.version"
             },
             "require-dev": {
-                "doctrine/cache": "~1.3",
-                "monolog/monolog": "~1.0",
+                "doctrine/cache": "*",
+                "monolog/monolog": "1.*",
                 "phpunit/phpunit": "3.7.*",
-                "psr/log": "~1.0",
-                "symfony/class-loader": "~2.1",
-                "zendframework/zend-cache": "2.*,<2.3",
-                "zendframework/zend-log": "2.*,<2.3"
-            },
-            "suggest": {
-                "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
+                "psr/log": "1.0.*",
+                "symfony/class-loader": "*",
+                "zendframework/zend-cache": "<2.3",
+                "zendframework/zend-log": "<2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.9-dev"
+                    "dev-master": "3.8-dev"
                 }
             },
             "autoload": {
@@ -286,7 +346,7 @@
                     "homepage": "https://github.com/guzzle/guzzle/contributors"
                 }
             ],
-            "description": "PHP HTTP client. This library is deprecated in favor of https://packagist.org/packages/guzzlehttp/guzzle",
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
             "homepage": "http://guzzlephp.org/",
             "keywords": [
                 "client",
@@ -297,7 +357,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2015-03-18 18:23:50"
+            "time": "2014-01-28 22:29:15"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -616,17 +676,50 @@
             "time": "2015-12-05 17:17:57"
         },
         {
-            "name": "laravel/framework",
-            "version": "v5.2.32",
+            "name": "julien-c/iso3166",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "f688217113f70b01d0e127da9035195415812bef"
+                "url": "https://github.com/julien-c/iso3166.git",
+                "reference": "d7bd56333a1ed901fbc41d5a5c92d88a2a6cb88c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/f688217113f70b01d0e127da9035195415812bef",
-                "reference": "f688217113f70b01d0e127da9035195415812bef",
+                "url": "https://api.github.com/repos/julien-c/iso3166/zipball/d7bd56333a1ed901fbc41d5a5c92d88a2a6cb88c",
+                "reference": "d7bd56333a1ed901fbc41d5a5c92d88a2a6cb88c",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Iso3166\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Julien Chaumond",
+                    "email": "chaumond@gmail.com"
+                }
+            ],
+            "description": "ISO 3166-1 alpha-2 mapping",
+            "time": "2015-12-15 15:40:03"
+        },
+        {
+            "name": "laravel/framework",
+            "version": "v5.2.33",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/framework.git",
+                "reference": "4120808d2e841ba5a94c5e0443e9696ae4fa9bfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/4120808d2e841ba5a94c5e0443e9696ae4fa9bfe",
+                "reference": "4120808d2e841ba5a94c5e0443e9696ae4fa9bfe",
                 "shasum": ""
             },
             "require": {
@@ -742,20 +835,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2016-05-17 13:24:40"
+            "time": "2016-05-25 18:35:42"
         },
         {
             "name": "laravel/socialite",
-            "version": "v2.0.15",
+            "version": "v2.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/socialite.git",
-                "reference": "edd00ab96933e3ef053533cce81e958fb26921af"
+                "reference": "f3e3bdf9368b96b82635cb88ab02944b7d036669"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/socialite/zipball/edd00ab96933e3ef053533cce81e958fb26921af",
-                "reference": "edd00ab96933e3ef053533cce81e958fb26921af",
+                "url": "https://api.github.com/repos/laravel/socialite/zipball/f3e3bdf9368b96b82635cb88ab02944b7d036669",
+                "reference": "f3e3bdf9368b96b82635cb88ab02944b7d036669",
                 "shasum": ""
             },
             "require": {
@@ -796,7 +889,7 @@
                 "laravel",
                 "oauth"
             ],
-            "time": "2016-03-21 14:30:30"
+            "time": "2016-05-25 12:58:08"
         },
         {
             "name": "laravelcollective/html",
@@ -1317,6 +1410,61 @@
             "time": "2015-07-30 18:34:15"
         },
         {
+            "name": "propaganistas/laravel-phone",
+            "version": "2.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Propaganistas/Laravel-Phone.git",
+                "reference": "5fe3af2794433fa721c6bfdc0fffc7faebc56754"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Propaganistas/Laravel-Phone/zipball/5fe3af2794433fa721c6bfdc0fffc7faebc56754",
+                "reference": "5fe3af2794433fa721c6bfdc0fffc7faebc56754",
+                "shasum": ""
+            },
+            "require": {
+                "giggsey/libphonenumber-for-php": "~7.0",
+                "illuminate/support": "~4.0|~5.0",
+                "illuminate/validation": "~4.0|~5.0",
+                "julien-c/iso3166": "~2.0",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.1"
+            },
+            "suggest": {
+                "monarobase/country-list": "Adds a compatible (and fully translated) country list API."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Propaganistas\\LaravelPhone\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Propaganistas",
+                    "email": "Propaganistas@users.noreply.github.com"
+                }
+            ],
+            "description": "Adds a phone validator to Laravel based on Google's libphonenumber API.",
+            "keywords": [
+                "laravel",
+                "libphonenumber",
+                "phone",
+                "validation"
+            ],
+            "time": "2016-05-20 10:27:25"
+        },
+        {
             "name": "psr/http-message",
             "version": "1.0",
             "source": {
@@ -1647,27 +1795,27 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.8.6",
+            "version": "v3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
-                "reference": "a158f13992a3147d466af7a23b564ac719a4ddd8"
+                "reference": "807dde98589f9b2b00624dca326740380d78dbbc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/a158f13992a3147d466af7a23b564ac719a4ddd8",
-                "reference": "a158f13992a3147d466af7a23b564ac719a4ddd8",
+                "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/807dde98589f9b2b00624dca326740380d78dbbc",
+                "reference": "807dde98589f9b2b00624dca326740380d78dbbc",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.9"
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.0,>=2.0.5|~3.0.0",
-                "symfony/dependency-injection": "~2.6|~3.0.0",
-                "symfony/expression-language": "~2.6|~3.0.0",
-                "symfony/stopwatch": "~2.3|~3.0.0"
+                "symfony/config": "~2.8|~3.0",
+                "symfony/dependency-injection": "~2.8|~3.0",
+                "symfony/expression-language": "~2.8|~3.0",
+                "symfony/stopwatch": "~2.8|~3.0"
             },
             "suggest": {
                 "symfony/dependency-injection": "",
@@ -1676,7 +1824,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.8-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -1703,7 +1851,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2016-05-03 18:59:18"
+            "time": "2016-05-05 06:56:13"
         },
         {
             "name": "symfony/finder",
@@ -2308,6 +2456,60 @@
             "time": "2016-04-25 11:17:47"
         },
         {
+            "name": "unisharp/laravel-ckeditor",
+            "version": "4.5.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/UniSharp/laravel-ckeditor.git",
+                "reference": "cc9a5505dc3c3a060944aa8b5ce13515547263ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/UniSharp/laravel-ckeditor/zipball/cc9a5505dc3c3a060944aa8b5ce13515547263ec",
+                "reference": "cc9a5505dc3c3a060944aa8b5ce13515547263ec",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Unisharp\\Ckeditor\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-2.1+",
+                "MPL-1.1+"
+            ],
+            "authors": [
+                {
+                    "name": "CKSource",
+                    "homepage": "http://cksource.com"
+                },
+                {
+                    "name": "UniSharp Ltd. (Composer Package Maintainer)",
+                    "homepage": "http://www.unisharp.com"
+                }
+            ],
+            "description": "JavaScript WYSIWYG web text editor (for laravel).",
+            "homepage": "http://ckeditor.com",
+            "keywords": [
+                "CKEditor",
+                "editor",
+                "fckeditor",
+                "html",
+                "javascript",
+                "laravel",
+                "richtext",
+                "text",
+                "wysiwyg"
+            ],
+            "time": "2016-02-16 05:56:20"
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v2.2.1",
             "source": {
@@ -2508,16 +2710,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "0.9.4",
+            "version": "0.9.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "70bba85e4aabc9449626651f48b9018ede04f86b"
+                "reference": "4db079511a283e5aba1b3c2fb19037c645e70fc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/70bba85e4aabc9449626651f48b9018ede04f86b",
-                "reference": "70bba85e4aabc9449626651f48b9018ede04f86b",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/4db079511a283e5aba1b3c2fb19037c645e70fc2",
+                "reference": "4db079511a283e5aba1b3c2fb19037c645e70fc2",
                 "shasum": ""
             },
             "require": {
@@ -2569,7 +2771,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-04-02 19:54:00"
+            "time": "2016-05-22 21:52:33"
         },
         {
             "name": "phpdocumentor/reflection-docblock",

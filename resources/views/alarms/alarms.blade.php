@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <h1>select the events you want to set</h1>
+            <h1>edit the alarms you want to set</h1>
             {{ Form::open(array('url' => URL::route('updateAlarm'), 'method' => 'Post')) }}
             @foreach($alarms as $key => $event)
                 <div value="event">

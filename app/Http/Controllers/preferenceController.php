@@ -130,7 +130,6 @@ class preferenceController extends Controller
          foreach ($calList as $key => $value) { //per calendar
              $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
              foreach ($items as $key => $item) { //item binnen calendar
-                 dd($item);
                  $find = Alarms::where('event_id','=', $item->id)
                                 ->where('user_id', '=', Auth::user()->id)
                                 ->first();
@@ -150,7 +149,6 @@ class preferenceController extends Controller
                         'startTime'=> $startTime,
                         'data'     => $data,
                     ];
-                   //  dd($event);
                     $events[]=$event;
                 }
              }
@@ -168,7 +166,6 @@ class preferenceController extends Controller
 
     public function setEvents(Request $request){
         $data = $request->all();
-        // dd($data);
         $validator = Validator::make($request->all(), [
             'event.*' => 'required|unique:alarms,event_id|max:255',
         ]);
@@ -180,7 +177,7 @@ class preferenceController extends Controller
         foreach ($events as $key => $event) {
             $pieces = explode('/',$event);
 
-            $setAlarm   =   new Alarms();
+            $setAlarm               =   new Alarms();
             $setAlarm->user_id      =   Auth::user()->id;
             $setAlarm->event_id     =   $pieces[0];
             $setAlarm->calendar_id  =   $pieces[1];
@@ -220,13 +217,14 @@ class preferenceController extends Controller
             $authCode = $_GET['code'];
             // Exchange authorization code for an access token.
             $accessToken = $client->authenticate($authCode);
-            // Store the credentials to cookie.
-            // dd($accessToken);
-            // dd($client->getRefreshToken());
-            $user = Auth::user();
-            // dd($user);
-            $user->refreshtoken = $client->getRefreshToken();
-            $user->save();
+
+            // refreshtoken word 1x meegegeven. enkel wanneer de user voor het eerst toestemming geeft
+            if (!Auth::user()->refreshtoken) {
+                $user = Auth::user();
+                $user->refreshtoken = $client->getRefreshToken();
+                $user->save();
+            }
+
             // $client->getRefreshToken(); //=> opslaan nr db
             setcookie('accessToken', $accessToken, time() + (86400 * 30), "/"); // 86400 = 1 day
 

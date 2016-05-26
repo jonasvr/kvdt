@@ -15,7 +15,7 @@ class AlarmController extends Controller
 {
     public function getAlarms(){
         $alarms = Alarms::where('user_id','=',Auth::user()->id)
-                        ->where('alarmDate', '>' , carbon::today())
+                        ->where('alarmDate', '>=' , carbon::today())
                         ->get();
         $data = ['alarms' => $alarms];
 

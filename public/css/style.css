@@ -1,3 +1,7 @@
 label.green{
     color:#009688;
 }
+
+.noAutoFill{
+    autocomplete:off;
+}

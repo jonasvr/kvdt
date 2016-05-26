@@ -42,8 +42,33 @@ Route::group(['middleware' => 'web'], function () {
         }]);
         Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'DeviceController@addDevice']);
     });
-    // Route::get('alarms', ['as'=>'alarms', 'uses'=>'AlarmController@getAlarms']);
-    // Route::post('', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
+
+
+    Route::group(['prefix' => 'numbers'], function(){
+        Route::get('/',             ['as' => 'numbers',         'uses'=>'PhoneController@get']);
+        Route::post('add',          ['as' => 'addNumber',       'uses'=>'PhoneController@add']);
+        Route::get('delete/{id}',   ['as' => 'deleteNumber',    'uses'=>'PhoneController@delete']);
+        Route::get('edit/{id}',     ['as' => 'getEditNumber',   'uses'=>'PhoneController@getEdit']);
+        Route::post('edit',         ['as' => 'editNumber',      'uses'=>'PhoneController@edit']);
+
+    });
+    Route::group(['prefix' => 'mails'], function(){
+        Route::get('/',             ['as' => 'mails',       'uses'=>'MailController@get']);
+        Route::post('add',          ['as' => 'addMail',     'uses'=>'MailController@add']);
+        Route::get('delete/{id}',   ['as' => 'deleteMail',  'uses'=>'MailController@delete']);
+        Route::get('edit/{id}',     ['as' => 'getEditMail', 'uses'=>'MailController@getEdit']);
+        Route::post('edit',         ['as' => 'editMail',    'uses'=>'MailController@edit']);
+
+    });
+
+    Route::group(['prefix' => 'messages'], function(){
+        Route::get('/',             ['as' => 'mess',        'uses'=>'MessageController@get']);
+        Route::post('add',          ['as' => 'addMess',     'uses'=>'MessageController@add']);
+        Route::get('delete/{id}',   ['as' => 'deleteMess',  'uses'=>'MessageController@delete']);
+        Route::get('edit/{id}',     ['as' => 'getEditMess', 'uses'=>'MessageController@getEdit']);
+        Route::post('edit',         ['as' => 'editMess',    'uses'=>'MessageController@edit']);
+
+    });
 
     Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
     Route::get('social/login/{provider}', 'Auth\AuthController@handleProviderCallback');
