@@ -9,4 +9,8 @@ class Emergencies extends Model
     protected $fillable = [
         'id', 'alarm_id','MailOrSms','contact_id','message_id',
     ];
+
+    public static function exist($alarm_id){
+        return Emergencies::where('alarm_id','=',$alarm_id)->first();
+    }
 }

@@ -36,7 +36,7 @@ class preferenceController extends Controller
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
-                $find = calendarList::getCaledar($calendarListEntry->id);
+                $find = calendarList::getCalendar($calendarListEntry->id);
                 $checked = false;
 
                 if($find)

@@ -33,14 +33,18 @@ Route::group(['middleware' => 'web'], function () {
     });
 
     Route::group(['prefix' => 'alarms'], function () {
-        Route::get('get',   ['as'   =>  'alarms',        'uses'  =>'AlarmController@getAlarms']);
-        Route::post('update',  ['as'   =>  'updateAlarm', 'uses'    =>'AlarmController@updateAlarms']);
+        Route::get('/',                     ['as'   =>  'alarms',               'uses'  =>'AlarmController@getAlarms']);
+        Route::post('update',               ['as'   =>  'updateAlarm',          'uses'    =>'AlarmController@updateAlarms']);
+
+        Route::group(['prefix' => 'emergency'],function(){
+            Route::get('/{alarm_id}',  ['as'    =>  'emergency',            'uses' => 'AlarmController@emergency']);
+            Route::post('update',       ['as'   =>  'updateEmerg',          'uses'=>'AlarmController@updateEmergency']);
+        });
+
     });
 
     Route::group(['prefix' => 'devices'], function () {
-        Route::get('/',   ['as'   =>  'devices',  function(){
-            return view('setup.device');
-        }]);
+        Route::get('/',   ['as'   =>  'devices',  function(){return view('setup.device');}]);
         Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'DeviceController@addDevice']);
     });
 

@@ -10,6 +10,10 @@ use App\Alarms;
 use Carbon\Carbon;
 use App\Devices;
 use Validator;
+use App\PhoneNumbers;
+use App\Mails;
+use App\Messages;
+use App\Emergencies;
 
 class AlarmController extends Controller
 {
@@ -47,10 +51,47 @@ class AlarmController extends Controller
         return Redirect()->route('alarms');
     }
 
-
     public function update($alarm,$time){
-
         $alarm->alarmTime = $time;
         $alarm->save();
+    }
+
+
+    public function emergency($alarm_id){
+        $user_id    = Auth::user()->id;
+        $numbers    = PhoneNumbers::getAll($user_id);
+        $mails      = Mails::getAll($user_id);
+        $messages   = Messages::getAll($user_id);
+        $emergency  = Emergencies::exist($alarm_id);
+
+        $data =[
+            'numbers'   =>  $numbers,
+            'mails'     =>  $mails,
+            'messages'  =>  $messages,
+            'alarm_id'  =>  $alarm_id,
+            'emergency' =>  $emergency,
+        ];
+        return view('alarms.emergency',$data);
+    }
+
+    public function updateEmergency(Request $request){
+        $data = $request->all();
+        $emergency = Emergencies::exist($data['alarm_id']);
+        // if(!$emergency)
+        // {
+        //     $emergency  = new Emergencies();
+        // }
+        $emergency->contact_id = $data['contact_id'];
+        $emergency->message_id = $data['message_id'];
+        $emergency->alarm_id   = $data['alarm_id'];
+        if($data['type']=='mail')
+        {
+            $emergency->MailOrSms = 0;
+        }else if($data['type']=='sms') {
+            $emergency->MailOrSms = 1;
+        }
+        $emergency->save();
+
+        return redirect()->route('alarms');
     }
 }

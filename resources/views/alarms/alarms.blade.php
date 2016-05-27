@@ -1,5 +1,3 @@
-{{-- {{ dd($alarms) }} --}}
-
 @extends('layouts.app')
 
 @section('content')
@@ -14,7 +12,8 @@
                     {{ Form::time("alarmTime[$key]",$event['alarmTime']) }}
 
                     {{ Form::label("link$key" , $event['start'] . ' => ' .$event['summary']) }}
-                    {{-- {{ Form::input('datetime-local', 'alarm['.$key.']',$event['start'] )}} --}}
+                    <a href="{{ URL::route('emergency', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-cog"></span></a>
+                    <a href="{{ URL::route('deleteMess', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-remove"></span></a>
                     {{  Form::hidden("alarmDate[$key]", $event['alarmDate'], ['class' => 'time'])}}
                 </div>
             @endforeach

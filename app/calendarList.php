@@ -16,8 +16,8 @@ class calendarList extends Model
         'user_id', 'calendar_id', 'follow',
     ];
 
-    public function getCalendar($calendar_id){
-        return $this->where('calendar_id', '=', $calendar_id)
+    public static function getCalendar($calendar_id){
+        return calendarList::where('calendar_id', '=', $calendar_id)
                                 ->where('user_id', '=', Auth::user()->id)
                                 ->first();
     }

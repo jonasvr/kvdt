@@ -50,7 +50,7 @@ class MessageController extends Controller
     public function delete($id){
         $message = Messages::find($id);
         // dd($message);
-        if($message==null)
+        if($message==null || $message->id != Auth::user()->id)
         {
             $data=[
                     'messages' => $this->Messages(),
