@@ -36,9 +36,7 @@ class preferenceController extends Controller
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
-                $find = calendarList::where('calendar_id', '=', $calendarListEntry->id)
-                                        ->where('user_id', '=', Auth::user()->id)
-                                        ->first();
+                $find = calendarList::getCaledar($calendarListEntry->id);
                 $checked = false;
 
                 if($find)
@@ -90,9 +88,7 @@ class preferenceController extends Controller
         }
 
         foreach ($data['calendar'] as $key => $calendar) {
-            $update = calendarList::where('calendar_id', '=', $calendar)
-                                    ->where('user_id', '=', Auth::user()->id)
-                                    ->first();
+            $update = calendarList::getCalendar($calendar);
             $update->save();
             if ($data['action']=='follow!')
             {
@@ -130,9 +126,7 @@ class preferenceController extends Controller
          foreach ($calList as $key => $value) { //per calendar
              $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
              foreach ($items as $key => $item) { //item binnen calendar
-                 $find = Alarms::where('event_id','=', $item->id)
-                                ->where('user_id', '=', Auth::user()->id)
-                                ->first();
+                $find = Alarms::getAlarm($item->id);
                 if (!$find) {
                     $start         =   new Carbon( $item['modelData']['start']['dateTime']);
                     $end           =   new Carbon( $item['modelData']['end']['dateTime']);

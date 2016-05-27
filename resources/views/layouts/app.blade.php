@@ -55,6 +55,8 @@
                         <li><a href="{{ URL::route('events') }}">events</a></li>
                         <li><a href="{{ URL::route('alarms') }}">alarms</a></li>
                         <li><a href="{{ URL::route('numbers') }}">numbers</a></li>
+                        <li><a href="{{ URL::route('mails') }}">mails</a></li>
+                        <li><a href="{{ URL::route('mess') }}">messages</a></li>
                     @endif
                 </ul>
 

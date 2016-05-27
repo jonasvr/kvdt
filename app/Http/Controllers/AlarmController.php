@@ -53,29 +53,4 @@ class AlarmController extends Controller
         $alarm->alarmTime = $time;
         $alarm->save();
     }
-
-    public function setAlarm(Request $request){
-        $validator = Validator::make($request->all(), [
-            'device_id' => 'required',
-        ]);
-        $data = $request->all();
-        // dd($data);
-
-        $device = Devices::where('device_id','=',$data['device_id'])
-                            ->first();
-
-        if ($device) {
-            $time = Carbon::now();
-            $time = $time->toTimeString();
-            $alarm = Alarms::where('user_id', '=', $device->user_id)
-                            ->orderby('alarmDate','ASC')
-                            ->orderby('alarmTime', 'DESC')
-                            ->where('alarmTime', '<',$time)
-                            ->where('alarmDate', '=', Carbon::today())
-
-                            ->first();
-        }
-        return $alarm->alarmTime;
-    }
-
 }

@@ -17,7 +17,8 @@ Route::get('/', function () {
 
 
 Route::group(['prefix' => 'api','middleware' => 'api'], function () {
-    Route::post('setalarm', 'AlarmController@setAlarm');
+    Route::post('setalarm', 'ApiController@setAlarm');
+    Route::post('emergency', 'ApiController@emergency');
 });
 
 Route::group(['middleware' => 'web'], function () {
