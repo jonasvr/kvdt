@@ -28,9 +28,9 @@ Route::group(['middleware' => 'web'], function () {
 
 
     Route::group(['prefix' => 'preference'], function () {
-            Route::get('calendars', ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
-            Route::post('/setcalendars', ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
-            Route::get('events', ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
+            Route::get('calendars',         ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
+            Route::post('/setcalendars',    ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
+            Route::get('events',            ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
             Route::post('/setEvents', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
             Route::get('test', ['as' => 'test', 'uses' => 'preferenceController@test']);
     });
@@ -46,7 +46,7 @@ Route::group(['middleware' => 'web'], function () {
 
     });
 
-    Route::group(['prefix' => 'devices'], function () {
+    Route::group(['prefix' => 'profile'], function () {
         Route::get('/',   ['as'   =>  'devices',  function(){return view('setup.device');}]);
         Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'DeviceController@addDevice']);
     });

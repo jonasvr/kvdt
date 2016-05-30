@@ -162,6 +162,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
+        js0nvr\Textmagic\TextmagicServiceProvider::class,
+
 
     ],
 
@@ -211,6 +213,8 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        'Textmagic' => js0nvr\Textmagic\Facade\Textmagic::class,
+
 
     ],
 

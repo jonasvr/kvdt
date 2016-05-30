@@ -14,6 +14,9 @@ use App\Mails;
 use Mail;
 use App\Emergencies;
 use App\Messages;
+use App\PhoneNumbers;
+use Textmagic;
+use Textmagic\Services\TextmagicRestClient;
 
 
 
@@ -48,14 +51,16 @@ class ApiController extends Controller
             if(!$emergencie->MailOrSms) // 0 => mail
             {
                 $to = Mails::find($emergencie->contact_id);
-                return $this->send($content->title,$content->message,$to->mail);
+                return $this->sendMail($content->title,$content->message,$to->mail);
+            }else {
+                echo 'sending text 1';
+                $to = PhoneNumbers::find($emergencie->contact_id);
+                return $this->sendText($content->message, $to->nr);
             }
         }
     }
 
-    public function send($subject, $content, $to){
-    //     $subject = $request->input('subject');
-    //    $content = $request->input('content');
+    public function sendMail($subject, $content, $to){
 
        Mail::send('mails.send', ['title' => $subject, 'content' => $content], function ($message) use ($subject, $to)
        {
@@ -66,6 +71,19 @@ class ApiController extends Controller
 
        });
 
-       return response()->json(['message' => 'Request completed']);
+       return response()->json(['message' => 'mail completed']);
+    }
+
+
+
+    public function sendText($text, $numbers){
+        $text =  strip_tags($text);
+
+          Textmagic::trigger('messages','create', [
+                'text'      => $text,
+                'phones'    => $numbers
+            ]);
+
+            return response()->json(['message' => 'text completed']);
     }
 }
