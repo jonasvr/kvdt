@@ -27,7 +27,7 @@ class Alarms extends Model
     }
 
     public static function checkID($alarm_id){
-        return Alarms::where('alarm_id','=',$alarm_id)
+        return Alarms::where('id','=',$alarm_id)
                             ->first();
     }
 

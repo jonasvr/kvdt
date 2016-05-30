@@ -10,8 +10,8 @@ class Devices extends Model
         'user_id', 'device_id',
     ];
 
-    public function checkID($device_id){
-        return $this->where('device_id','=',$device_id)
+    public static function checkID($device_id){
+        return Devices::where('device_id','=',$device_id)
                             ->first();
 
     }
