@@ -35,6 +35,9 @@ class AlarmController extends Controller
         parent::__construct();
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getAlarms()
     {
         $alarms = $this->alarms
@@ -46,13 +49,17 @@ class AlarmController extends Controller
         return view('alarms.alarms', $data);
     }
 
+    /**
+     * @param UpdateAlarmRequest $request
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function updateAlarms(UpdateAlarmRequest $request)
     {
         $data = collect($request->only('event','action','alarmTime'));
         $events = $data['event'];
 
         if (!$events) {
-            return back()->withErrors(['message'=>'select something']);
+            return back()->withErrors(['select something']);
         }
         else{
 
@@ -69,6 +76,7 @@ class AlarmController extends Controller
                 switch ($action) {
                     case 'remove!':
                         $alarm->delete();
+                        $this->delete($event);
                         break;
                     case 'update!':
                         $alarm->update($time[$key]);
@@ -77,9 +85,13 @@ class AlarmController extends Controller
             }
         }
 
-        return route('alarms');
+        return redirect()->route('alarms');
     }
 
+    /**
+     * @param $alarm_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function emergency($alarm_id)
     {
         $numbers = $this->nrs->getAll($this->user_id);
@@ -98,10 +110,13 @@ class AlarmController extends Controller
         return view('alarms.emergency',$data);
     }
 
+    /**
+     * @param UpdateEmergRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function updateEmergency(UpdateEmergRequest $request)
     {
         $data = $request->all();
-        if ($data['action']=='update'){
             $emergency = $this->emergencies->exist($data['alarm_id']);
             (!$emergency)?$emergency = new Emergencies():'';
             $emergency->contact_id = $data['contact_id'];
@@ -113,19 +128,14 @@ class AlarmController extends Controller
                 $emergency->contact_type = 1;
             }
             $emergency->save();
-        }else if ($data['action'] == 'remove')
-        {
-            $this->alarms
-                ->CheckUser($this->user_id)
-                ->CheckId($data['alarm_id'])
-                ->delete();
-            $this->delete($data['alarm_id']);
-        }
-
 
         return redirect()->route('alarms');
     }
 
+    /**
+     * @param $alarm_id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($alarm_id)
     {
             $emerg = $this->emergencies

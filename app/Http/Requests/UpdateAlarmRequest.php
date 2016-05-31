@@ -23,7 +23,6 @@ class UpdateAlarmRequest extends Request
      */
     public function rules()
     {
-//        dd($this);
         return [
             'event.*' => 'required',
             'alarmTime' => 'required', //|date_format:g:i

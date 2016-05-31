@@ -17,8 +17,8 @@
                     {{  Form::hidden("alarmDate[$key]", $event['alarmDate'], ['class' => 'time'])}}
                 </div>
             @endforeach
-            {{ Form::submit('update!', ['name' => 'action']) }}
-            {{ Form::submit('remove!',['name' => 'action']) }}
+            {{ Form::submit('update', ['name' => 'action']) }}
+            {{ Form::submit('remove',['name' => 'action']) }}
             {{ Form::close() }}
         </div>
     </div>
