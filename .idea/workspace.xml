@@ -5,15 +5,7 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/Http/Controllers/DeviceController.php" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/app/Http/Controllers/EmailController.php" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Alarms.php" afterPath="$PROJECT_DIR$/app/Alarms.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/AlarmController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/AlarmController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/ApiController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateAlarmRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateAlarmRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Requests/UpdateEmergRequest.php" afterPath="$PROJECT_DIR$/app/Http/Requests/UpdateEmergRequest.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/database/migrations/2016_05_27_100142_create_emergencies_table.php" afterPath="$PROJECT_DIR$/database/migrations/2016_05_27_100142_create_emergencies_table.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/alarms/alarms.blade.php" afterPath="$PROJECT_DIR$/resources/views/alarms/alarms.blade.php" />
     </list>
     <ignored path="kvdt.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +30,8 @@
       <file leaf-file-name="AlarmController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AlarmController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1240">
-              <caret line="83" column="5" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
+            <state relative-caret-position="550">
+              <caret line="121" column="45" selection-start-line="121" selection-start-column="45" selection-end-line="121" selection-end-column="45" />
               <folding>
                 <element signature="e#40#62#0#PHP" expanded="true" />
               </folding>
@@ -262,12 +254,12 @@
       <workItem from="1464688501814" duration="36000" />
       <workItem from="1464688566851" duration="3335000" />
       <workItem from="1464693518076" duration="6682000" />
-      <workItem from="1464700664204" duration="4626000" />
+      <workItem from="1464700664204" duration="4887000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18420000" />
+    <option name="totallyTimeSpent" value="18681000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1056" extended-state="6" />
@@ -554,8 +546,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AlarmController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1240">
-          <caret line="83" column="5" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
+        <state relative-caret-position="550">
+          <caret line="121" column="45" selection-start-line="121" selection-start-column="45" selection-end-line="121" selection-end-column="45" />
           <folding>
             <element signature="e#40#62#0#PHP" expanded="true" />
           </folding>

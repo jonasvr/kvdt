@@ -101,27 +101,33 @@ class AlarmController extends Controller
     public function updateEmergency(UpdateEmergRequest $request)
     {
         $data = $request->all();
-        $emergency = $this->emergencies->exist($data['alarm_id']);
-        (!$emergency)?$emergency = new Emergencies():'';
-        $emergency->contact_id = $data['contact_id'];
-        $emergency->message_id = $data['message_id'];
-        $emergency->alarm_id   = $data['alarm_id'];
-        if($data['type']=='mail') {
-            $emergency->contact_type = 0;
-        }else if($data['type']=='sms') {
-            $emergency->contact_type = 1;
+        if ($data['action']=='update'){
+            $emergency = $this->emergencies->exist($data['alarm_id']);
+            (!$emergency)?$emergency = new Emergencies():'';
+            $emergency->contact_id = $data['contact_id'];
+            $emergency->message_id = $data['message_id'];
+            $emergency->alarm_id   = $data['alarm_id'];
+            if($data['type']=='mail') {
+                $emergency->contact_type = 0;
+            }else if($data['type']=='sms') {
+                $emergency->contact_type = 1;
+            }
+            $emergency->save();
+        }else if ($data['action'] == 'remove')
+        {
+            $this->alarms
+                ->CheckUser($this->user_id)
+                ->CheckId($data['alarm_id'])
+                ->delete();
+            $this->delete($data['alarm_id']);
         }
-        $emergency->save();
+
 
         return redirect()->route('alarms');
     }
 
     public function delete($alarm_id)
     {
-            $this->alarms
-                ->CheckUser($this->user_id)
-                ->CheckId($alarm_id)
-                ->delete();
             $emerg = $this->emergencies
                 ->exist($alarm_id);
             if($emerg){
