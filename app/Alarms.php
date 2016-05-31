@@ -9,6 +9,8 @@ use Auth;
 
 class Alarms extends Model
 {
+    protected $table = 'alarms';
+    
     protected $fillable = [
         'eventId', 'calendarId', 'start','end','alarmDate','alarmTime','summary',
     ];
@@ -35,5 +37,20 @@ class Alarms extends Model
         return Alarms::where('event_id','=', $alarm_id)
                        ->where('user_id', '=', Auth::user()->id)
                        ->first();;
+    }
+
+    public function scopeCheckUser($query,$user_id)
+    {
+        return $query->where('user_id','=',$user_id);
+    }
+
+    public function scopeToday($query)
+    {
+        return $query->where('alarmDate', '>=' , carbon::today());
+    }
+
+    public function scopeCheckEvent($query,$id)
+    {
+        return $query->where('event_id','=',$id);
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PhoneNumbers extends Model
 {
+    protected $table = 'phone_numbers';
+
     protected $fillable = [
         'user_id', 'nr', 'name',
     ];

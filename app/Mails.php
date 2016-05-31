@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mails extends Model
 {
+    protected $table = 'mails';
+
     protected $fillable = [
         'user_id', 'mail','name',
     ];

@@ -7,6 +7,8 @@ use Auth;
 
 class calendarList extends Model
 {
+    protected $table = 'calendar_lists';
+
     /**
      * The attributes that are mass assignable.
      *
