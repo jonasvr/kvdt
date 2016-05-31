@@ -48,7 +48,7 @@ class ApiController extends Controller
             $emergencie = Emergencies::where('alarm_id','=',$alarm->id)->first();
             // dd($emergencie);
             $content = Messages::find($emergencie->message_id);
-            if(!$emergencie->MailOrSms) // 0 => mail
+            if(!$emergencie->contact_type) // 0 => mail
             {
                 $to = Mails::find($emergencie->contact_id);
                 return $this->sendMail($content->title,$content->message,$to->mail);

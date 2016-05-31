@@ -53,4 +53,9 @@ class Alarms extends Model
     {
         return $query->where('event_id','=',$id);
     }
+
+    public  function scopeCheckID($query,$alarm_id){
+        return $query->where('id','=',$alarm_id)
+            ->first();
+    }
 }

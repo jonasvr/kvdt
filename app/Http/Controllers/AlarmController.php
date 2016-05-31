@@ -19,12 +19,10 @@ class AlarmController extends Controller
     protected $mail;
     protected $messages;
     protected $emergencies;
-    protected $user_id;
 
     public function __construct(
         Alarms $alarms,
-        PhoneNumbers $nrs,
-        Mails $mail,
+        PhoneNumbers $nrs, Mails $mail,
         Messages $messages,
         Emergencies $emergencies
     )
@@ -34,7 +32,7 @@ class AlarmController extends Controller
         $this->mail = $mail;
         $this->messages = $messages;
         $this->emergencies = $emergencies;
-        $this->user_id = Auth::user()->id;
+        parent::__construct();
     }
 
     public function getAlarms()
@@ -45,17 +43,16 @@ class AlarmController extends Controller
             ->get();
         $data = ['alarms' => $alarms];
 
-        return View('alarms.alarms', $data);
+        return view('alarms.alarms', $data);
     }
 
     public function updateAlarms(UpdateAlarmRequest $request)
     {
         $data = collect($request->only('event','action','alarmTime'));
-//        dd($data);
         $events = $data['event'];
 
         if (!$events) {
-            echo 'no change select something';
+            return back()->withErrors(['message'=>'select something']);
         }
         else{
 
@@ -74,24 +71,17 @@ class AlarmController extends Controller
                         $alarm->delete();
                         break;
                     case 'update!':
-                        $this->update($alarm, $time[$key]);
+                        $alarm->update($time[$key]);
                         break;
                 }
             }
         }
-        return Redirect()->route('alarms');
-    }
 
-    public function update($alarm,$time)
-    {
-        $alarm->alarmTime = $time;
-        $alarm->save();
+        return route('alarms');
     }
-
 
     public function emergency($alarm_id)
     {
-
         $numbers = $this->nrs->getAll($this->user_id);
         $mails = $this->mail->getAll($this->user_id);
         $messages = $this->messages->getAll($this->user_id);
@@ -104,6 +94,7 @@ class AlarmController extends Controller
             'alarm_id' => $alarm_id,
             'emergency' => $emergency,
         ];
+
         return view('alarms.emergency',$data);
     }
 
@@ -111,17 +102,32 @@ class AlarmController extends Controller
     {
         $data = $request->all();
         $emergency = $this->emergencies->exist($data['alarm_id']);
+        (!$emergency)?$emergency = new Emergencies():'';
         $emergency->contact_id = $data['contact_id'];
         $emergency->message_id = $data['message_id'];
         $emergency->alarm_id   = $data['alarm_id'];
-        if($data['type']=='mail')
-        {
-            $emergency->MailOrSms = 0;
+        if($data['type']=='mail') {
+            $emergency->contact_type = 0;
         }else if($data['type']=='sms') {
-            $emergency->MailOrSms = 1;
+            $emergency->contact_type = 1;
         }
         $emergency->save();
 
         return redirect()->route('alarms');
+    }
+
+    public function delete($alarm_id)
+    {
+            $this->alarms
+                ->CheckUser($this->user_id)
+                ->CheckId($alarm_id)
+                ->delete();
+            $emerg = $this->emergencies
+                ->exist($alarm_id);
+            if($emerg){
+                $emerg->delete();
+            }
+
+        return back();
     }
 }

@@ -7,7 +7,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesResources;
-
+use Auth;
 
 class Controller extends BaseController
 {
@@ -18,11 +18,11 @@ class Controller extends BaseController
      *
      * @var int
      */
-//    public $user_id;
-//
-//    public function __construct(Auth $auth)
-//    {
-//        dd($auth);
-//        $this->user_id = $auth->user()->id;
-//    }
+    public $user_id;
+
+    public function __construct()
+    {
+//        dd('passer');
+        $this->user_id = Auth::user()->id;
+    }
 }

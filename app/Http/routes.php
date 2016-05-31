@@ -38,6 +38,7 @@ Route::group(['middleware' => 'web'], function () {
     Route::group(['prefix' => 'alarms'], function () {
         Route::get('/',                     ['as'   =>  'alarms',               'uses'  =>'AlarmController@getAlarms']);
         Route::post('update',               ['as'   =>  'updateAlarm',          'uses'    =>'AlarmController@updateAlarms']);
+        Route::get('delete{alarm_id}',      ['as'   =>  'deleteAlarm',          'uses'=>'AlarmController@delete']);
 
         Route::group(['prefix' => 'emergency'],function(){
             Route::get('/{alarm_id}',  ['as'    =>  'emergency',            'uses' => 'AlarmController@emergency']);

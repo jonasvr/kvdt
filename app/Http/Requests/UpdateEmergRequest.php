@@ -25,9 +25,9 @@ class UpdateEmergRequest extends Request
      */
     public function authorize()
     {
-       if(!$this->emerg->exist($this->alarm_id)){
-           return false;
-       }
+//       if(!$this->emerg->exist($this->alarm_id)){
+//           return false;
+//       }
         return true;
     }
 

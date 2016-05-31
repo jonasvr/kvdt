@@ -13,7 +13,7 @@
 
                     {{ Form::label("link$key" , $event['start'] . ' => ' .$event['summary']) }}
                     <a href="{{ URL::route('emergency', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-cog"></span></a>
-                    <a href="{{ URL::route('deleteMess', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-remove"></span></a>
+                    <a href="{{ URL::route('deleteAlarm', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-remove"></span></a>
                     {{  Form::hidden("alarmDate[$key]", $event['alarmDate'], ['class' => 'time'])}}
                 </div>
             @endforeach
