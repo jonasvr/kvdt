@@ -13,21 +13,26 @@
             @endif
             {{Form::label('title', 'subject')}}
             {{ Form::text('title',(isset($edit)?$edit->title:""),["autocomplete"=>"off"])}}
-            {{ Form::textarea('message',(isset($edit)?$edit->message:""))}}
+            <div class="counter">
+                {{ Form::textarea('message',(isset($edit)?$edit->message:""))}}
+            </div>
             @if(isset($edit))
                 {{ Form::submit('edit',['name' => 'edit']) }}
             @else
                 {{ Form::submit('add!',['name' => 'action']) }}
             @endif
+            <div id="count">
+
+            </div>
             {{ Form::close() }}
 
             @foreach($messages as $key => $message)
                 <div class="nr-info">
-                    <p>
+                    <p class="message">
                         {{ $message->title }}
                         <a href="{{ URL::route('deleteMess', ['id'=>$message->id]) }}"><span class="glyphicon glyphicon-remove"></span></a>
                         <a href="{{ URL::route('getEditMess', ['id'=>$message->id]) }}"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <br \>{!! substr($message->message, 0, 100) !!}
+                        <br \>{!! substr($message->message, 0, 100)!!}
                     </p>
                 </div>
             @endforeach
@@ -42,7 +47,24 @@
     <script src="/vendor/unisharp/laravel-ckeditor/ckeditor.js"></script>
     <script src="/vendor/unisharp/laravel-ckeditor/adapters/jquery.js"></script>
     <script>
+
         $('textarea').ckeditor();
         // $('.textarea').ckeditor(); // if class is prefered.
+
+        //count amount of characters
+        // $('textarea').keyup(function(){
+        //     console.log('in');
+        //     $("#count").text($(this).val().length);
+        // });
+
+        // $( document ).ready(function() {
+        //
+        //     $.each( $('.message'), function (index,value){
+        //         console.log(value);
+        //     }
+        // );
+        // });
     </script>
+
+
 @endsection

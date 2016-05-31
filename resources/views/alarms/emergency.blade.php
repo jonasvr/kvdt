@@ -9,7 +9,7 @@
             <h1>edit the emergency contact &amp; message</h1>
 
             @if($emergency)
-                
+
             @endif
 
             {{ Form::open(array('url' => URL::route('updateEmerg'), 'method' => 'Post')) }}
@@ -22,12 +22,15 @@
                 <br><br><br>
                 <div class="col-md-6">
                     @foreach($messages as $key => $message)
-                        <h4>{{ Form::label("message_id" , $message->title) }}
-                            {{Form::radio('message_id', $message->id)}}
-                        </h4>
-                        <p>
-                            {!! substr($message->message,0,200) !!}...
-                        </p>
+                        <div class="{{ count($message->message)>140? 'mail':'sms' }}" >
+                            <h4>{{ Form::label("message_id" , $message->title) }}
+                                {{Form::radio('message_id', $message->id)}}
+                            </h4>
+                            <p>
+                                {!! substr($message->message,0,200) !!}...
+                            </p>
+                        </div>
+
                     @endforeach
                 </div>
                 <div class="col-md-6" id="selectNumber">
