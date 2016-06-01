@@ -21,9 +21,9 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
     Route::post('emergency', 'ApiController@emergency');
 });
 
-Route::group(['middleware' => 'web'], function () {
-
-
+//Route::group(['middleware' => 'web'], function () {
+//
+//
 
     Route::group(['prefix' => 'preference'], function () {
             Route::get('calendars',         ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
@@ -83,4 +83,4 @@ Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
     Route::get('/home', 'HomeController@index');
-});
+//});
