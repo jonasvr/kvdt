@@ -9,104 +9,107 @@ use App\Messages;
 use Validator;
 use Session;
 use Auth;
+use App\Http\Requests\AddMessageRequest;
+use App\Http\Requests\EditMessageRequest;
+
 class MessageController extends Controller
 {
+    protected $mess;
+
+    /**
+     * MessageController constructor.
+     * @param Messages $mess
+     */
+    public function __construct(Messages $mess)
+    {
+        $this->mess = $mess;
+        parent::__construct();
+    }
+
+    /**
+     * get all messages
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get()
     {
         $data=[
-                'messages' => $this->Messages(),
+                'messages' => $this->mess->GetAll($this->user_id),
                 'action'=> 'add',
         ];
-        // dd($data);
+
         return view('contacts.messages',$data);
     }
 
-    public function add(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title'     => 'required',
-            'message'   => 'required',
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'messages' => $this->Messages(),
-            ];
-            return view('contacts.messages',$data)
-                        ->withErrors($validator);
-        }
-        $data = $request->all();
-        $messages = new Messages();
-        $messages->user_id      =   Auth::user()->id;
-        $messages->message      =   $data['message'];
-        $messages->title        =   $data['title'];
-        if($messages->save())
+    /**
+     * get message data to edit
+     *
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getEdit($id){
+        $message = $this->mess->find($id);
+        if(!$message)
         {
-            Session::flash('success', 'Message toegevoegt');
+            return redirect()->route('mess')
+                ->withErrors(['message'=>'foutieve id']);
         }
-         return Redirect()->route('mess');
+        $data=[
+            'messages' => $this->mess->GetAll($this->user_id),
+            'edit'  => $message,
+        ];
+        return view('contacts.messages',$data);
     }
 
+    /**
+     * delete message
+     *
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function delete($id){
-        $message = Messages::find($id);
-        // dd($message);
-        if($message==null || $message->id != Auth::user()->id)
+        $message = $this->mess->find($id);
+        if($message==null || $message->user_id != $this->user_id) //or had to be in middleware als for mails en numbers
         {
             $data=[
-                    'messages' => $this->Messages(),
+                    'messages' => $this->mess->GetAll($this->user_id),
             ];
             return view('contacts.messages',$data) //redirect met error?
                             ->withErrors(['message'=>'foutieve id']);
         }
 
         $message->delete();
-        // $mail->save();
         Session::flash('success', 'mail verwijderd');
-
-        return Redirect()->route('mess');
-    }
-
-
-    public function getEdit($id){
-        $message = Messages::find($id);
-        if(!$message)
-        {
-            return Redirect()->route('mess')
-                            ->withErrors(['message'=>'foutieve id']);
-        }
-        $data=[
-                'messages' => $this->Messages(),
-                'edit'  => $message,
-        ];
-        return view('contacts.messages',$data);
-    }
-
-    public function edit(Request $request){
-        $validator = Validator::make($request->all(), [
-            'title'  => 'required',
-            'message' => 'required',
-            'id'    =>'required',
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'mails' => $this->Messges(),
-            ];
-            return view('contacts.messages',$data)
-                        ->withErrors($validator);
-        }
-        $data=$request->all();
-        $messages = Messages::find($data['id']);
-        $messages->message = $data['message'];
-        $messages->title = $data['title'];
-        $messages->save();
 
         return redirect()->route('mess');
     }
 
-    public function Messages(){
-         $messages = Messages::where('user_id','=',Auth::user()->id)->get();
-        //  dd($messages);
-         return $messages;
+    /**
+     * add new message
+     *
+     * @param AddMessageRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function add(AddMessageRequest $request)
+    {
+        $data = $request->all();
+        $data['user_id']= $this->user_id;
+        $this->mess->create($data);
+
+        return redirect()->route('mess');
+    }
+
+    /**
+     * edit message
+     *
+     * @param EditMessageRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(EditMessageRequest $request){
+        $this->mess
+            ->find($request->id)
+            ->update($request->all());
+
+        return redirect()->route('mess');
     }
 }

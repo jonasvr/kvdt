@@ -12,7 +12,7 @@ class Messages extends Model
         'user_id', 'title', 'message',
     ];
 
-    public static function getAll($user_id){
-        return Messages::where('user_id','=',$user_id)->get();
+    public function scopeGetAll($query,$user_id){
+        return $query->where('user_id','=',$user_id)->get();
     }
 }
