@@ -60,7 +60,7 @@ class AlarmController extends Controller
         $numbers = $this->nrs->getAll($this->user_id);
         $mails = $this->mail->getAll($this->user_id);
         $messages = $this->messages->getAll($this->user_id);
-        $emergency = $this->emergencies->exist($alarm_id);
+        $emergency = $this->emergencies->FirstIfExist($alarm_id);
 
         $data =[
             'numbers' =>  $numbers,
@@ -122,7 +122,7 @@ class AlarmController extends Controller
     public function updateEmergency(UpdateEmergRequest $request) //crud
     {
         $data = $request->all();
-            $emergency = $this->emergencies->exist($data['alarm_id']);
+            $emergency = $this->emergencies->FirstIfExist($data['alarm_id']);
             (!$emergency)?$emergency = new Emergencies():'';
             $emergency->contact_id = $data['contact_id'];
             $emergency->message_id = $data['message_id'];
@@ -145,8 +145,7 @@ class AlarmController extends Controller
      */
     public function delete($alarm_id) //helper
     {
-            $emerg = $this->emergencies
-                ->exist($alarm_id);
+            $emerg = $this->emergencies->FirstIfExist($alarm_id);
             if($emerg){
                 $emerg->delete();
             }

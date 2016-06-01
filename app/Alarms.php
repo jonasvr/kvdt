@@ -15,7 +15,7 @@ class Alarms extends Model
         'eventId', 'calendarId', 'start','end','alarmDate','alarmTime','summary',
     ];
 
-    public static function scopeNextAlarm($query,$user_id){
+    public function scopeNextAlarm($query,$user_id){
         $now = Carbon::now();
         $time = $now->toTimeString();
         $date = $now->toDateSTring();
@@ -30,15 +30,11 @@ class Alarms extends Model
         return $alarm;
     }
 
-    public static function checkID($alarm_id){
-        return Alarms::where('id','=',$alarm_id)
-                            ->first();
-    }
-
-    public static function getAlarm($alarm_id){
-        return Alarms::where('event_id','=', $alarm_id)
-                       ->where('user_id', '=', Auth::user()->id)
-                       ->first();;
+    public function scopeGetAlarm($query,$alarm_id){
+        return $query
+            ->where('event_id','=', $alarm_id)
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
     }
 
     public function scopeCheckUser($query,$user_id)

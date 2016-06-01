@@ -26,9 +26,4 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function getCalendars()
-    {
-        return $this->hasMany('App\calendarList', 'user_id')->where('follow', '=', 1);
-    }
-
 }

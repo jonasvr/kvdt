@@ -80,7 +80,7 @@ class preferenceController extends Controller
     public function setCalendars(SetCalendarRequest $request){
         $data = $request->all();
         foreach ($data['calendar'] as $key => $calendar) {
-            $update = $this->calendarList->getCalendar($calendar);
+            $update = $this->calendarList->GetCalendar($calendar);
             $update->save();
             if ($data['action']=='follow!')
             {
@@ -160,7 +160,7 @@ class preferenceController extends Controller
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
-                $find = $this->calendarList->getCalendar($calendarListEntry->id);
+                $find = $this->calendarList->GetCalendar($calendarListEntry->id);
                 $checked = false;
 
                 if($find){
@@ -200,7 +200,7 @@ class preferenceController extends Controller
         foreach ($calList as $key => $value) { //per calendar
             $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
             foreach ($items as $key => $item) { //item binnen calendar
-                $find = $this->alarms->getAlarm($item->id);
+                $find = $this->alarms->GetAlarm($item->id);
                 if (!$find) {
                     $start         =   new Carbon( $item['modelData']['start']['dateTime']);
                     $end           =   new Carbon( $item['modelData']['end']['dateTime']);
