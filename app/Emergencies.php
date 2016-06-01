@@ -15,4 +15,9 @@ class Emergencies extends Model
     public static function exist($alarm_id){
         return Emergencies::where('alarm_id','=',$alarm_id)->first();
     }
+
+    public function scopeFirstIfExist($query,$alarm_id)
+    {
+        return $query->where('alarm_id','=',$alarm_id)->first();
+    }
 }

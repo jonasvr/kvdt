@@ -12,8 +12,8 @@ class Devices extends Model
         'user_id', 'device_id',
     ];
 
-    public static function checkID($device_id){
-        return Devices::where('device_id','=',$device_id)
+    public function scopeCheckID($query,$device_id){
+        return $query->where('device_id','=',$device_id)
                             ->first();
 
     }

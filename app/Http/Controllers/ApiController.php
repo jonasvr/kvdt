@@ -5,85 +5,78 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use Auth;
 use App\Alarms;
-use Carbon\Carbon;
 use App\Devices;
-use Validator;
 use App\Mails;
-use Mail;
 use App\Emergencies;
 use App\Messages;
 use App\PhoneNumbers;
-use Textmagic;
-use Textmagic\Services\TextmagicRestClient;
+use App\Jobs\SendMailJob;
+use App\Jobs\SendTextJob;
+use App\Http\Requests\SetAlarmRequest;
+use App\Http\Requests\CallEmergencyRequest;
+
 
 
 
 class ApiController extends Controller
 {
-    public function setAlarm(Request $request){
-        $validator = Validator::make($request->all(), [
-            'device_id' => 'required',
-        ]);
+    protected $devices;
+    protected $alarms;
+    protected $emergencies;
+    protected $messages;
+    protected $mails;
+    protected $nrs;
+
+    public function __construct(
+        Devices $devices,
+        Alarms $alarms,
+        Emergencies $emergencies,
+        Messages $messages,
+        Mails $mails,
+        PhoneNumbers $nrs
+    )
+    {
+        $this->devices = $devices;
+        $this->alarms = $alarms;
+        $this->emergencies = $emergencies;
+        $this->messages = $messages;
+        $this->mails = $mails;
+        $this->nrs = $nrs;
+    }
+
+    //////////////////Calls////////////////////////
+
+    public function setAlarm(SetAlarmRequest $request){
         $data = $request->all();
-        $device = Devices::checkID($data['device_id']);
+        $device = $this->devices->CheckID($data['device_id']);
         if ($device) {
-            $alarm = Alarms::nextAlarm($device->user_id);
+            $alarm = $this->alarms->NextAlarm($device->user_id);
         }
+
         return $alarm->alarmTime;
     }
 
-    public function emergency(Request $request){
-        $validator = Validator::make($request->all(), [
-            'device_id'     => 'required',
-            'alarm_id'      => 'required|numeric',
-        ]);
+    public function emergency(CallEmergencyRequest $request){
 
         $data = $request->all();
-        $device =   Devices::checkID($data['device_id']);
-        $alarm  =   Alarms::checkID($data['alarm_id']);
+        $device =   $this->devices->CheckID($data['device_id']);
+        $alarm  =   $this->alarms->CheckID($data['alarm_id']);
         if($device->user_id == $alarm->user_id)
         {
-            $emergencie = Emergencies::where('alarm_id','=',$alarm->id)->first();
-            // dd($emergencie);
-            $content = Messages::find($emergencie->message_id);
-            if(!$emergencie->contact_type) // 0 => mail
+            $emergency = $this->emergencies->FirstIfExist($alarm->id);
+            $content = $this->messages->find($emergency->message_id);
+            if(!$emergency->contact_type) // 0 => mail
             {
-                $to = Mails::find($emergencie->contact_id);
-                return $this->sendMail($content->title,$content->message,$to->mail);
+                $to = $this->mails->find($emergency->contact_id);
+
+                return $this->dispatch(new SendMailJob($content->title,$content->message,$to->mail));
             }else {
                 echo 'sending text 1';
-                $to = PhoneNumbers::find($emergencie->contact_id);
-                return $this->sendText($content->message, $to->nr);
+                $to = $this->nrs->find($emergency->contact_id);
+
+                return $this->dispatch(new SendTextJob($content->message, $to->nr));
             }
         }
-    }
-
-    public function sendMail($subject, $content, $to){
-
-       Mail::send('mails.send', ['title' => $subject, 'content' => $content], function ($message) use ($subject, $to)
-       {
-           //from => Auth::user()->mailAlias
-           $message->from('jonas.vanreeth@student.kdg.be', 'Jonas Van Reeth');
-           $message->subject($subject);
-           $message->to($to);
-
-       });
-
-       return response()->json(['message' => 'mail completed']);
-    }
-
-
-
-    public function sendText($text, $numbers){
-        $text =  strip_tags($text);
-
-          Textmagic::trigger('messages','create', [
-                'text'      => $text,
-                'phones'    => $numbers
-            ]);
-
-            return response()->json(['message' => 'text completed']);
     }
 }

@@ -15,16 +15,18 @@ class Alarms extends Model
         'eventId', 'calendarId', 'start','end','alarmDate','alarmTime','summary',
     ];
 
-    public static function nextAlarm($user_id){
-        $time = Carbon::now();
-        $time = $time->toTimeString();
+    public static function scopeNextAlarm($query,$user_id){
+        $now = Carbon::now();
+        $time = $now->toTimeString();
+        $date = $now->toDateSTring();
 
-        $alarm = Alarms::where('user_id', '=', $user_id)
-                        ->orderby('alarmDate','ASC')
-                        ->orderby('alarmTime', 'DESC')
-                        ->where('alarmTime', '<',$time)
-                        ->where('alarmDate', '=', Carbon::today())
-                        ->first();
+        $alarm = $query->where('user_id','=',$user_id)
+            ->orderby('alarmDate','ASC')
+            ->orderby('alarmTime', 'DESC')
+            ->where('alarmTime', '>',$time)
+            ->where('alarmDate', '>=',$date)
+            ->first();
+
         return $alarm;
     }
 

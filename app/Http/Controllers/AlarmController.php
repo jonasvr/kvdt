@@ -35,10 +35,12 @@ class AlarmController extends Controller
         parent::__construct();
     }
 
+    //////////////////VIEW////////////////////////
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getAlarms()
+    public function getAlarms() //view
     {
         $alarms = $this->alarms
             ->CheckUser($this->user_id)
@@ -50,10 +52,33 @@ class AlarmController extends Controller
     }
 
     /**
+     * @param $alarm_id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function emergency($alarm_id) //view
+    {
+        $numbers = $this->nrs->getAll($this->user_id);
+        $mails = $this->mail->getAll($this->user_id);
+        $messages = $this->messages->getAll($this->user_id);
+        $emergency = $this->emergencies->exist($alarm_id);
+
+        $data =[
+            'numbers' =>  $numbers,
+            'mails' => $mails,
+            'messages' => $messages,
+            'alarm_id' => $alarm_id,
+            'emergency' => $emergency,
+        ];
+
+        return view('alarms.emergency',$data);
+    }
+    //////////////////CRUD////////////////////////
+
+    /**
      * @param UpdateAlarmRequest $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function updateAlarms(UpdateAlarmRequest $request)
+    public function updateAlarms(UpdateAlarmRequest $request) //crud
     {
         $data = collect($request->only('event','action','alarmTime'));
         $events = $data['event'];
@@ -88,33 +113,13 @@ class AlarmController extends Controller
         return redirect()->route('alarms');
     }
 
-    /**
-     * @param $alarm_id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function emergency($alarm_id)
-    {
-        $numbers = $this->nrs->getAll($this->user_id);
-        $mails = $this->mail->getAll($this->user_id);
-        $messages = $this->messages->getAll($this->user_id);
-        $emergency = $this->emergencies->exist($alarm_id);
 
-        $data =[
-            'numbers' =>  $numbers,
-            'mails' => $mails,
-            'messages' => $messages,
-            'alarm_id' => $alarm_id,
-            'emergency' => $emergency,
-        ];
-
-        return view('alarms.emergency',$data);
-    }
 
     /**
      * @param UpdateEmergRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function updateEmergency(UpdateEmergRequest $request)
+    public function updateEmergency(UpdateEmergRequest $request) //crud
     {
         $data = $request->all();
             $emergency = $this->emergencies->exist($data['alarm_id']);
@@ -132,11 +137,13 @@ class AlarmController extends Controller
         return redirect()->route('alarms');
     }
 
+    //////////////////HELPERS////////////////////////
+
     /**
      * @param $alarm_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($alarm_id)
+    public function delete($alarm_id) //helper
     {
             $emerg = $this->emergencies
                 ->exist($alarm_id);

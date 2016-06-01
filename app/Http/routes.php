@@ -47,7 +47,7 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::group(['prefix' => 'profile'], function () {
         Route::get('/',   ['as'   =>  'devices',  function(){return view('setup.device');}]);
-        Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'DeviceController@addDevice']);
+        Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'ProfileController@addDevice']);
     });
 
 
