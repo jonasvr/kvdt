@@ -12,7 +12,7 @@ class Mails extends Model
         'user_id', 'mail','name',
     ];
 
-    public static function getAll($user_id){
-        return Mails::where('user_id','=',$user_id)->get();
+    public function scopeGetAll($query,$user_id){
+        return $query->where('user_id','=',$user_id)->get();
     }
 }

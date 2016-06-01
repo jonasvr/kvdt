@@ -6,108 +6,111 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Mails;
-use Validator;
 use Session;
-use Auth;
+use App\Http\Requests\AddMailRequest;
+use App\Http\Requests\EditMailRequest;
 
 
 class MailController extends Controller
 {
+    protected $mails;
+
+    /**
+     * MailController constructor.
+     * @param Mails $mails
+     */
+    public function __construct(Mails $mails)
+    {
+        $this->mails = $mails;
+        parent::__construct();
+    }
+
+    /**
+     * alle mails ophalen
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get()
     {
         $data=[
-                'mails' => $this->Mails(),
+                'mails' => $this->mails->GetAll($this->user_id),
                 'action'=> 'add',
         ];
+
         return view('contacts.mails',$data);
     }
 
-    public function add(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'name'  => 'required',
-            'mail' => 'email|unique:mails,mail',
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'mails' => $this->Mails(),
-            ];
-            return view('contacts.mails',$data)
-                        ->withErrors($validator);
-        }
-        $data = $request->all();
-        $mails = new Mails();
-        $mails->user_id =   Auth::user()->id;
-        $mails->name    =   $data['name'];
-        $mails->mail    =   $data['mail'];
-        if($mails->save())
+    /**
+     * pick up email data to edit
+     *
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getEdit($id){
+        $mail = $this->mails->find($id);
+        if(!$mail)
         {
-            Session::flash('success', 'mail toegevoegt');
+            return redirect()->route('mails')
+                ->withErrors(['message'=>'foutieve id']);
         }
-         return Redirect()->route('mails');
+        $data=[
+            'mails' => $this->mails->GetAll($this->user_id),
+            'edit'  => $mail,
+        ];
+
+        return view('contacts.mails',$data);
     }
 
+    /**
+     * create new mail contact
+     *
+     * @param AddMailRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function add(AddMailRequest $request)
+    {
+        $data = $request->all();
+        $data['user_id'] = $this->user_id;
+        $this->mails->create($data);
+
+        return redirect()->route('mails');
+    }
+
+    /**
+     * delete mail contact
+     *
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
     public function delete($id){
-        $mail = Mails::find($id);
-        // dd($mail);
+        $mail = $this->mails->find($id);
         if($mail==null)
         {
             $data=[
-                    'mails' => $this->Mails(),
+                    'mails' => $this->mails->GetAll($this->user_id),
             ];
             return view('contacts.mails',$data) //redirect met error?
                             ->withErrors(['message'=>'foutieve id']);
         }
-
         $mail->delete();
-        // $mail->save();
         Session::flash('success', 'mail verwijderd');
-
-        return Redirect()->route('mails');
-    }
-
-    public function getEdit($id){
-        $mail = Mails::find($id);
-        if(!$mail)
-        {
-            return Redirect()->route('mails')
-                            ->withErrors(['message'=>'foutieve id']);
-        }
-        $data=[
-                'mails' => $this->Mails(),
-                'edit'  => $mail,
-        ];
-        return view('contacts.mails',$data);
-    }
-
-    public function edit(Request $request){
-        $validator = Validator::make($request->all(), [
-            'name'  => 'required',
-            'mail' => 'email',
-            'id'    =>'required',
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'mails' => $this->Mails(),
-            ];
-            return view('contacts.mails',$data)
-                        ->withErrors($validator);
-        }
-
-        $data=$request->all();
-        $mail = Mails::find($data['id']);
-        $mail->mail = $data['mail'];
-        $mail->name = $data['name'];
-        $mail->save();
 
         return redirect()->route('mails');
     }
 
 
+    /**
+     * edit mail contact
+     *
+     * @param EditMailRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(EditMailRequest $request)
+    {
+        $this->mails
+            ->find($request->id)
+            ->update($request->all());
 
-    public function Mails(){
-        return $mails = Mails::where('user_id','=',Auth::user()->id)->get();
+        return redirect()->route('mails');
     }
 }

@@ -22,7 +22,6 @@ class Controller extends BaseController
 
     public function __construct()
     {
-//        dd('passer');
         $this->user_id = Auth::user()->id;
     }
 }
