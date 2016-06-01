@@ -24,6 +24,7 @@ class SetEventRequest extends Request
     public function rules()
     {
         return [
+            'event' => 'required',
             'event.*' => 'required|unique:alarms,event_id|max:255',
         ];
     }

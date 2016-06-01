@@ -24,6 +24,7 @@ class SetCalendarRequest extends Request
     public function rules()
     {
         return [
+            'calendar' => 'required',
             'calendar.*' => 'required|max:255',
         ];
     }

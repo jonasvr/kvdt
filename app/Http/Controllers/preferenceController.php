@@ -15,6 +15,8 @@ use App\Alarms;
 use App\Refreshtokens;
 use App\Http\Requests\SetCalendarRequest;
 use App\Http\Requests\SetEventRequest;
+use Illuminate\View\Middleware\ErrorBinder;
+
 
 class preferenceController extends Controller
 {
