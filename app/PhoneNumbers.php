@@ -12,7 +12,7 @@ class PhoneNumbers extends Model
         'user_id', 'nr', 'name',
     ];
 
-    public static function getAll($user_id){
-        return PhoneNumbers::where('user_id','=',$user_id)->get();
+    public function scopeGetAll($query,$user_id){
+        return $query->where('user_id','=',$user_id)->get();
     }
 }

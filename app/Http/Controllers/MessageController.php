@@ -6,9 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Messages;
-use Validator;
 use Session;
-use Auth;
 use App\Http\Requests\AddMessageRequest;
 use App\Http\Requests\EditMessageRequest;
 

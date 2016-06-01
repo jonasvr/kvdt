@@ -6,106 +6,103 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Validator;
-use Illuminate\Support\MessageBag;
 use App\PhoneNumbers;
 use Session;
-use Auth;
+use App\Http\Requests\AddNrsRequest;
+use App\Http\Requests\EditNrsRequest;
+
 
 class PhoneController extends Controller
 {
+    protected $nrs;
+
+    /**
+     * PhoneController constructor.
+     * @param PhoneNumbers $nrs
+     */
+    public function __construct(PhoneNumbers $nrs)
+    {
+        $this->nrs = $nrs;
+        parent::__construct();
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function get()
     {
         $data=[
-                'nrs' => $this->Numbers(),
+            'nrs' => $this->nrs->GetAll($this->user_id),
         ];
+
         return view('contacts.numbers',$data);
     }
 
-    public function add(Request $request)
+    /**
+     * @param $id
+     * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getEdit($id)
     {
-        $validator = Validator::make($request->all(), [
-            'name'  => 'required',
-            'nr' => 'phone:BE|unique:phone_numbers,nr',
-            //https://github.com/Propaganistas/Laravel-Phone/blob/master/README.md
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'nrs' => $this->Numbers(),
-            ];
-            return view('contacts.numbers',$data)
-                        ->withErrors($validator);
-        }
-        $data = $request->all();
-        $nr = new PhoneNumbers();
-        $nr->user_id=   Auth::user()->id;
-        $nr->name   =   $data['name'];
-        $nr->nr     =   $data['nr'];
-        if($nr->save())
-        {
-            Session::flash('success', 'nr toegevoegt');
-        }
-         return Redirect()->route('numbers');
-    }
-
-    public function delete($id){
-        $nr = PhoneNumbers::find($id);
-        // dd($nr);
-        if($nr==null)
-        {
-            $data=[
-                    'nr' => $this->Numbers(),
-            ];
-            return view('contacts.numbers',$data) //redirect met error?
-                            ->withErrors(['message'=>'foutieve id']);
-        }
-
-        $nr->delete();
-        // $mail->save();
-        Session::flash('success', 'nr verwijderd');
-
-        return Redirect()->route('numbers');
-    }
-
-    public function getEdit($id){
-        $nr = PhoneNumbers::find($id);
+        $nr = $this->nrs->find($id);
         if(!$nr)
         {
-            return Redirect()->route('numbers')
-                            ->withErrors(['message'=>'foutieve id']);
+            return redirect()->route('numbers')
+                ->withErrors(['message'=>'foutieve id']);
         }
         $data=[
-                'nrs' => $this->Numbers(),
-                'edit'  => $nr,
+            'nrs' => $this->nrs->GetAll($this->user_id),
+            'edit' => $nr,
         ];
+
         return view('contacts.numbers',$data);
     }
 
-    public function edit(Request $request){
-        $validator = Validator::make($request->all(), [
-            'name'  => 'required',
-            'nr'    => 'phone:BE',
-            'id'    =>'required',
-        ]);
-        if ($validator->fails()) {
-
-            $data=[
-                    'nr' => $this->Numbers(),
-            ];
-            return view('contacts.numbers',$data)
-                        ->withErrors($validator);
-        }
-
-        $data=$request->all();
-        $nr = PhoneNumbers::find($data['id']);
-        $nr->nr     = $data['nr'];
-        $nr->name   = $data['name'];
-        $nr->save();
+    /**
+     * @param AddNrsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function add(AddnrsRequest $request)
+    {
+        $data = $request->all();
+        $data['user_id'] = $this->user_id;
+        $this->nrs->create($data);
 
         return redirect()->route('numbers');
     }
 
-    public function Numbers(){
-        return $nrs = PhoneNumbers::where('user_id','=',Auth::user()->id)->get();
+    /**
+     * @param EditNrsRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function edit(EditNrsRequest $request)
+    {
+        $this->nrs
+            ->find($request->id)
+            ->update($request->all());
+
+        return redirect()->route('numbers');
+    }
+
+    /**
+     * @param $id
+     * @return $this|\Illuminate\Http\RedirectResponse
+     */
+    public function delete($id){
+        $nr = $this->nrs->find($id);
+        if($nr==null)
+        {
+            $data=[
+                'nr' => $this->nrs->GetAll($this->user_id),
+            ];
+
+            return view('contacts.numbers',$data) //redirect met error?
+            ->withErrors(['message'=>'foutieve id']);
+        }
+
+        $nr->delete();
+        Session::flash('success', 'nr verwijderd');
+
+        return redirect()->route('numbers');
     }
 }
