@@ -162,13 +162,13 @@ class preferenceController extends Controller
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
+//                dd($calendarListEntry);
                 $find = $this->calendarList->GetCalendar($calendarListEntry->id);
                 $checked = false;
+//                dd($find);
 
-                if($find){
-                    if($find->follow) {
-                        $checked = true;
-                    }
+                if(isset($find->follow)) {
+                    $checked = true;
                 }else {
 
                     $input = new calendarList();
