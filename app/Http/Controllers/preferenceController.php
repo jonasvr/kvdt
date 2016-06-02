@@ -165,10 +165,10 @@ class preferenceController extends Controller
 //                dd($calendarListEntry);
                 $find = $this->calendarList->GetCalendar($calendarListEntry->id);
                 $checked = false;
-//                dd($find);
-
-                if(isset($find->follow)) {
-                    $checked = true;
+                if($find->count()){
+                    if($find->follow) {
+                        $checked = true;
+                    }
                 }else {
 
                     $input = new calendarList();

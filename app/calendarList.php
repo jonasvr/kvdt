@@ -18,7 +18,8 @@ class calendarList extends Model
         'user_id', 'calendar_id', 'follow',
     ];
 
-    public function scopeGetCalendar($query,$calendar_id){
+    public function scopeGetCalendar($query,$calendar_id)
+    {
         return $query
             ->where('calendar_id', '=', $calendar_id)
             ->where('user_id', '=', Auth::user()->id)

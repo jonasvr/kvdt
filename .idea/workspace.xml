@@ -4,6 +4,7 @@
     <list default="true" id="051d063a-6fd1-42c0-a034-1d008dfc9fe7" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/preferenceController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/preferenceController.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/calendarList.php" afterPath="$PROJECT_DIR$/app/calendarList.php" />
     </list>
     <ignored path="kvdt.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/preferenceController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="246">
-              <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
+              <caret line="168" column="36" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -38,8 +39,8 @@
       <file leaf-file-name="calendarList.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/calendarList.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="828">
-              <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+            <state relative-caret-position="425">
+              <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
               <folding />
             </state>
           </provider>
@@ -82,7 +83,6 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/PhoneController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/profileController.php" />
         <option value="$PROJECT_DIR$/app/Alarms.php" />
-        <option value="$PROJECT_DIR$/app/calendarList.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/AlarmController.php" />
         <option value="$PROJECT_DIR$/app/Emergencies.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
@@ -92,6 +92,7 @@
         <option value="$PROJECT_DIR$/app/Http/Requests/UpdateAlarmRequest.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/routes.php" />
+        <option value="$PROJECT_DIR$/app/calendarList.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/preferenceController.php" />
       </list>
     </option>
@@ -344,12 +345,12 @@
       <workItem from="1464766445372" duration="445000" />
       <workItem from="1464766909496" duration="15818000" />
       <workItem from="1464784575297" duration="2515000" />
-      <workItem from="1464852224562" duration="1696000" />
+      <workItem from="1464852224562" duration="2702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="41981000" />
+    <option name="totallyTimeSpent" value="42987000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1056" extended-state="6" />
@@ -753,8 +754,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/calendarList.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="828">
-          <caret line="24" column="12" selection-start-line="24" selection-start-column="12" selection-end-line="24" selection-end-column="12" />
+        <state relative-caret-position="425">
+          <caret line="21" column="4" selection-start-line="21" selection-start-column="4" selection-end-line="21" selection-end-column="4" />
           <folding />
         </state>
       </provider>
@@ -762,7 +763,7 @@
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/preferenceController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="246">
-          <caret line="168" column="0" selection-start-line="168" selection-start-column="0" selection-end-line="168" selection-end-column="0" />
+          <caret line="168" column="36" selection-start-line="168" selection-start-column="36" selection-end-line="168" selection-end-column="36" />
           <folding />
         </state>
       </provider>
