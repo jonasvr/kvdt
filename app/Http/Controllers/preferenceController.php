@@ -65,6 +65,7 @@ class preferenceController extends Controller
         $service = new Google_Service_Calendar($client);
 
         $calList = Auth::user()->getCalendars; //Calendar ID's ophalen
+//        dd($calList);
         $events = $this->listEvents($calList,$service);
 
         //sort by start date
@@ -135,7 +136,7 @@ class preferenceController extends Controller
 
     /////////////HELPERS///////////////
 
-    public function setAlarm($data)
+    public function setAlarms($data)
     {
         $events = $data['event'];
         $alarms = $data['alarm'];
@@ -192,18 +193,19 @@ class preferenceController extends Controller
 
     public function listEvents($calList,$service)
     {
+
         $piece = explode(' ',Carbon::today()); //tijd vandaag
         $timeMin = $piece[0].'T00:00:00Z';
         $piece = explode(' ',Carbon::today()->addWeek()); //een week later
         $timeMax = $piece[0].'T00:00:00Z';
         $parm = ['timeMin' => $timeMin,'timeMax' => $timeMax,];
-
+//        dd($parm);
         $events= array();
         foreach ($calList as $key => $value) { //per calendar
             $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
             foreach ($items as $key => $item) { //item binnen calendar
                 $find = $this->alarms->GetAlarm($item->id);
-                if (!$find) {
+                if (!$find->count()) {
                     $start         =   new Carbon( $item['modelData']['start']['dateTime']);
                     $end           =   new Carbon( $item['modelData']['end']['dateTime']);
                     $summary       =   $item['summary'];

@@ -82,29 +82,26 @@ class AlarmController extends Controller
     {
         $data = collect($request->only('event','action','alarmTime'));
         $events = $data['event'];
-
         if (!$events) {
             return back()->withErrors(['select something']);
         }
         else{
-
             $action = $data['action'];
             $time = $data['alarmTime'];
 
             foreach ($events as $key => $event) {
-
                 $alarm = $this->alarms
                     ->CheckUser($this->user_id)
                     ->CheckEvent($event)
                     ->first();
 
                 switch ($action) {
-                    case 'remove!':
+                    case 'remove':
                         $alarm->delete();
                         $this->delete($event);
                         break;
-                    case 'update!':
-                        $alarm->update($time[$key]);
+                    case 'update':
+                        $alarm->update(['alarmTime'=>$time[$key]]);
                         break;
                 }
             }
@@ -122,17 +119,17 @@ class AlarmController extends Controller
     public function updateEmergency(UpdateEmergRequest $request) //crud
     {
         $data = $request->all();
-            $emergency = $this->emergencies->FirstIfExist($data['alarm_id']);
-            (!$emergency)?$emergency = new Emergencies():'';
-            $emergency->contact_id = $data['contact_id'];
-            $emergency->message_id = $data['message_id'];
-            $emergency->alarm_id   = $data['alarm_id'];
-            if($data['type']=='mail') {
-                $emergency->contact_type = 0;
-            }else if($data['type']=='sms') {
-                $emergency->contact_type = 1;
-            }
-            $emergency->save();
+        $emergency = $this->emergencies->FirstIfExist($data['alarm_id']);
+        (!$emergency->count())?$emergency = new Emergencies():'';
+        $emergency->contact_id = $data['contact_id'];
+        $emergency->message_id = $data['message_id'];
+        $emergency->alarm_id   = $data['alarm_id'];
+        if($data['type']=='mail') {
+            $emergency->contact_type = 0;
+        }else if($data['type']=='sms') {
+            $emergency->contact_type = 1;
+        }
+        $emergency->save();
 
         return redirect()->route('alarms');
     }
