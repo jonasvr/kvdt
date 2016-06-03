@@ -50,11 +50,12 @@ class ApiController extends Controller
     public function setAlarm(SetAlarmRequest $request){
         $data = $request->all();
         $device = $this->devices->CheckID($data['device_id']);
+//        dd($device);
         if ($device) {
             $alarm = $this->alarms->NextAlarm($device->user_id);
         }
-
-        return $alarm->alarmTime;
+        $awnser = $alarm->alarmTime . ":" . $alarm->id;
+        return $awnser;
     }
 
     public function emergency(CallEmergencyRequest $request){

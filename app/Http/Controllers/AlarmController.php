@@ -88,7 +88,7 @@ class AlarmController extends Controller
         else{
             $action = $data['action'];
             $time = $data['alarmTime'];
-
+//            dd($time);
             foreach ($events as $key => $event) {
                 $alarm = $this->alarms
                     ->CheckUser($this->user_id)

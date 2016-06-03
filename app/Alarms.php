@@ -19,7 +19,6 @@ class Alarms extends Model
         $now = Carbon::now();
         $time = $now->toTimeString();
         $date = $now->toDateSTring();
-
         $alarm = $query->where('user_id','=',$user_id)
             ->orderby('alarmDate','ASC')
             ->orderby('alarmTime', 'DESC')
