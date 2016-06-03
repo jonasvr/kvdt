@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token','mailAlias','email','name'
     ];
 
     public function getCalendars()
@@ -31,5 +31,11 @@ class User extends Authenticatable
         return $this
             ->hasMany('App\calendarList', 'user_id')
             ->where('follow', '=', 1);
+    }
+
+    public function getDevices()
+    {
+        return $this
+            ->hasMany('App\Devices','user_id')->get();
     }
 }

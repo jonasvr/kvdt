@@ -18,7 +18,7 @@ use App\Http\Requests\SetEventRequest;
 use Illuminate\View\Middleware\ErrorBinder;
 
 
-class preferenceController extends Controller
+class PreferenceController extends Controller
 {
     protected $calendarList;
     protected $alarms;

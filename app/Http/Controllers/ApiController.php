@@ -73,8 +73,17 @@ class ApiController extends Controller
             if(!$emergency->contact_type) // 0 => mail
             {
                 $to = $this->mails->find($emergency->contact_id);
-
-                return $this->dispatch(new SendMailJob($content->title,$content->message,$to->mail));
+                $from = Auth::user()->email;
+                if(Auth::user()->mailAlias)
+                {
+                    $from = Auth::user()->mailAlias;
+                }
+                return $this->dispatch(new SendMailJob(
+                    $content->title,
+                    $content->message,
+                    $to->mail,$from,
+                    Auth::user()->name
+                ));
             }else {
                 echo 'sending text 1';
                 $to = $this->nrs->find($emergency->contact_id);

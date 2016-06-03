@@ -9,7 +9,7 @@ class Devices extends Model
     protected $table = 'devices';
 
     protected $fillable = [
-        'user_id', 'device_id',
+        'user_id', 'device_id','device_type'
     ];
 
     public function scopeCheckID($query,$device_id){

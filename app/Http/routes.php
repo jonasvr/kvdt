@@ -26,11 +26,11 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
 //
 
     Route::group(['prefix' => 'preference'], function () {
-            Route::get('calendars',         ['as' => 'calendars', 'uses' => 'preferenceController@getCalendars']);
-            Route::post('/setcalendars',    ['as' => 'setCalendars', 'uses' => 'preferenceController@setCalendars']);
-            Route::get('events',            ['as' => 'events', 'uses' => 'preferenceController@getEvents']);
-            Route::post('/setEvents', ['as' => 'setEvents', 'uses' => 'preferenceController@setEvents']);
-            Route::get('test', ['as' => 'test', 'uses' => 'preferenceController@test']);
+            Route::get('calendars',         ['as' => 'calendars', 'uses' => 'PreferenceController@getCalendars']);
+            Route::post('/setcalendars',    ['as' => 'setCalendars', 'uses' => 'PreferenceController@setCalendars']);
+            Route::get('events',            ['as' => 'events', 'uses' => 'PreferenceController@getEvents']);
+            Route::post('/setEvents', ['as' => 'setEvents', 'uses' => 'PreferenceController@setEvents']);
+            Route::get('test', ['as' => 'test', 'uses' => 'PreferenceController@test']);
     });
 
     Route::group(['prefix' => 'alarms'], function () {
@@ -46,8 +46,10 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
     });
 
     Route::group(['prefix' => 'profile'], function () {
-        Route::get('/',   ['as'   =>  'devices',  function(){return view('setup.device');}]);
-        Route::post('add',  ['as'   =>  'addDevice', 'uses'    =>'profileController@addDevice']);
+        Route::get('/', ['as'=>'profile', 'uses'=>'ProfileController@profile']);
+        Route::post('/update', ['as'=>'updateProfile', 'uses'=>'ProfileController@update']);
+        Route::post('/addDevice', ['as'   =>  'addDevice', 'uses'    =>'profileController@addDevice']);
+        Route::post('/addKot',  ['as'   =>  'addKot', 'uses'    =>'profileController@addKot']);
     });
 
 
