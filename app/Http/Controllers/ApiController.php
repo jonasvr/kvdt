@@ -54,7 +54,10 @@ class ApiController extends Controller
         if ($device) {
             $alarm = $this->alarms->NextAlarm($device->user_id);
         }
-        $awnser = $alarm->alarmTime . ":" . $alarm->id;
+        $awnser = 0;
+        if ($alarm->count()){
+            $awnser = $alarm->alarmTime . ":" . $alarm->id;
+        }
         return $awnser;
     }
 
