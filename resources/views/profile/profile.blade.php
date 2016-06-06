@@ -50,8 +50,12 @@
                 </div>
                 {{ Form::submit('Submit!',['class'=>'btn btn-default']) }}
                 {{ Form::close() }}
-            </div>
 
+                    {{--<button class="col-md-3">numbers</button>--}}
+                <a href="{{ URL::route('numbers') }}" class="col-md-3 btn btn-default margin-top-40 margin-left-40"> numbers</a>
+                <a href="{{ URL::route('mails') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-40"> emails</a>
+                <a href="{{ URL::route('mess') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-40"> messages</a>
+            </div>
         </div>
     </div>
 @endsection

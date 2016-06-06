@@ -38,4 +38,13 @@ class User extends Authenticatable
         return $this
             ->hasMany('App\Devices','user_id')->get();
     }
+
+    /**
+     * link between users en koten
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function koten(){
+        return $this->belongsToMany('App\Koten')->withTimestamps();
+    }
 }

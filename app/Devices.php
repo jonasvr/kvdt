@@ -17,4 +17,13 @@ class Devices extends Model
                             ->first();
 
     }
+
+    /**
+     * link between devices en koten
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function koten(){
+        return $this->belongsToMany('App\Koten')->withTimestamps();
+    }
 }

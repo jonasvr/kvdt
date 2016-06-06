@@ -11,4 +11,17 @@ class Koten extends Model
     protected $fillable = [
         'user_id', 'kot_id','street', 'city','name',
     ];
+
+    /**
+     * link between devices en koten
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function devices(){
+        return $this->belongsToMany('App\Devices')->withTimestamps();
+    }
+
+    public function users(){
+        return $this->belongsToMany('App\Users')->withTimestamps();
+    }
 }

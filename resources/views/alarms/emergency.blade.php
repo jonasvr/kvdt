@@ -8,16 +8,23 @@
 
             <h1>edit the emergency contact &amp; message</h1>
 
-            @if($emergency)
+            @if($info)
+                <h2>setted emergency</h2>
+                {{--{{ var_dump($info) }}--}}
+                <p><strong>contact-name:</strong> {{ $info['name']  }}</p>
+               <p><strong>send-to: </strong>{{$info['contact'] }}</p>
+                <p><strong>subject: </strong>{{ $info['message']->title }}</p>
+                <p><strong>message: </strong></p>{!! $info['message']->message !!}
+
 
             @endif
-
+            <h2>choose new emergency setting</h2>
             {{ Form::open(array('url' => URL::route('updateEmerg'), 'method' => 'Post')) }}
             <div class="row">
-                {{ Form::label("type" , "email") }}
-                {{Form::radio('type', 'mail',['selected'=>'selected'])}}
-                {{ Form::label("type" , "text message") }}
-                {{Form::radio('type', 'sms')}}
+                {{  Form::label("type" , "email") }}
+                {{  Form::radio('type', 'mail',['selected'=>'selected'])}}
+                {{  Form::label("type" , "text message") }}
+                {{  Form::radio('type', 'sms')}}
 
                 <br><br><br>
                 <div class="col-md-6">

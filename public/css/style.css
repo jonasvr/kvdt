@@ -5,3 +5,12 @@ label.green{
 .noAutoFill{
     autocomplete:off;
 }
+
+
+.margin-left-40{
+    margin-left:40px;
+}
+
+.margin-top-40{
+    margin-top:40px;
+}

@@ -57,10 +57,30 @@ class AlarmController extends Controller
      */
     public function emergency($alarm_id) //view
     {
+
         $numbers = $this->nrs->getAll($this->user_id);
         $mails = $this->mail->getAll($this->user_id);
         $messages = $this->messages->getAll($this->user_id);
         $emergency = $this->emergencies->FirstIfExist($alarm_id);
+        $info = [];
+        if($emergency->count()) {
+            if (!$emergency->contact_type) {
+               $contact = $this->mail
+                    ->where('id','=',$emergency->contact_id)
+                    ->first();
+                $info['contact'] = $contact->mail;
+            }else{
+                $contact = $this->nrs
+                    ->where('id','=',$emergency->contact_id)
+                    ->first();
+                $info['contact'] = $contact->nr;
+
+            }
+            $info['name'] = $contact->name;
+            $info['message'] = $this->messages
+                ->where('id','=',$emergency->message_id)
+                ->first();
+        }
 
         $data =[
             'numbers' =>  $numbers,
@@ -68,6 +88,7 @@ class AlarmController extends Controller
             'messages' => $messages,
             'alarm_id' => $alarm_id,
             'emergency' => $emergency,
+            'info' => $info,
         ];
 
         return view('alarms.emergency',$data);
