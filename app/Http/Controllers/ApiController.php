@@ -28,6 +28,15 @@ class ApiController extends Controller
     protected $mails;
     protected $nrs;
 
+    /**
+     * ApiController constructor.
+     * @param Devices $devices
+     * @param Alarms $alarms
+     * @param Emergencies $emergencies
+     * @param Messages $messages
+     * @param Mails $mails
+     * @param PhoneNumbers $nrs
+     */
     public function __construct(
         Devices $devices,
         Alarms $alarms,
@@ -47,6 +56,12 @@ class ApiController extends Controller
 
     //////////////////Calls////////////////////////
 
+    /**
+     * apicall to get earliest alarm from now
+     *
+     * @param SetAlarmRequest $request
+     * @return int|string
+     */
     public function setAlarm(SetAlarmRequest $request){
         $data = $request->all();
         $device = $this->devices->CheckID($data['device_id']);
@@ -61,11 +76,17 @@ class ApiController extends Controller
         return $awnser;
     }
 
+    /**
+     * api call when 3x snoozed -> send emergency
+     *
+     * @param CallEmergencyRequest $request
+     * @return mixed
+     */
     public function emergency(CallEmergencyRequest $request){
 
         $data = $request->all();
-        $device =   $this->devices->CheckID($data['device_id']);
-        $alarm  =   $this->alarms->CheckID($data['alarm_id']);
+        $device = $this->devices->CheckID($data['device_id']);
+        $alarm = $this->alarms->CheckID($data['alarm_id']);
         if($device->user_id == $alarm->user_id)
         {
             $emergency = $this->emergencies->FirstIfExist($alarm->id);

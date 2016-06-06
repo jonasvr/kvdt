@@ -25,6 +25,11 @@ class ProfileController extends Controller
         parent::__construct();
     }
 
+    /**
+     *all the users data and devices info
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function profile()
     {
         $data=[
@@ -33,6 +38,12 @@ class ProfileController extends Controller
         return view('profile.profile',$data);
     }
 
+    /**
+     * updates the users personal data
+     *
+     * @param UpdateProfileRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(UpdateProfileRequest $request)
     {
         $data = $request->all();
@@ -43,7 +54,9 @@ class ProfileController extends Controller
     }
 
     /**
-     * @param Request $request
+     * adds a new device and checks the type
+     *
+     * @param AddDeviceRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function addDevice(AddDeviceRequest $request){
@@ -61,6 +74,12 @@ class ProfileController extends Controller
         return back();
     }
 
+    /**
+     * adds living place
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function addKot(Request $request){
         $data = $request->all();
         $this->devices->create($data);

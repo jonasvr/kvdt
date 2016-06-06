@@ -23,6 +23,11 @@ class PreferenceController extends Controller
     protected $calendarList;
     protected $alarms;
 
+    /**
+     * PreferenceController constructor.
+     * @param calendarList $calList
+     * @param Alarms $alarms
+     */
     public function __construct(calendarList $calList, Alarms $alarms)
     {
         $this->calendarList = $calList;
@@ -30,6 +35,11 @@ class PreferenceController extends Controller
         parent::__construct();
     }
 
+    /**
+     * get calendars from user from google
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function getCalendars()
     {
         // Get the API client and construct the service object.
@@ -55,6 +65,11 @@ class PreferenceController extends Controller
        return view('setup.calendar',$data);
     }
 
+    /**
+     * get all events from calendar user selected
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     */
     public function getEvents(){
         $client = $this->getClient(env('GOOGLE_EVENTS'));
         if (is_array($client))
@@ -80,6 +95,12 @@ class PreferenceController extends Controller
         return view('setup.events',$data);
     }
 
+    /**
+     * set the calendars the user want to follow
+     *
+     * @param SetCalendarRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function setCalendars(SetCalendarRequest $request){
         $data = $request->all();
         foreach ($data['calendar'] as $key => $calendar) {
@@ -99,6 +120,12 @@ class PreferenceController extends Controller
         return redirect()->route('calendars');
     }
 
+    /**
+     * select the events the user want an alarm for
+     *
+     * @param SetEventRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function setEvents(SetEventRequest $request)
     {
         $data = $request->all();
@@ -107,6 +134,12 @@ class PreferenceController extends Controller
         return redirect()->route('alarms');
     }
 
+    /**
+     * get acces from google
+     *
+     * @param $uri
+     * @return array|Google_Client
+     */
     public function getClient($uri)
     {
         $client = $this->setclient($uri);
@@ -136,6 +169,12 @@ class PreferenceController extends Controller
 
     /////////////HELPERS///////////////
 
+    /**
+     * setting the alarm
+     *
+     * @param $data
+     */
+
     public function setAlarms($data)
     {
         $events = $data['event'];
@@ -158,6 +197,12 @@ class PreferenceController extends Controller
         }
     }
 
+    /**
+     * takes the data needed for the calendar list
+     *
+     * @param $calendarList
+     * @return array
+     */
     public function listCalendars($calendarList){
         $calendars =array();
         while(true) {
@@ -190,7 +235,13 @@ class PreferenceController extends Controller
         }
     }
 
-
+    /**
+     * lists all the events up by order of date and time
+     *
+     * @param $calList
+     * @param $service
+     * @return array
+     */
     public function listEvents($calList,$service)
     {
 
@@ -230,6 +281,12 @@ class PreferenceController extends Controller
     }
 
 
+    /**
+     * set up info to connect to google
+     *
+     * @param $uri
+     * @return Google_Client
+     */
     public function setClient($uri)
     {
         // based on =>
@@ -245,6 +302,12 @@ class PreferenceController extends Controller
         return $client;
     }
 
+    /**
+     * check if acces is still valid
+     *
+     * @param $client
+     * @return null
+     */
     public function checkAccessToken($client){
         $accessToken = null;
         // Load previously authorized credentials from a cookie.

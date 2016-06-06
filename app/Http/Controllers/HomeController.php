@@ -18,6 +18,8 @@ class HomeController extends Controller
     }
 
     /**
+     * setting home page, with all device data
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()

@@ -20,6 +20,14 @@ class AlarmController extends Controller
     protected $messages;
     protected $emergencies;
 
+    /**
+     * AlarmController constructor.
+     * @param Alarms $alarms
+     * @param PhoneNumbers $nrs
+     * @param Mails $mail
+     * @param Messages $messages
+     * @param Emergencies $emergencies
+     */
     public function __construct(
         Alarms $alarms,
         PhoneNumbers $nrs, Mails $mail,
@@ -38,6 +46,8 @@ class AlarmController extends Controller
     //////////////////VIEW////////////////////////
 
     /**
+     * get all alarms from user
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getAlarms() //view
@@ -54,6 +64,8 @@ class AlarmController extends Controller
     }
 
     /**
+     * get data to set emergency
+     *
      * @param $alarm_id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -98,6 +110,8 @@ class AlarmController extends Controller
     //////////////////CRUD////////////////////////
 
     /**
+     * update alarm
+     *
      * @param UpdateAlarmRequest $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
@@ -136,6 +150,8 @@ class AlarmController extends Controller
 
 
     /**
+     * update emergency
+     *
      * @param UpdateEmergRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
