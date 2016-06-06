@@ -16,7 +16,7 @@ class CreateShowersTable extends Migration
             $table->increments('id');
             $table->integer('device_id');
             $table->integer('koten_id');
-            $table->bool('state');
+            $table->integer('state');
             $table->timestamps();
         });
     }
