@@ -45,6 +45,8 @@ class AlarmController extends Controller
         $alarms = $this->alarms
             ->CheckUser($this->user_id)
             ->Today()
+            ->orderBy('alarmDate','ASC')
+            ->orderBy('alarmTime','ASC')
             ->get();
         $data = ['alarms' => $alarms];
 

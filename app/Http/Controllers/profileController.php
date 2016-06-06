@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Devices;
 use Auth;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\AddDeviceRequest;
 
 
 class ProfileController extends Controller
@@ -45,23 +46,23 @@ class ProfileController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addDevice(Request $request){
+    public function addDevice(AddDeviceRequest $request){
         $data = $request->all();
         $data['user_id'] = $this->user_id;
         $type = explode('@',$data['device_id']);
 
         if($type[0]=='w'){
             $data['device_type'] = 'wekker';
+        }else if ($type[0]='s'){
+            $data['device_type'] = 'shower';
         }
-//        dd($data);
         $this->devices->create($data);
-
+        
         return back();
     }
 
     public function addKot(Request $request){
         $data = $request->all();
-//        $data['user_id'] = $this->user_id;
         $this->devices->create($data);
 
         return back();

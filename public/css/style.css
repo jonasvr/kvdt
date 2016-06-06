@@ -7,10 +7,39 @@ label.green{
 }
 
 
+/************************Margins*************************/
+.margin-25{
+    margin:25px;
+}
+.margin-left-10{
+    margin-left:10px;
+}
 .margin-left-40{
     margin-left:40px;
+}
+
+.margin-top-20{
+    margin-top:20px;
 }
 
 .margin-top-40{
     margin-top:40px;
 }
+
+/************************Borders*************************/
+
+.border-alarm{
+    border:solid 1px black;
+}
+
+/************************Heights*************************/
+
+
+.height-200{
+    height:200px;
+    max-height:200px;
+}
+.height-150{
+     height:150px;
+     max-height:150px;
+ }

@@ -32,8 +32,11 @@
                         {{ Form::Label('kot_id', 'Kot ID')}}
                         {{ Form::text('kot_id','',['class' => 'form-control']) }}
                     </div>
-                    {{ Form::submit('Submit!',['class'=>'btn btn-default']) }}
-
+                    <div class="form-group">
+                        {{ Form::Label('pass', 'In case of ownership, give password')}}
+                        {{ Form::password('pass',['class' => 'form-control']) }}
+                    </div>
+                    {{ Form::submit('Submit!',['class'=>'btn btn-default','class'=>'btn btn-default']) }}
                     {{ Form::close() }}
                 @endif
 
@@ -51,10 +54,10 @@
                 {{ Form::submit('Submit!',['class'=>'btn btn-default']) }}
                 {{ Form::close() }}
 
-                    {{--<button class="col-md-3">numbers</button>--}}
-                <a href="{{ URL::route('numbers') }}" class="col-md-3 btn btn-default margin-top-40 margin-left-40"> numbers</a>
-                <a href="{{ URL::route('mails') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-40"> emails</a>
-                <a href="{{ URL::route('mess') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-40"> messages</a>
+                <h1>Wekker</h1>   {{--<button class="col-md-3">numbers</button>--}}
+                <a href="{{ URL::route('numbers') }}" class="col-md-3 btn btn-default margin-top-20"> numbers</a>
+                <a href="{{ URL::route('mails') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-20"> emails</a>
+                <a href="{{ URL::route('mess') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-20"> messages</a>
             </div>
         </div>
     </div>
