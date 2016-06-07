@@ -14,11 +14,18 @@ use App\Http\Requests\UpdateEmergRequest;
 
 class AlarmController extends Controller
 {
-    protected $alarms;
+    /**
+     * @var PhoneNumbers
+     * @var Mails
+     * @var Messages
+     * @var Emergencies
+     * @var Alarms
+     */
     protected $nrs;
     protected $mail;
     protected $messages;
     protected $emergencies;
+    protected $alarms;
 
     /**
      * AlarmController constructor.
@@ -28,19 +35,19 @@ class AlarmController extends Controller
      * @param Messages $messages
      * @param Emergencies $emergencies
      */
-    public function __construct(
+    public function __construct
+    (
         Alarms $alarms,
         PhoneNumbers $nrs, Mails $mail,
         Messages $messages,
         Emergencies $emergencies
-    )
-    {
+    ){
+        parent::__construct();
         $this->alarms = $alarms;
         $this->nrs = $nrs;
         $this->mail = $mail;
         $this->messages = $messages;
         $this->emergencies = $emergencies;
-        parent::__construct();
     }
 
     //////////////////VIEW////////////////////////
@@ -121,26 +128,14 @@ class AlarmController extends Controller
         $events = $data['event'];
         if (!$events) {
             return back()->withErrors(['select something']);
-        }
-        else{
-            $action = $data['action'];
+        }else{
             $time = $data['alarmTime'];
-//            dd($time);
             foreach ($events as $key => $event) {
                 $alarm = $this->alarms
                     ->CheckUser($this->user_id)
                     ->CheckEvent($event)
                     ->first();
-
-                switch ($action) {
-                    case 'remove':
-                        $alarm->delete();
-                        $this->delete($event);
-                        break;
-                    case 'update':
-                        $alarm->update(['alarmTime'=>$time[$key]]);
-                        break;
-                }
+                $alarm->update(['alarmTime'=>$time[$key]]);
             }
         }
 
@@ -159,14 +154,19 @@ class AlarmController extends Controller
     {
         $data = $request->all();
         $emergency = $this->emergencies->FirstIfExist($data['alarm_id']);
-        (!$emergency->count())?$emergency = new Emergencies():'';
+        if(!$emergency->count()){
+            $emergency = new Emergencies();
+        }
         $emergency->contact_id = $data['contact_id'];
         $emergency->message_id = $data['message_id'];
         $emergency->alarm_id   = $data['alarm_id'];
-        if($data['type']=='mail') {
-            $emergency->contact_type = 0;
-        }else if($data['type']=='sms') {
-            $emergency->contact_type = 1;
+        switch ($data['type']){
+            case 'mail':
+                $emergency->contact_type = 0;
+                break;
+            case 'sms':
+                $emergency->contact_type = 1;
+                break;
         }
         $emergency->save();
 
@@ -179,12 +179,21 @@ class AlarmController extends Controller
      * @param $alarm_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function delete($alarm_id) //helper
+    public function deleteEmerg($alarm_id) //helper
     {
             $emerg = $this->emergencies->FirstIfExist($alarm_id);
             if($emerg){
                 $emerg->delete();
             }
+        
+        return back();
+    }
+
+    public function deleteAlarm($alarm_id)
+    {
+        $alarm = $this->alarms->GetAlarm($alarm_id);
+        $alarm->delete();
+        $this->deleteEmerg($alarm_id);
 
         return back();
     }

@@ -20,6 +20,10 @@ use Illuminate\View\Middleware\ErrorBinder;
 
 class PreferenceController extends Controller
 {
+    /**
+     * @var calendarList
+     * @var Alarms
+     */
     protected $calendarList;
     protected $alarms;
 
@@ -30,9 +34,9 @@ class PreferenceController extends Controller
      */
     public function __construct(calendarList $calList, Alarms $alarms)
     {
+        parent::__construct();
         $this->calendarList = $calList;
         $this->alarms = $alarms;
-        parent::__construct();
     }
 
     /**
@@ -46,21 +50,20 @@ class PreferenceController extends Controller
         $client = $this->getClient(env('GOOGLE_CALENDARS'));
         //if client is array => it has redirect Url
         //if client is not array -=> client object
-        if (is_array($client))
-        {
+        if (is_array($client)) {
+
             return redirect($client['redirect']);
         }
         $service = new Google_Service_Calendar($client);
 
-
         // Get list of followed callendars
-        $calendarList  = $service->calendarList->listCalendarList();
+        $calendarList = $service->calendarList->listCalendarList();
         $calendars = $this->listCalendars($calendarList);
-
 
        $data = [
            'calendarList' => $calendars,
        ];
+//        dd($data);
 
        return view('setup.calendar',$data);
     }
@@ -70,28 +73,27 @@ class PreferenceController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
-    public function getEvents(){
+    public function getEvents()
+    {
         $client = $this->getClient(env('GOOGLE_EVENTS'));
-        if (is_array($client))
-        {
+        if (is_array($client)){
+
             return redirect($client['redirect']);
         }
 
         $service = new Google_Service_Calendar($client);
-
         $calList = Auth::user()->getCalendars; //Calendar ID's ophalen
-//        dd($calList);
         $events = $this->listEvents($calList,$service);
 
         //sort by start date
         $start = array();
-        foreach ($events as $key => $row)
-        {
+        foreach ($events as $key => $row){
             $start[$key] = $row['start'];
         }
 
         array_multisort($start, SORT_ASC, $events);
         $data = ['events' => $events];
+
         return view('setup.events',$data);
     }
 
@@ -101,17 +103,15 @@ class PreferenceController extends Controller
      * @param SetCalendarRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function setCalendars(SetCalendarRequest $request){
+    public function setCalendars(SetCalendarRequest $request)
+    {
         $data = $request->all();
         foreach ($data['calendar'] as $key => $calendar) {
             $update = $this->calendarList->GetCalendar($calendar);
             $update->save();
-            if ($data['action']=='follow!')
-            {
+            if ($data['action']=='follow!'){
                 $update->follow = 1;
-            }
-            elseif ($data['action']=='unfollow!')
-            {
+            }elseif ($data['action']=='unfollow!'){
                 $update->follow = 0;
             }
             $update->save();
@@ -144,8 +144,7 @@ class PreferenceController extends Controller
     {
         $client = $this->setclient($uri);
         $accessToken = $this->checkAccessToken($client);
-        if (!$accessToken)
-        {
+        if (!$accessToken){
             if(!isset($_GET['code'])) {
                 // Request authorization from the user.
                 $authUrl = $client->createAuthUrl();
@@ -157,7 +156,6 @@ class PreferenceController extends Controller
         $client = $this->checkRefreshToken($client);
         $client->setAccessToken($accessToken);
 
-        //   dd('for return client');
         return $client;
     }
 
@@ -203,17 +201,19 @@ class PreferenceController extends Controller
      * @param $calendarList
      * @return array
      */
-    public function listCalendars($calendarList){
+    public function listCalendars($calendarList)
+    {
         $calendars =array();
+        $calendars['following'] = false;
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
-//                dd($calendarListEntry);
                 $find = $this->calendarList->GetCalendar($calendarListEntry->id);
-                $checked = false;
+                $follow = false;
                 if($find->count()){
                     if($find->follow) {
-                        $checked = true;
+                        $follow = true;
+                        $calendars['following'] = true;
                     }
                 }else {
 
@@ -227,7 +227,7 @@ class PreferenceController extends Controller
                 $calendars[] = [
                     'id' => $calendarListEntry->id,
                     'title' =>  $calendarListEntry->getSummary(),
-                    'checked' => $checked,
+                    'follow' => $follow,
                 ];
             }
 
@@ -250,7 +250,6 @@ class PreferenceController extends Controller
         $piece = explode(' ',Carbon::today()->addWeek()); //een week later
         $timeMax = $piece[0].'T00:00:00Z';
         $parm = ['timeMin' => $timeMin,'timeMax' => $timeMax,];
-//        dd($parm);
         $events= array();
         foreach ($calList as $key => $value) { //per calendar
             $items = $service->events->listEvents($value->calendar_id, $parm)->items; //
@@ -308,7 +307,8 @@ class PreferenceController extends Controller
      * @param $client
      * @return null
      */
-    public function checkAccessToken($client){
+    public function checkAccessToken($client)
+    {
         $accessToken = null;
         // Load previously authorized credentials from a cookie.
         if (isset($_COOKIE['accessToken'])) {
@@ -335,8 +335,7 @@ class PreferenceController extends Controller
 
     public function checkRefreshToken($client)
     {
-        if ($client->isAccessTokenExpired())
-        {
+        if ($client->isAccessTokenExpired()){
             $client->refreshToken(Auth::user()->refreshtoken);
             setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
         }

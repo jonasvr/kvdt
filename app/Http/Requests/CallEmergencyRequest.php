@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
+use App\Devices;
+use App\Alarms;
 
 class CallEmergencyRequest extends Request
 {
@@ -13,10 +15,13 @@ class CallEmergencyRequest extends Request
      */
     public function authorize()
     {
-        return true;
-//        $device =   $this->devices->CheckID($data['device_id']);
-//        $alarm  =   $this->alarms->CheckID($data['alarm_id']);
-//        if($device->user_id == $alarm->user_id)  
+        $device = Devices::CheckID($this->device_id);
+        $alarm = Alarms::CheckID($this->alarm_id);
+        if($device->user_id == $alarm->user_id) {
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

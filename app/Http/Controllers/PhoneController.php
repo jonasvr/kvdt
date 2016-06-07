@@ -14,6 +14,9 @@ use App\Http\Requests\EditNrsRequest;
 
 class PhoneController extends Controller
 {
+    /**
+     * @var PhoneNumbers
+     */
     protected $nrs;
 
     /**
@@ -22,8 +25,8 @@ class PhoneController extends Controller
      */
     public function __construct(PhoneNumbers $nrs)
     {
-        $this->nrs = $nrs;
         parent::__construct();
+        $this->nrs = $nrs;
     }
 
     /**
@@ -45,8 +48,8 @@ class PhoneController extends Controller
     public function getEdit($id)
     {
         $nr = $this->nrs->find($id);
-        if(!$nr)
-        {
+        if(!$nr){
+
             return redirect()->route('numbers')
                 ->withErrors(['message'=>'foutieve id']);
         }
@@ -88,10 +91,10 @@ class PhoneController extends Controller
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
         $nr = $this->nrs->find($id);
-        if($nr==null)
-        {
+        if($nr==null){
             $data=[
                 'nr' => $this->nrs->GetAll($this->user_id),
             ];

@@ -15,7 +15,8 @@ class Alarms extends Model
         'eventId', 'calendarId', 'start','end','alarmDate','alarmTime','summary',
     ];
 
-    public function scopeNextAlarm($query,$user_id){
+    public function scopeNextAlarm($query,$user_id)
+    {
         $now = Carbon::now();
         $time = $now->toTimeString();
         $date = $now->toDateSTring();
@@ -29,9 +30,9 @@ class Alarms extends Model
         return $alarm;
     }
 
-    public function scopeGetAlarm($query,$alarm_id){
-        return $query
-            ->where('event_id','=', $alarm_id)
+    public function scopeGetAlarm($query,$alarm_id)
+    {
+        return $query->where('event_id','=', $alarm_id)
             ->where('user_id', '=', Auth::user()->id)
             ->first();
     }

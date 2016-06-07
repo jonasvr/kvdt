@@ -36,20 +36,23 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
     Route::group(['prefix' => 'alarms'], function () {
         Route::get('/',                     ['as'   =>  'alarms',               'uses'  =>'AlarmController@getAlarms']);
         Route::post('update',               ['as'   =>  'updateAlarm',          'uses'    =>'AlarmController@updateAlarms']);
-        Route::get('delete{alarm_id}',      ['as'   =>  'deleteAlarm',          'uses'=>'AlarmController@delete']);
+        Route::get('delete/{alarm_id}',      ['as'   =>  'deleteAlarm',          'uses'=>'AlarmController@deleteAlarm']);
 
         Route::group(['prefix' => 'emergency'],function(){
             Route::get('/{alarm_id}',  ['as'    =>  'emergency',            'uses' => 'AlarmController@emergency']);
             Route::post('update',       ['as'   =>  'updateEmerg',          'uses'=>'AlarmController@updateEmergency']);
+            Route::get('delete/{alarm_id}',      ['as'   =>  'deleteEmerg',          'uses'=>'AlarmController@deleteEmerg']);
         });
 
     });
 
+
     Route::group(['prefix' => 'profile'], function () {
+//        dd();
         Route::get('/', ['as'=>'profile', 'uses'=>'ProfileController@profile']);
         Route::post('/update', ['as'=>'updateProfile', 'uses'=>'ProfileController@update']);
-        Route::post('/addDevice', ['as'   =>  'addDevice', 'uses'    =>'profileController@addDevice']);
-        Route::post('/addKot',  ['as'   =>  'addKot', 'uses'    =>'profileController@addKot']);
+        Route::post('/addDevice', ['as'   =>  'addDevice', 'uses'    =>'ProfileController@addDevice']);
+        Route::post('/addKot',  ['as'   =>  'addKot', 'uses'    =>'ProfileController@addKot']);
     });
 
 

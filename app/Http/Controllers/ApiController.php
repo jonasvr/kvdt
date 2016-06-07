@@ -21,6 +21,16 @@ use App\Http\Requests\CallEmergencyRequest;
 
 class ApiController extends Controller
 {
+    /**
+     * ApiController constructor.
+     * @var Devices
+     * @var Alarms
+     * @var Emergencies
+     * @var Messages
+     * @var Mails
+     * @var PhoneNumbers
+     */
+
     protected $devices;
     protected $alarms;
     protected $emergencies;
@@ -37,15 +47,15 @@ class ApiController extends Controller
      * @param Mails $mails
      * @param PhoneNumbers $nrs
      */
-    public function __construct(
+    public function __construct
+    (
         Devices $devices,
         Alarms $alarms,
         Emergencies $emergencies,
         Messages $messages,
         Mails $mails,
         PhoneNumbers $nrs
-    )
-    {
+    ){
         $this->devices = $devices;
         $this->alarms = $alarms;
         $this->emergencies = $emergencies;
@@ -62,10 +72,10 @@ class ApiController extends Controller
      * @param SetAlarmRequest $request
      * @return int|string
      */
-    public function setAlarm(SetAlarmRequest $request){
+    public function setAlarm(SetAlarmRequest $request)
+    {
         $data = $request->all();
         $device = $this->devices->CheckID($data['device_id']);
-//        dd($device);
         if ($device) {
             $alarm = $this->alarms->NextAlarm($device->user_id);
         }
@@ -82,35 +92,41 @@ class ApiController extends Controller
      * @param CallEmergencyRequest $request
      * @return mixed
      */
-    public function emergency(CallEmergencyRequest $request){
-
-        $data = $request->all();
-        $device = $this->devices->CheckID($data['device_id']);
-        $alarm = $this->alarms->CheckID($data['alarm_id']);
-        if($device->user_id == $alarm->user_id)
-        {
-            $emergency = $this->emergencies->FirstIfExist($alarm->id);
-            $content = $this->messages->find($emergency->message_id);
-            if(!$emergency->contact_type) // 0 => mail
-            {
-                $to = $this->mails->find($emergency->contact_id);
-                $from = Auth::user()->email;
-                if(Auth::user()->mailAlias)
-                {
-                    $from = Auth::user()->mailAlias;
-                }
-                return $this->dispatch(new SendMailJob(
-                    $content->title,
-                    $content->message,
-                    $to->mail,$from,
-                    Auth::user()->name
-                ));
-            }else {
-                echo 'sending text 1';
-                $to = $this->nrs->find($emergency->contact_id);
-
-                return $this->dispatch(new SendTextJob($content->message, $to->nr));
-            }
+    public function emergency(CallEmergencyRequest $request)
+    {
+        $alarm = $this->alarms->scopeCheckID($this->alarm_id);
+        $emergency = $this->emergencies->FirstIffExist($alarm->id);
+        $content = $this->messages->firstOrFail($emergency->message_id);
+        switch ($emergency->contact_type) {
+            case 0:
+                $this->sendMail($emergency,$content);
+                break;
+            case 1:
+                $this->sendText($emergency,$content);
+                break;
         }
+        return 'sended';
+    }
+
+    private function sendMail($emergency, $content)
+    {
+        $to = $this->mails->find($emergency->contact_id);
+        $from = Auth::user()->email;
+        if (Auth::user()->mailAlias) {
+            $from = Auth::user()->mailAlias;
+        }
+        $this->dispatch(new SendMailJob(
+            $content->title,
+            $content->message,
+            $to->mail, $from,
+            Auth::user()->name
+        ));
+    }
+
+    private function sendText($emergency, $content)
+    {
+        echo 'sending text 1';
+        $to = $this->nrs->findOrFail($emergency->contact_id);
+        $this->dispatch(new SendTextJob($content->message, $to->nr));
     }
 }

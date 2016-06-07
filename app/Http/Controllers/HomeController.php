@@ -3,18 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use Illuminate\Http\Request;
 use App\Alarms;
 
 
 class HomeController extends Controller
 {
+    /**
+     * @var Alarms
+     */
     protected $alarms;
+
+    /**
+     * HomeController constructor.
+     * @param Alarms $alarms
+     */
     public function __construct(Alarms $alarms)
     {
-        $this->middleware('auth');
-        $this->alarms = $alarms;
+        $this->middleware('auth'); //=>route
         parent::__construct();
+        $this->alarms = $alarms;
     }
 
     /**
@@ -30,7 +37,6 @@ class HomeController extends Controller
             ->orderBy('alarmDate','ASC')
             ->orderBy('alarmTime','ASC')
             ->get();
-//        dd($alarms);
         $data = ['alarms' => $alarms];
         return view('home', $data);
     }

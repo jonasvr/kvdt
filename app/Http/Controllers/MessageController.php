@@ -12,6 +12,9 @@ use App\Http\Requests\EditMessageRequest;
 
 class MessageController extends Controller
 {
+    /**
+     * @var Messages
+     */
     protected $mess;
 
     /**
@@ -20,8 +23,8 @@ class MessageController extends Controller
      */
     public function __construct(Messages $mess)
     {
-        $this->mess = $mess;
         parent::__construct();
+        $this->mess = $mess;
     }
 
     /**
@@ -32,8 +35,8 @@ class MessageController extends Controller
     public function get()
     {
         $data=[
-                'messages' => $this->mess->GetAll($this->user_id),
-                'action'=> 'add',
+            'messages' => $this->mess->GetAll($this->user_id),
+            'action'=> 'add',
         ];
 
         return view('contacts.messages',$data);
@@ -45,17 +48,18 @@ class MessageController extends Controller
      * @param $id
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getEdit($id){
+    public function getEdit($id)
+    {
         $message = $this->mess->find($id);
-        if(!$message)
-        {
+        if(!$message) {
             return redirect()->route('mess')
                 ->withErrors(['message'=>'foutieve id']);
         }
         $data=[
             'messages' => $this->mess->GetAll($this->user_id),
-            'edit'  => $message,
+            'edit' => $message,
         ];
+
         return view('contacts.messages',$data);
     }
 
@@ -65,15 +69,16 @@ class MessageController extends Controller
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
         $message = $this->mess->find($id);
-        if($message==null || $message->user_id != $this->user_id) //or had to be in middleware als for mails en numbers
-        {
+        if($message==null || $message->user_id != $this->user_id){ //or had to be in middleware als for mails en numbers
             $data=[
-                    'messages' => $this->mess->GetAll($this->user_id),
+                'messages' => $this->mess->GetAll($this->user_id),
             ];
+
             return view('contacts.messages',$data) //redirect met error?
-                            ->withErrors(['message'=>'foutieve id']);
+                ->withErrors(['message'=>'foutieve id']);
         }
 
         $message->delete();
@@ -103,9 +108,9 @@ class MessageController extends Controller
      * @param EditMessageRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function edit(EditMessageRequest $request){
-        $this->mess
-            ->find($request->id)
+    public function edit(EditMessageRequest $request)
+    {
+        $this->mess->find($request->id)
             ->update($request->all());
 
         return redirect()->route('mess');

@@ -13,6 +13,9 @@ use App\Http\Requests\AddDeviceRequest;
 
 class ProfileController extends Controller
 {
+    /**
+     * @var Devices
+     */
     protected $devices;
 
     /**
@@ -21,8 +24,8 @@ class ProfileController extends Controller
      */
     public function __construct(Devices $devices)
     {
-        $this->devices = $devices;
         parent::__construct();
+        $this->devices = $devices;
     }
 
     /**
@@ -59,15 +62,19 @@ class ProfileController extends Controller
      * @param AddDeviceRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addDevice(AddDeviceRequest $request){
+    public function addDevice(AddDeviceRequest $request)
+    {
         $data = $request->all();
         $data['user_id'] = $this->user_id;
         $type = explode('@',$data['device_id']);
 
-        if($type[0]=='w'){
-            $data['device_type'] = 'wekker';
-        }else if ($type[0]='s'){
-            $data['device_type'] = 'shower';
+        switch ($type[0]){
+            case 'w':
+                $data['device_type'] = 'wekker';
+                break;
+            case 's':
+                $data['device_type'] = 'shower';
+                break;
         }
         $this->devices->create($data);
         
@@ -80,7 +87,8 @@ class ProfileController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function addKot(Request $request){
+    public function addKot(Request $request)
+    {
         $data = $request->all();
         $this->devices->create($data);
 

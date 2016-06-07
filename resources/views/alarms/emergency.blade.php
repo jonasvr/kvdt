@@ -9,8 +9,13 @@
             <h1>edit the emergency contact &amp; message</h1>
 
             @if($info)
-                <h2>setted emergency</h2>
-                {{--{{ var_dump($info) }}--}}
+                <h2>
+                    setted emergency
+                    <a href="{{ URL::route('deleteEmerg', ['id'=>$alarm_id]) }}">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </a>
+                </h2>
+                {{--{{ dd($info) }}--}}
                 <p><strong>contact-name:</strong> {{ $info['name']  }}</p>
                <p><strong>send-to: </strong>{{$info['contact'] }}</p>
                 <p><strong>subject: </strong>{{ $info['message']->title }}</p>

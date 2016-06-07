@@ -13,6 +13,9 @@ use App\Http\Requests\EditMailRequest;
 
 class MailController extends Controller
 {
+    /**
+     * @var Mails
+     */
     protected $mails;
 
     /**
@@ -21,8 +24,8 @@ class MailController extends Controller
      */
     public function __construct(Mails $mails)
     {
-        $this->mails = $mails;
         parent::__construct();
+        $this->mails = $mails;
     }
 
     /**
@@ -33,8 +36,8 @@ class MailController extends Controller
     public function get()
     {
         $data=[
-                'mails' => $this->mails->GetAll($this->user_id),
-                'action'=> 'add',
+            'mails' => $this->mails->GetAll($this->user_id),
+            'action'=> 'add',
         ];
 
         return view('contacts.mails',$data);
@@ -46,10 +49,10 @@ class MailController extends Controller
      * @param $id
      * @return $this|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getEdit($id){
+    public function getEdit($id)
+    {
         $mail = $this->mails->find($id);
-        if(!$mail)
-        {
+        if(!$mail) {
             return redirect()->route('mails')
                 ->withErrors(['message'=>'foutieve id']);
         }
@@ -82,15 +85,15 @@ class MailController extends Controller
      * @param $id
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function delete($id){
+    public function delete($id)
+    {
         $mail = $this->mails->find($id);
-        if($mail==null)
-        {
+        if($mail==null){
             $data=[
-                    'mails' => $this->mails->GetAll($this->user_id),
+                'mails' => $this->mails->GetAll($this->user_id),
             ];
             return view('contacts.mails',$data) //redirect met error?
-                            ->withErrors(['message'=>'foutieve id']);
+                ->withErrors(['message'=>'foutieve id']);
         }
         $mail->delete();
         Session::flash('success', 'mail verwijderd');
@@ -107,8 +110,7 @@ class MailController extends Controller
      */
     public function edit(EditMailRequest $request)
     {
-        $this->mails
-            ->find($request->id)
+        $this->mails->find($request->id)
             ->update($request->all());
 
         return redirect()->route('mails');
