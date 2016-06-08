@@ -63,11 +63,7 @@ class HomeController extends Controller
 
     private function getShowers(){
         $showers = $this->showers->ShowerByKot(Auth::user()->koten_id)->get();
-        if ($showers->count())
-        {
-            return $showers;
-        }else{
-            return 0;
-        }
+
+        return $showers;
     }
 }
