@@ -10,6 +10,7 @@ use App\Koten;
 use Auth;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\AddDeviceRequest;
+use App\Showers;
 
 
 class ProfileController extends Controller
@@ -17,19 +18,22 @@ class ProfileController extends Controller
     /**
      * @var Devices
      * @var Koten
+     * @var Showers
      */
     protected $devices;
     protected $koten;
+    protected $showers;
 
     /**
      * ProfileController constructor.
      * @param Devices $devices
      */
-    public function __construct(Devices $devices, Koten $koten)
+    public function __construct(Devices $devices, Koten $koten, Showers $showers)
     {
         parent::__construct();
         $this->devices = $devices;
         $this->koten = $koten;
+        $this->showers = $showers;
     }
 
     /**
@@ -78,10 +82,17 @@ class ProfileController extends Controller
                 break;
             case 's':
                 $data['device_type'] = 'shower';
+                $showerInput =[
+                    'koten_id' => Auth::user()->koten_id,
+                ];
                 break;
         }
-        $this->devices->create($data);
-        
+        $device = $this->devices->create($data);
+        if(isset($showerInput)){
+            $showerInput['device_id'] = $device->id;
+            dd($showerInput);
+            $this->showers->create($showerInput);
+        }
         return back();
     }
 

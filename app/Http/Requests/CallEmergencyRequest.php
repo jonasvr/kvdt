@@ -9,14 +9,32 @@ use App\Alarms;
 class CallEmergencyRequest extends Request
 {
     /**
+     * @var Devices
+     * @var Alarms
+     */
+    protected $devices;
+    protected $alarms;
+
+    /**
+     * CallEmergencyRequest constructor.
+     * @param Devices $devices
+     * @param Alarms $alarms
+     */
+    public function __construct(Devices $devices, Alarms $alarms)
+    {
+        $this->devices = $devices;
+        $this->alarms = $alarms;
+    }
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
      */
     public function authorize()
     {
-        $device = Devices::CheckID($this->device_id);
-        $alarm = Alarms::CheckID($this->alarm_id);
+        $device =  $this->devices->CheckID($this->device_id);
+        $alarm = $this->alarms->CheckID($this->alarm_id);
         if($device->user_id == $alarm->user_id) {
             return true;
         }else{

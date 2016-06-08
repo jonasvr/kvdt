@@ -16,8 +16,7 @@ class CreateKotensTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->string('kot_id');
-            $table->string('street');
-            $table->string('city');
+            $table->string('pass');
             $table->string('name');
             $table->timestamps();
         });

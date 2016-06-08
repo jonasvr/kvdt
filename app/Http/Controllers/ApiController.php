@@ -11,10 +11,12 @@ use App\Mails;
 use App\Emergencies;
 use App\Messages;
 use App\PhoneNumbers;
+use App\Showers;
 use App\Jobs\SendMailJob;
 use App\Jobs\SendTextJob;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
+use App\Http\Requests\UpdateshowerRequest;
 
 
 
@@ -29,6 +31,7 @@ class ApiController extends Controller
      * @var Messages
      * @var Mails
      * @var PhoneNumbers
+     * @var Showers
      */
 
     protected $devices;
@@ -37,6 +40,7 @@ class ApiController extends Controller
     protected $messages;
     protected $mails;
     protected $nrs;
+    protected $showers;
 
     /**
      * ApiController constructor.
@@ -54,7 +58,8 @@ class ApiController extends Controller
         Emergencies $emergencies,
         Messages $messages,
         Mails $mails,
-        PhoneNumbers $nrs
+        PhoneNumbers $nrs,
+        Showers $showers
     ){
         $this->devices = $devices;
         $this->alarms = $alarms;
@@ -62,6 +67,7 @@ class ApiController extends Controller
         $this->messages = $messages;
         $this->mails = $mails;
         $this->nrs = $nrs;
+        $this->showers = $showers;
     }
 
     //////////////////Calls////////////////////////
@@ -105,9 +111,21 @@ class ApiController extends Controller
                 $this->sendText($emergency,$content);
                 break;
         }
+        
         return 'sended';
     }
 
+    public function Shower(UpdateShowerRequest $request)
+    {
+        $device = $this->devices->where('device_id','=',$request->device_id)->firstOrFail();
+//        dd($request->all());
+        $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
+        $shower->state = $request->state;
+        $shower->save();
+
+        return 'succes';
+    }
+/////////////////Helpers//////////////////////
     private function sendMail($emergency, $content)
     {
         $to = $this->mails->find($emergency->contact_id);
@@ -129,4 +147,5 @@ class ApiController extends Controller
         $to = $this->nrs->findOrFail($emergency->contact_id);
         $this->dispatch(new SendTextJob($content->message, $to->nr));
     }
+
 }
