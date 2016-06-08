@@ -17,6 +17,7 @@ class CreateDevicesTable extends Migration
             $table->integer('user_id');
             $table->string('device_id');
             $table->string('device_type');
+            $table->string('name');
             $table->timestamps();
         });
     }

@@ -11,4 +11,8 @@ class Showers extends Model
     protected $fillable = [
         'device_id', 'state',
     ];
+
+    public function scopeShowerByKot($query,$koten_id){
+        return $query->where('koten_id','=',$koten_id);
+    }
 }
