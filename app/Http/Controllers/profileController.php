@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Devices;
+use App\Koten;
 use Auth;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\AddDeviceRequest;
@@ -15,17 +16,20 @@ class ProfileController extends Controller
 {
     /**
      * @var Devices
+     * @var Koten
      */
     protected $devices;
+    protected $koten;
 
     /**
      * ProfileController constructor.
      * @param Devices $devices
      */
-    public function __construct(Devices $devices)
+    public function __construct(Devices $devices, Koten $koten)
     {
         parent::__construct();
         $this->devices = $devices;
+        $this->koten = $koten;
     }
 
     /**
@@ -90,8 +94,25 @@ class ProfileController extends Controller
     public function addKot(Request $request)
     {
         $data = $request->all();
-        $this->devices->create($data);
+       if(!$request->pass==''){
+            $data['user_id'] = $this->user_id;
+            $kot = $this->koten->create($data);
+       }else{
+            $kot = $this->koten->FindId($data['kot_id']);
+       }
+        $message=[
+        'error'=>"kot isn't activated",
+            ];
+        if($kot->count()){
+            Auth::user()->koten_id = $kot->id;
+            Auth::user()->save();
+            $message=[
+                'success'=>'kot updated',
+            ];
+        }
 
-        return back();
+
+
+        return back()->withErrors($message);
     }
 }

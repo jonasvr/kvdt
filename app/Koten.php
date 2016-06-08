@@ -22,6 +22,11 @@ class Koten extends Model
     }
 
     public function users(){
-        return $this->belongsToMany('App\Users')->withTimestamps();
+        return $this->hasMany('App\User')->withTimestamps();
+    }
+
+    public function scopeFindId($query,$kot_id)
+    {
+        return $query->where('kot_id','=',$kot_id)->first();
     }
 }

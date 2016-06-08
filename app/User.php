@@ -23,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token','mailAlias','email','name'
+        'password', 'remember_token','mailAlias','email','name','koten_id'
     ];
 
     public function getCalendars()
@@ -45,6 +45,6 @@ class User extends Authenticatable
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function koten(){
-        return $this->belongsToMany('App\Koten')->withTimestamps();
+        return $this->belongsTo('App\Koten','koten_id')->withTimestamps();
     }
 }

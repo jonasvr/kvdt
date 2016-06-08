@@ -22,7 +22,7 @@
                     {{ Form::submit('update', ['class'=>'btn btn-default']) }}
                 {{ Form::close() }}
 
-                @if(isset($kot))
+                @if(Auth::user()->koten_id > 0)
                     <div>
                        <h1>KOT</h1>
                     </div>
