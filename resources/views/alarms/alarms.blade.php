@@ -4,8 +4,8 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
                 @if($alarms->count())
+                <div class="panel panel-default">
                     <div class="panel-heading"><h1>Edit the alarms you want to set</h1></div>
                     <div class="panel-body row">
                         {{ Form::open(array('url' => URL::route('updateAlarm'), 'method' => 'Post')) }}
@@ -28,8 +28,11 @@
                     </div>
                     {{ Form::submit('update', ['name' => 'action','class'=>'btn btn-default margin-25']) }}
                     {{ Form::close() }}
-                @endif
-            </div>
+                    <div class="col-md-10 col-md-offset-1">
+                        @include('contacts.buttons')
+                    </div>
+                </div>
+            @endif
         </div>
     </div>
 </div>

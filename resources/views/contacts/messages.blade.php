@@ -4,22 +4,22 @@
 <div class="container">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
-            <h1>add to your emergency message</h1>
+            <h1>Add to your emergency message</h1>
             @if(isset($edit))
                 {{ Form::open(array('url' => URL::route('editMess'), 'method' => 'Post')) }}
                 {{ Form::hidden('id',$edit->id)}}
             @else
                 {{ Form::open(array('url' => URL::route('addMess'), 'method' => 'Post')) }}
             @endif
-            {{Form::label('title', 'subject')}}
-            {{ Form::text('title',(isset($edit)?$edit->title:""),["autocomplete"=>"off"])}}
+            {{Form::label('title', 'Subject')}} <br>
+            {{ Form::text('title',(isset($edit)?$edit->title:""),["autocomplete"=>"off", 'class'=>'form-control'])}}
             <div class="counter">
                 {{ Form::textarea('message',(isset($edit)?$edit->message:""))}}
             </div>
             @if(isset($edit))
-                {{ Form::submit('edit',['name' => 'edit']) }}
+                {{ Form::submit('edit',['name' => 'edit','class'=> 'btn btn-default']) }}
             @else
-                {{ Form::submit('add!',['name' => 'action']) }}
+                {{ Form::submit('add!',['name' => 'action','class'=> 'btn btn-default']) }}
             @endif
             <div id="count">
 

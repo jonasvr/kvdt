@@ -41,7 +41,7 @@ class HomeController extends Controller
     public function index()
     {
         $alarms = $this->getAlarms();
-        $showers = $this->getShowers();
+        $showers = $this->showers->ShowerByKot(Auth::user()->koten_id)->get();
 
         $data = [
             'alarms' => $alarms,

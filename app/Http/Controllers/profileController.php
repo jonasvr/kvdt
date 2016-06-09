@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,6 +12,7 @@ use Auth;
 use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\AddDeviceRequest;
 use App\Showers;
+use App\ApplyKotens;
 
 
 class ProfileController extends Controller
@@ -19,21 +21,33 @@ class ProfileController extends Controller
      * @var Devices
      * @var Koten
      * @var Showers
+     * @var ApplyKotens
+     * @var User
      */
     protected $devices;
     protected $koten;
     protected $showers;
+    protected $apply;
+    protected $user;
 
     /**
      * ProfileController constructor.
      * @param Devices $devices
      */
-    public function __construct(Devices $devices, Koten $koten, Showers $showers)
-    {
+    public function __construct
+    (
+        Devices $devices,
+        Koten $koten,
+        Showers $showers,
+        ApplyKotens $apply,
+        User $user
+    ){
         parent::__construct();
         $this->devices = $devices;
         $this->koten = $koten;
         $this->showers = $showers;
+        $this->apply = $apply;
+        $this->user = $user;
     }
 
     /**
@@ -45,6 +59,8 @@ class ProfileController extends Controller
     {
         $data=[
             'devices' => Auth::user()->getDevices(),
+            'applies' => $this->getApplies(),
+            'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
         ];
         return view('profile.profile',$data);
     }
@@ -89,41 +105,33 @@ class ProfileController extends Controller
         }
         $device = $this->devices->create($data);
         if(isset($showerInput)){
-            $showerInput['device_id'] = $device->id;
-            dd($showerInput);
+            $showerInput=[
+                'device_id' => $device->id,
+            ];
+//            dd($showerInput);
             $this->showers->create($showerInput);
         }
         return back();
     }
 
-    /**
-     * adds living place
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function addKot(Request $request)
+    ///////////////Helper///////////////////////
+
+    private function getApplies()
     {
-        $data = $request->all();
-       if(!$request->pass==''){
-            $data['user_id'] = $this->user_id;
-            $kot = $this->koten->create($data);
-       }else{
-            $kot = $this->koten->FindId($data['kot_id']);
-       }
-        $message=[
-        'error'=>"kot isn't activated",
-            ];
-        if($kot->count()){
-            Auth::user()->koten_id = $kot->id;
-            Auth::user()->save();
-            $message=[
-                'success'=>'kot updated',
-            ];
+        $data=[];
+        $isAdmin = $this->koten->IsAdmin(Auth::user()->id);
+        if($isAdmin->count())
+        {
+            $applies = $this->apply->GetApplies($isAdmin->id);
+            foreach($applies as $key => $apply){
+                $user=Auth::user()->GetInfo($apply->user_id);
+                $data[]=[
+                    'user_id' => $apply->user_id,
+                    'name' => $user->name,
+                    'apply_id' => $apply->id,
+                ];
+            }
         }
-
-
-
-        return back()->withErrors($message);
+        return $data;
     }
 }

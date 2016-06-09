@@ -59,7 +59,7 @@ class PreferenceController extends Controller
         // Get list of followed callendars
         $calendarList = $service->calendarList->listCalendarList();
         $calendars = $this->listCalendars($calendarList);
-
+//    dd($calendars);
        $data = [
            'calendarList' => $calendars,
        ];
@@ -204,16 +204,17 @@ class PreferenceController extends Controller
     public function listCalendars($calendarList)
     {
         $calendars =array();
-        $calendars['following'] = false;
+//        $calendars['following'] = false;
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
                 $find = $this->calendarList->GetCalendar($calendarListEntry->id);
                 $follow = false;
                 if($find->count()){
-                    if($find->follow) {
+                    if($find->follow !=0) {
                         $follow = true;
-                        $calendars['following'] = true;
+//                        $calendars['following'] = true;
+//                        dd('in');
                     }
                 }else {
 

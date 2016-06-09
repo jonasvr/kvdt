@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DatabaseSeeder extends Seeder
+class KotenSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(KotenSeed::class);
+        DB::table('kotens')->insert([
+            'kot_id' => 'k@test123',
+            'pass' => 'test123',
+        ]);
     }
 }

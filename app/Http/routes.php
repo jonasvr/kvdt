@@ -53,7 +53,11 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
         Route::get('/', ['as'=>'profile', 'uses'=>'ProfileController@profile']);
         Route::post('/update', ['as'=>'updateProfile', 'uses'=>'ProfileController@update']);
         Route::post('/addDevice', ['as'   =>  'addDevice', 'uses'    =>'ProfileController@addDevice']);
-        Route::post('/addKot',  ['as'   =>  'addKot', 'uses'    =>'ProfileController@addKot']);
+
+        Route::post('/addKot',  ['as'   =>  'addKot', 'uses'    =>'KotController@addKot']);
+        Route::get('accept/{applyUser_id}/{apply_id}', ['as'=>'acceptApply', 'uses'=>'KotController@acceptApply']);
+        Route::get('remove/{apply_id}', ['as'=>'removeApply', 'uses'=>'KotController@removeApply']);
+
     });
 
 

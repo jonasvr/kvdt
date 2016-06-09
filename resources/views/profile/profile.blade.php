@@ -26,6 +26,22 @@
                     <div>
                        <h1>KOT</h1>
                     </div>
+                    @if($showers->count())
+                        @foreach($showers as $key => $shower )
+                            {{ $shower->device_id }}
+                        @endforeach
+                    @endif
+                    @if(count($applies))
+                        @foreach($applies as $key => $apply)
+                            {{ $apply['name'] }}
+                            <a href="{{ URL::route('acceptApply', ['userApply_id'=>$apply['user_id'],'Apply_id'=>$apply['apply_id']]) }}">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </a>
+                            <a href="{{ URL::route('removeApply', ['Apply_id'=>$apply['apply_id']]) }}">
+                                <span class="glyphicon glyphicon-remove"></span>
+                            </a>
+                        @endforeach
+                    @endif
                 @else
                     {{ Form::open(array('url' => URL::route('addKot'), 'method' => 'Post','class'=>'')) }}
                     <div class="form-group">
@@ -43,7 +59,9 @@
                 <h1>Your devices</h1>
                 @if(isset($devices))
                     @foreach($devices as $key => $device)
-                        <p>{{$device->device_type}} =>  {{$device->device_id}}</p>
+                        @if(!$device['device_type']='shower')
+                            <p>{{$device->device_type}} =>  {{$device->device_id}}</p>
+                        @endif
                     @endforeach
                 @endif
                 {{ Form::open(array('url' => URL::route('addDevice'), 'method' => 'Post','class'=>'')) }}
@@ -55,9 +73,7 @@
                 {{ Form::close() }}
 
                 <h1>Wekker</h1>   {{--<button class="col-md-3">numbers</button>--}}
-                <a href="{{ URL::route('numbers') }}" class="col-md-3 btn btn-default margin-top-20"> numbers</a>
-                <a href="{{ URL::route('mails') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-20"> emails</a>
-                <a href="{{ URL::route('mess') }}" class="col-md-offset-1 col-md-3 btn btn-default margin-top-20"> messages</a>
+                @include('contacts.buttons')
             </div>
         </div>
     </div>
