@@ -18,6 +18,7 @@ class Showers extends Model
      * @return mixed
      */
     public function scopeShowerByKot($query,$koten_id){
-        return $query->where('koten_id','=',$koten_id);
+        return $query->where('koten_id','=',$koten_id)
+            ->join('devices','devices.id','=','showers.device_id');
     }
 }
