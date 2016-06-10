@@ -98,18 +98,17 @@ class ProfileController extends Controller
                 break;
             case 's':
                 $data['device_type'] = 'shower';
-                $showerInput =[
-                    'koten_id' => Auth::user()->koten_id,
-                ];
                 break;
         }
         $device = $this->devices->create($data);
-        if(isset($showerInput)){
+        if($type[0] = 's'){
             $showerInput=[
                 'device_id' => $device->id,
             ];
 //            dd($showerInput);
-            $this->showers->create($showerInput);
+            $newShower = $this->showers->create($showerInput);
+            $newShower->koten_id = Auth::user()->koten_id;
+            $newShower->save();
         }
         return back();
     }

@@ -1,6 +1,9 @@
+
+<div class="clr-white col-md-6 text-center ">
     @foreach($showers as $key => $shower)
-        <div class="clr-white col-md-6 text-center margin-25 border-alarm height-200 {{ (!$shower->state)?'free':'taken' }}">
-            <p>{{ $shower->name}}</p>
+        <div class="{{ (!$shower->state)?'free':'taken' }} padding-10 ">
+            <h4>{{ $shower->name}}</h4>
             <p>{{ (!$shower->state)?'shower is free':'shower is taken' }}</p>
         </div>
     @endforeach
+</div>

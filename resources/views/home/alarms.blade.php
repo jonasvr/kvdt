@@ -1,10 +1,7 @@
-<div class="panel-heading">alarms</div>
-<div class="panel-body row">
-    @foreach($alarms as $key => $alarm)
-        <div class="col-md-3 text-center margin-25 border-alarm height-200">
-            <p>{{ $alarm->summary }}</p>
-            <p>{{ $alarm->alarmDate }}</p>
-            <p>{{ $alarm->alarmTime }}</p>
-        </div>
-    @endforeach
-</div>
+<h3>Alarms</h3> <br>
+@foreach($alarms as $key => $alarm)
+    <h5 class="underline capitalize">{{$alarm->summary}}</h5>
+        <p>{{ $alarm->alarmDate }}</p>
+        <p>{{ $alarm->alarmTime }}</p>
+    <br>
+@endforeach

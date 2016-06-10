@@ -11,11 +11,11 @@ label.green{
 }
 
 .taken{
-    background-color:#54183B;
+    background-color:#A62929;
 }
 
 .background-color{
-    background-color: #20365a;
+    /*background-color: #20365a;*/
 }
 
 .clr-white{
@@ -32,6 +32,14 @@ label.green{
 
 .bgclr-red{
     background-color: #5a0016;
+}
+
+.bgclr-blue{
+    background-color: #20365a;
+}
+
+.bgclr-gray{
+    background-color: #374E58;
 }
 /************************Margins*************************/
 .margin-25{
@@ -70,12 +78,38 @@ label.green{
      max-height:150px;
  }
 
+/**********************padding********************/
+.padding-10{
+    padding: 10px;
+}
+.padding-20{
+    padding: 20px;
+}
+
+.padding-30{
+    padding: 30px;
+}
+.padding-40{
+    padding: 40px;
+}
 
 /**********************Font********************/
 .fnt-size-80{
     font-size: 80px;
 }
 
+.fnt-size-70{
+    font-size: 70px;
+}
+
 .fnt-size-30{
     font-size: 30px;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.capitalize {
+    text-transform: capitalize;
 }

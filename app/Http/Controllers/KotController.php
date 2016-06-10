@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Koten;
 use Auth;
+use App\User;
 use App\Http\Requests\AddKotRequest;
 use App\ApplyKotens;
 
@@ -53,7 +54,8 @@ class KotController extends Controller
             //admin_id meegeven, huidige user
             $kot->update(['user_id' => $this->user_id]);
             $user = Auth::user();
-            $user->update(['koten_id' => $kot->id]);
+            $user->koten_id = $kot->id;
+            $user->save();
         }
         //geen admin geset of admin niet gelijk aan huidige user
         if($kot->user_id !== 0 && $kot->user_id !== Auth::user()->id){
