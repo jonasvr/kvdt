@@ -7,15 +7,31 @@ label.green{
 }
 
 .free{
-    background-color:#009688;
+    background-color:#287368;
 }
 
 .taken{
-    background-color:red;
+    background-color:#54183B;
 }
 
 .background-color{
     background-color: #20365a;
+}
+
+.clr-white{
+    color:white;
+}
+
+.clr-orange{
+    color: #ff6e23;
+}
+
+.bgclr-blackgray{
+    background-color: #23272F;
+}
+
+.bgclr-red{
+    background-color: #5a0016;
 }
 /************************Margins*************************/
 .margin-25{
@@ -54,3 +70,12 @@ label.green{
      max-height:150px;
  }
 
+
+/**********************Font********************/
+.fnt-size-80{
+    font-size: 80px;
+}
+
+.fnt-size-30{
+    font-size: 30px;
+}

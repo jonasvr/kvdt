@@ -2,10 +2,16 @@ body{
     background-color: black;
     height:100%;
     text-align: center; /*http://stackoverflow.com/questions/4980525/css-center-display-inline-block*/
+    color:white;
 }
 .wrapper{
     position: absolute;
     margin: 10px;
     min-height:98%;
     width: 98%;
+}
+
+
+.shower{
+    /*background-color: black;*/
 }
