@@ -353,6 +353,9 @@ class PreferenceController extends Controller
     {
         if ($client->isAccessTokenExpired()){
             $client->refreshToken(Auth::user()->refreshtoken);
+//            $user = Auth::user();
+//            $user->refreshtoken = $client->refreshToken($user->refreshtoken);
+//            $user->save();
             setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
         }
 
