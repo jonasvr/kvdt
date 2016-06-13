@@ -26,6 +26,10 @@ label.green{
     color: #ff6e23;
 }
 
+.navclr-background{
+    background-color: #F8F8F8;
+}
+
 .bgclr-blackgray{
     background-color: #23272F;
 }
@@ -58,6 +62,11 @@ label.green{
 
 .margin-top-40{
     margin-top:40px;
+}
+
+.margin-tb-10{
+    margin-top:10px;
+    margin-bottom:10px;
 }
 
 /************************Borders*************************/

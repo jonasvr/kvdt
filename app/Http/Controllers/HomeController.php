@@ -56,21 +56,20 @@ class HomeController extends Controller
         $showers = $this->showers->ShowerByKot(Auth::user()->koten_id)->get();
         $agenda = $this->events->GetAgenda(Auth::user()->id)->all();
 
-
         foreach ($agenda as $key => $event){
-//            dd($agenda[$key]);
+//            dd($agenda[$key]->start);
             $start = new Carbon($agenda[$key]->start);
-            $agenda[$key]->start = $start->format('j/m/y h:i');
+            $agenda[$key]->start = $start->format('Y-m-j H:i:s');
 
             $end = new Carbon($agenda[$key]->end);
-            $agenda[$key]->end = $end->format('j/m/y h:i');
+            $agenda[$key]->end = $end->format('Y-m-j h:i:s');
         }
 
         $data = [
             'alarms' => $alarms,
             'showers' => $showers,
             'agenda' => $agenda,
-            'today' => Carbon::today()->format('j/m/y'),
+            'today' => Carbon::today()->format('j-m-y'),
         ];
         return view('home', $data);
     }

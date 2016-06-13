@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Events extends Model
 {
@@ -16,7 +17,8 @@ class Events extends Model
     {
         return $query->where('user_id','=',$user_id)
             ->orderby('start','ASC')
-            ->take(5)
+            ->where('start','>=',Carbon::now())
+            ->take(3)
             ->get();
     }
 }

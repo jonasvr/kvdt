@@ -1,4 +1,4 @@
-@extends('layouts.mylayout')
+@extends('layouts.app')
 
 @section('header')
     <link rel="stylesheet" href="/css/welcom.css">
