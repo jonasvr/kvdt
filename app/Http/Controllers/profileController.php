@@ -13,6 +13,7 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\AddDeviceRequest;
 use App\Showers;
 use App\ApplyKotens;
+use JavaScript;
 
 
 class ProfileController extends Controller
@@ -62,6 +63,10 @@ class ProfileController extends Controller
             'applies' => $this->getApplies(),
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
         ];
+
+        JavaScript::put([
+            'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
+        ]);
         return view('profile.profile',$data);
     }
 

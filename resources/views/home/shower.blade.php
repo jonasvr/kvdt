@@ -1,29 +1,31 @@
-   @foreach($showers as $key => $shower)
+<div v-for="(key, shower) in showers"> {{--foreach--}}
+   <div v-if="shower.koten_id = koten_id" class="col-lg-3 col-md-6">
+       <div  v-bind:class=" [panel, shower.state  == 0 ? green : red]">
+           <div class="panel-heading">
+               <div class="row">
+                   <div class="col-xs-3">
+                       <i v-bind:class=" [shower.state == 0 ? unlock : lock]" ></i>
+                   </div>
+                   <div class="col-xs-9 text-right">
+                       <div class="huge">
+                           <div v-if="shower.state == 0">Free</div>
+                           <div v-else>Taken</div>
+                       </div>
+                       <p>shower</p>
+                   </div>
+               </div>
+           </div>
+           <a href="#">
+               <div class="panel-footer">
+                   <span class="pull-left">@{{ shower.name }}</span>
+                   <div class="clearfix"></div>
+               </div>
+           </a>
+       </div>
+   </div>
+</div>
 
-        <div class="col-lg-3 col-md-6">
-            <div class="panel {{ (!$shower->state)?'panel-green':'panel-red' }}">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa {{ (!$shower->state)?'fa-unlock':'fa-lock' }} fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{ (!$shower->state)?'Free':'Taken' }}</div>
-                            <p>shower</p>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">{{ $shower->name}}</span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.24/vue.min.js"></script>--}}
+{{--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.6/socket.io.min.js"></script>--}}
 
-        {{--<div class=" padding-10 ">--}}
-            {{--<h4>{{ $shower->name}}</h4>--}}
-            {{--<p>{{ (!$shower->state)?'shower is free':'shower is taken' }}</p>--}}
-        {{--</div>--}}
-    @endforeach
+{{--<script src="/js/shower.js"></script>--}}

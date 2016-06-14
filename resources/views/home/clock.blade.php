@@ -25,7 +25,6 @@
 @section('js')
     <script>
         $(function startTime() {
-            console.log('in')
             var today = new Date();
             var h = today.getHours();
             var m = today.getMinutes();

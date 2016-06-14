@@ -13,7 +13,7 @@
 
 
     <div class="col-lg-3">
-        <div class="panel panel-primary max-height">
+        <div class="panel panel-primary">
             <div class="panel-heading">
                 <i class="fa fa-calendar fa-fw"></i>Calendars
                 <a href="{{ URL::route('calendars') }}">

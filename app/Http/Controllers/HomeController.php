@@ -9,6 +9,7 @@ use App\Showers;
 use App\Events;
 use Carbon\Carbon;
 use Auth;
+use JavaScript;
 
 
 class HomeController extends Controller
@@ -71,6 +72,11 @@ class HomeController extends Controller
             'agenda' => $agenda,
             'today' => Carbon::today()->format('j-m-y'),
         ];
+
+        JavaScript::put([
+            'showers' => $showers,
+            'koten_id' => Auth::user()->koten_id,
+        ]);
         return view('home', $data);
     }
 

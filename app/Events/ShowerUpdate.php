@@ -3,23 +3,24 @@
 namespace App\Events;
 
 use App\Events\Event;
+use Illuminate\Broadcasting\BroadcastManager;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use App\Showers;
 
-class NewUserSignedUp extends Event implements ShouldBroadcast
+class ShowerUpdate extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
-    public $username;
+    public $showers;
 
     /**
-     * Create a new event instance.
-     *
-     * @return void
+     * ShowerUpdate constructor.
+     * @param Showers $showers
      */
-    public function __construct($username)
+    public function __construct($showers)
     {
-        $this->username = $username;
+        $this->showers = $showers;
     }
 
     /**
@@ -29,6 +30,6 @@ class NewUserSignedUp extends Event implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ['test-channel'];
+        return ['shower-channel'];
     }
 }

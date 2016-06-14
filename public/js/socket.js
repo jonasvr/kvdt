@@ -4,11 +4,11 @@ var server = require('http').Server();
 var io = require('socket.io')(server);
 
 var Redis = require('ioredis');
-var redis = new Redis();
+var shower = new Redis();
 
-redis.subscribe('test-channel');
+shower.subscribe('shower-channel');
 
-redis.on('message', function(channel,message){
+shower.on('message', function(channel,message){
    console.log(channel, message);
     message = JSON.parse(message);
     io.emit(channel + ':' + message.event, message.data);

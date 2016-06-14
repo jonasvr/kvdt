@@ -46,7 +46,7 @@
 
     <!-- Navigation -->
     @include('layouts.newnav')
-    <div id="page-wrapper">
+    <div id="page-wrapper" class=" showerelement">
         @if (count($errors) > 0)
             <div class="alert alert-danger">
                 <ul>
@@ -75,10 +75,10 @@
 <!-- Morris Charts JavaScript -->
 <script src="../bower_components/raphael/raphael-min.js"></script>
 <script src="../bower_components/morrisjs/morris.min.js"></script>
-<script src="../js/morris-data.js"></script>
+{{--<script src="../js/morris-data.js"></script>--}}
 
 <!-- Custom Theme JavaScript -->
-<script src="../dist/js/sb-admin-2.js"></script>
+{{--<script src="../dist/js/sb-admin-2.js"></script>--}}
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
 @yield('js')
