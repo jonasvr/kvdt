@@ -13,7 +13,7 @@
 
                 @foreach($alarms as $key => $alarm)
                     <a href="#" class="list-group-item">
-                        <i class="fa fa-comment fa-fw"></i> {{$alarm->summary}}
+                        <i class="fa fa-clock-o fa-fw"></i> {{$alarm->summary}}
                         <span class="pull-right text-muted small">
                             <br><em>{{ $alarm->alarmDate }} {{ $alarm->alarmTime }}</em>
                                     </span>
@@ -21,7 +21,7 @@
                 @endforeach
             </div>
             <!-- /.list-group -->
-            <a href="#" class="btn btn-default btn-block">View All Alarms</a>
+            <a href="{{ URL::route('alarms') }}" class="btn btn-default btn-block">View All Alarms</a>
         </div>
         <!-- /.panel-body -->
     </div>

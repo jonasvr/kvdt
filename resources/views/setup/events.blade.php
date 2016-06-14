@@ -24,19 +24,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <a href="#">
                                         <div class="panel-footer">
                                             <span class="pull-left">{{$event['startDate']}} {{$event['startTime']}}</span>
                                             <div class="clearfix"></div>
                                         </div>
-                                    </a>
                                 </div>
                             </div>
-
+                            {{ Form::hidden("alarm[$key]",$event['startTime']) }}
+                            {{ Form::hidden("date[$key]", $event['startDate'], ['class' => 'time'])}}
                         @endforeach
-                        {{ Form::hidden("alarm[$key]",$event['startTime']) }}
-                        {{ Form::hidden("date[$key]", $event['startDate'], ['class' => 'time'])}}
-
                     </div>
                     <div class="col-lg-3 col-md-6">
                         {{ Form::submit('Submit!',['class'=>'btn btn-default btn-block margin-tb-10']) }}

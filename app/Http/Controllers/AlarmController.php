@@ -65,6 +65,10 @@ class AlarmController extends Controller
             ->orderBy('alarmDate','ASC')
             ->orderBy('alarmTime','ASC')
             ->get();
+        if($alarms->count() == 0)
+        {
+            return redirect()->route('calendars');
+        }
         $data = ['alarms' => $alarms];
 
         return view('alarms.alarms', $data);

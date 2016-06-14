@@ -13,9 +13,9 @@
 
 
     <div class="col-lg-3">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary max-height">
             <div class="panel-heading">
-                <i class="fa fa-bell fa-fw"></i>Calendars
+                <i class="fa fa-calendar fa-fw"></i>Calendars
                 <a href="{{ URL::route('calendars') }}">
 
                     <span class="fa fa-pencil"></span>
@@ -27,7 +27,7 @@
 
                     @foreach($agenda as $key => $event)
                         <a href="#" class="list-group-item">
-                            <i class="fa fa-comment fa-fw"></i> {{$event->summary}}
+                            <i class="fa fa-calendar-o fa-fw"></i> {{$event->summary}}
                             <span class="pull-right text-muted small">
                             <br><em>{{ $event->start }}</em>
                                     </span>
@@ -35,7 +35,7 @@
                     @endforeach
                 </div>
                 <!-- /.list-group -->
-                <a href="#" class="btn btn-default btn-block">View All Events</a>
+                <a href="{{ URL::route('events') }}" class="btn btn-default btn-block">View All Events</a>
             </div>
             <!-- /.panel-body -->
         </div>

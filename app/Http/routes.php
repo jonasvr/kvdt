@@ -94,3 +94,18 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
 
     Route::get('/home', 'HomeController@index');
 //});
+
+
+
+Route::get('/redis',function(){
+   $data = [
+        'event' => 'UserSignedUp',
+        'data' => [
+            'username'=>'JohnDoe',
+        ],
+    ];
+
+    Redis::publish('test-channel',json_encode($data));
+
+    return 'done';
+});
