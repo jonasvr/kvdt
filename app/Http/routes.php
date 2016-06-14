@@ -1,4 +1,5 @@
 <?php
+use App\events\NewUserSignedUp;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,14 +99,9 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
 
 
 Route::get('/redis',function(){
-   $data = [
-        'event' => 'UserSignedUp',
-        'data' => [
-            'username'=>'JohnDoe',
-        ],
-    ];
 
-    Redis::publish('test-channel',json_encode($data));
 
-    return 'done';
+   event(new NewUserSignedUp('jhonDoe'));
+
+    return view('redis');
 });
