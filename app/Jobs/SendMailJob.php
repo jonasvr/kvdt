@@ -18,10 +18,15 @@ class SendMailJob extends Job implements ShouldQueue
     protected $to;
     protected $from;
     protected $user;
+
     /**
-     * Create a new job instance.
-     *
-     * @return void
+     * SendMailJob constructor.
+     * @param $subject
+     * @param $content
+     * @param $to
+     * @param $from
+     * @param $user
+     * 
      */
     public function __construct($subject, $content, $to,$from,$user)
     {
