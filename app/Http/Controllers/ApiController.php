@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ShowerUpdate;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -17,8 +18,6 @@ use App\Jobs\SendTextJob;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
 use App\Http\Requests\UpdateshowerRequest;
-
-
 
 
 class ApiController extends Controller
@@ -122,6 +121,9 @@ class ApiController extends Controller
         $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
         $shower->state = $request->state;
         $shower->save();
+        
+        
+        event(new ShowerUpdate($this->showers->all()));
 
         return 'succes';
     }

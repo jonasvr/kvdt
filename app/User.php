@@ -47,4 +47,15 @@ class User extends Authenticatable
     public function koten(){
         return $this->belongsTo('App\Koten','koten_id')->withTimestamps();
     }
+
+
+    /**
+     * @param $query
+     * @param $user_id
+     * @return mixed ->name
+     */
+    public function scopeGetInfo($query,$user_id)
+    {
+        return $query->where('id', '=' , $user_id)->first();
+    }
 }

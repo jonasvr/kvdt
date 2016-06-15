@@ -25,6 +25,7 @@ class AddDeviceRequest extends Request
     {
         return [
             'device_id' => "required|unique:devices,device_id",
+            'name' => 'required',
         ];
     }
 }

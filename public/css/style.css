@@ -7,11 +7,43 @@ label.green{
 }
 
 .free{
-    background-color:#009688;
+    background-color:#287368;
 }
 
 .taken{
-    background-color:red;
+    background-color:#A62929;
+}
+
+.background-color{
+    /*background-color: #20365a;*/
+}
+
+.clr-white{
+    color:white;
+}
+
+.clr-orange{
+    color: #ff6e23;
+}
+
+.navclr-background{
+    background-color: #F8F8F8;
+}
+
+.bgclr-blackgray{
+    background-color: #23272F;
+}
+
+.bgclr-red{
+    background-color: #5a0016;
+}
+
+.bgclr-blue{
+    background-color: #20365a;
+}
+
+.bgclr-gray{
+    background-color: #374E58;
 }
 /************************Margins*************************/
 .margin-25{
@@ -32,6 +64,16 @@ label.green{
     margin-top:40px;
 }
 
+.margin-tb-10{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+
+.margin-tb-20{
+    margin-top:20px;
+    margin-bottom:20px;
+}
+
 /************************Borders*************************/
 
 .border-alarm{
@@ -49,3 +91,44 @@ label.green{
      height:150px;
      max-height:150px;
  }
+
+.max-height{
+    min-height:100%;
+    height:100%;
+}
+
+/**********************padding********************/
+.padding-10{
+    padding: 10px;
+}
+.padding-20{
+    padding: 20px;
+}
+
+.padding-30{
+    padding: 30px;
+}
+.padding-40{
+    padding: 40px;
+}
+
+/**********************Font********************/
+.fnt-size-80{
+    font-size: 80px;
+}
+
+.fnt-size-70{
+    font-size: 70px;
+}
+
+.fnt-size-30{
+    font-size: 30px;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}

@@ -163,6 +163,7 @@ return [
         Propaganistas\LaravelPhone\LaravelPhoneServiceProvider::class,
         Unisharp\Ckeditor\ServiceProvider::class,
         js0nvr\Textmagic\TextmagicServiceProvider::class,
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class,
 
 
     ],

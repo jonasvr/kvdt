@@ -20,16 +20,6 @@ class CreateKotensTable extends Migration
             $table->string('name');
             $table->timestamps();
         });
-
-        Schema::create('device_koten',function(Blueprint $table){
-            $table->integer('device_id')->unsigned()->index();
-//            $table->foreign('device_id')->reference('id')->on('devices')->onDelete('cascade');
-
-            $table->integer('koten_id')->unsigned()->index();
-//            $table->foreign('koten_id')->reference('id')->on('kotens')->onDelete('cascade');
-
-            $table->timestamps();
-        });
     }
 
     /**
@@ -40,6 +30,5 @@ class CreateKotensTable extends Migration
     public function down()
     {
         Schema::drop('kotens');
-        Schema::drop('device_koten');
     }
 }

@@ -6,11 +6,11 @@
         <div class="col-md-10 col-md-offset-1">
 
 
-            <h1>edit the emergency contact &amp; message</h1>
+            <h1>Edit the emergency contact &amp; message</h1>
 
             @if($info)
                 <h2>
-                    setted emergency
+                    Setted emergency
                     <a href="{{ URL::route('deleteEmerg', ['id'=>$alarm_id]) }}">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
@@ -23,7 +23,7 @@
 
 
             @endif
-            <h2>choose new emergency setting</h2>
+            <h2>Choose a new emergency setting</h2>
             {{ Form::open(array('url' => URL::route('updateEmerg'), 'method' => 'Post')) }}
             <div class="row">
                 {{  Form::label("type" , "email") }}
@@ -66,7 +66,9 @@
             </div>
             {{ Form::hidden('alarm_id',$alarm_id)}}
             {{ Form::submit('update!', ['name' => 'action']) }}
-
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+            @include('contacts.buttons')
         </div>
     </div>
 </div>

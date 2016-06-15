@@ -1,0 +1,20 @@
+body{
+    background-color: black;
+    text-align: center; /*http://stackoverflow.com/questions/4980525/css-center-display-inline-block*/
+    color:white;
+}
+
+html, body {height: 100%;}
+
+.wrapper {
+    margin: 10px;
+    min-height:98%;
+    width: 98%;
+}
+
+.height-100prc
+{
+    border: 1px solid #000;
+    overflow-y:auto;
+    min-height:98%;
+}

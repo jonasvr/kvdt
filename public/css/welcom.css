@@ -1,0 +1,32 @@
+body{
+    background-color: black;
+    height:100%;
+    text-align: center; /*http://stackoverflow.com/questions/4980525/css-center-display-inline-block*/
+}
+.wrapper{
+    position: absolute;
+    margin: 10px;
+    min-height:98%;
+    width: 98%;
+}
+
+.title-titlepage{
+     display: inline-block;
+ }
+
+.title-titlepage a:hover {
+    text-decoration: none;
+}
+h1{
+    color:white;
+    text-align: center;
+    /*display: inline-flex;*/
+}
+
+.loginbutton{
+    width: inherit;
+    background-color: gray;
+    color: white;
+    font-size:27px;
+    text-align: center;
+}

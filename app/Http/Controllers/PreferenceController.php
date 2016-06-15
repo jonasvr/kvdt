@@ -10,8 +10,9 @@ use Google_Service_Calendar;
 use Cookie;
 use Auth;
 use App\calendarList;
-use Carbon\Carbon;
 use App\Alarms;
+use App\Events;
+use Carbon\Carbon;
 use App\Refreshtokens;
 use App\Http\Requests\SetCalendarRequest;
 use App\Http\Requests\SetEventRequest;
@@ -23,20 +24,23 @@ class PreferenceController extends Controller
     /**
      * @var calendarList
      * @var Alarms
+     * @var Events
      */
     protected $calendarList;
     protected $alarms;
+    protected $events;
 
     /**
      * PreferenceController constructor.
      * @param calendarList $calList
      * @param Alarms $alarms
      */
-    public function __construct(calendarList $calList, Alarms $alarms)
+    public function __construct(calendarList $calList, Alarms $alarms, Events $events)
     {
         parent::__construct();
         $this->calendarList = $calList;
         $this->alarms = $alarms;
+        $this->events = $events;
     }
 
     /**
@@ -59,7 +63,7 @@ class PreferenceController extends Controller
         // Get list of followed callendars
         $calendarList = $service->calendarList->listCalendarList();
         $calendars = $this->listCalendars($calendarList);
-
+//    dd($calendars);
        $data = [
            'calendarList' => $calendars,
        ];
@@ -204,16 +208,17 @@ class PreferenceController extends Controller
     public function listCalendars($calendarList)
     {
         $calendars =array();
-        $calendars['following'] = false;
+//        $calendars['following'] = false;
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
                 $find = $this->calendarList->GetCalendar($calendarListEntry->id);
                 $follow = false;
                 if($find->count()){
-                    if($find->follow) {
+                    if($find->follow !=0) {
                         $follow = true;
-                        $calendars['following'] = true;
+//                        $calendars['following'] = true;
+//                        dd('in');
                     }
                 }else {
 
@@ -256,21 +261,32 @@ class PreferenceController extends Controller
             foreach ($items as $key => $item) { //item binnen calendar
                 $find = $this->alarms->GetAlarm($item->id);
                 if (!$find->count()) {
-                    $start         =   new Carbon( $item['modelData']['start']['dateTime']);
-                    $end           =   new Carbon( $item['modelData']['end']['dateTime']);
-                    $summary       =   $item['summary'];
-                    $pieces        =   explode(' ',$start);
-                    $startDate     =   $pieces[0];
-                    $startTime     =   $pieces[1];
-                    $data          =   $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end.'/'. $summary;
+                    $start = new Carbon( $item['modelData']['start']['dateTime']);
+                    $end = new Carbon( $item['modelData']['end']['dateTime']);
+                    $summary = $item['summary'];
+                    $pieces = explode(' ',$start);
+                    $startDate = $pieces[0];
+                    $startTime = $pieces[1];
+                    $data = $item->id . '/' . $value->calendar_id . '/' . $start . '/' . $end.'/'. $summary;
                     $event = [
-                        'summary'  => $summary,
-                        'start'    => $start, //->format('Y-m-d\TH:i')
-                        'end'      => $end,
-                        'startDate'=> $startDate,
-                        'startTime'=> $startTime,
-                        'data'     => $data,
+                        'summary'=> $summary,
+                        'start'=> $start, //->format('Y-m-d\TH:i')
+                        'end' => $end,
+                        'startDate' => $startDate,
+                        'startTime' => $startTime,
+                        'event_id' => $item->id,
+                        'data' => $data,
                     ];
+
+                    $eventToDb = [
+                        'user_id' => $this->user_id,
+                        'summary'=> $summary,
+                        'start'=> $start, //->format('Y-m-d\TH:i')
+                        'end' => $end,
+                        'event_id' => $item->id,
+                    ];
+                    $this->events->firstOrCreate($eventToDb);
+
                     $events[]=$event;
                 }
             }
@@ -337,6 +353,9 @@ class PreferenceController extends Controller
     {
         if ($client->isAccessTokenExpired()){
             $client->refreshToken(Auth::user()->refreshtoken);
+//            $user = Auth::user();
+//            $user->refreshtoken = $client->refreshToken($user->refreshtoken);
+//            $user->save();
             setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
         }
 
