@@ -15,6 +15,7 @@ use App\PhoneNumbers;
 use App\Showers;
 use App\Jobs\SendMailJob;
 use App\Jobs\SendTextJob;
+use App\Jobs\ConfirmMail;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
 use App\Http\Requests\UpdateshowerRequest;
@@ -110,6 +111,9 @@ class ApiController extends Controller
                 $this->sendText($emergency,$content);
                 break;
         }
+
+
+
         
         return 'sended';
     }
@@ -141,6 +145,14 @@ class ApiController extends Controller
             $to->mail, $from,
             Auth::user()->name
         ));
+
+
+        $this->dispatch(new ConfirmMail(
+            $content->title,
+            $content->message,
+            $to->mail, $from,
+            Auth::user()->name
+        ));
     }
 
     private function sendText($emergency, $content)
@@ -148,6 +160,11 @@ class ApiController extends Controller
         echo 'sending text 1';
         $to = $this->nrs->findOrFail($emergency->contact_id);
         $this->dispatch(new SendTextJob($content->message, $to->nr));
-    }
 
+        $this->dispatch(new ConfirmMail(
+            $content->message,
+            $to->mail,
+            Auth::user()->name
+        ));
+    }
 }
