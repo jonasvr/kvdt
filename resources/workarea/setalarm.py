@@ -4,7 +4,7 @@ from crontab import CronTab
 
 #get time to set clock
 url = 'http://kvdt.eu/api/setalarm'
-device_id = 'test123'
+device_id = 'w@test123'
 
 query_args = {'device_id': device_id}
 data = urllib.urlencode(query_args)

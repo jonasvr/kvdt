@@ -7,6 +7,8 @@ from crontab import CronTab
 import urllib2
 import urllib
 
+import datetime
+
 #if snooze is pressed to much
 def emergency():
         url = 'http://kvdt.eu/api/emergency'
@@ -26,6 +28,9 @@ def emergency():
         print response
         return;
 
+#minuut aan snoozen -> needed for check
+settime = datetime.datetime.now()
+
 buttonStop = Button(2)
 buttonSnooze =  Button(3)
 
@@ -36,48 +41,52 @@ pygame.mixer.init()
 s = pygame.mixer.Sound("/home/pi/Desktop/workarea/police_s.wav")
 s.play()
 
+snoozeCounter = 0
+snooze = False;
+
 playing = True
 while playing:
-        # snooze
-        if buttonSnooze.is_pressed:
-            s.stop()
-            playing = False
-            cron.remove_all()
-            job = cron.new(command='python /home/pi/Desktop/workarea/play.py')
-            job.minute.every(1)
-            cron.write()
-            print cron.render()
-            snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","r")
-            snooze =  snoozefile.read()
-            snoozefile.close()
-                #checken hoeveel er gesnoozed is 
-            if int(snooze) != 1:
-                  snooze = int(snooze) + 1                  
-                  snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","w")
-                  snoozefile.write(str(snooze))
-                  snoozefile.close()
-            else: #teveel gesnoozed >3
-                  print ('in')
-                  s.stop()
-                  playing = False
-                  emergency()
-                  cron.remove_all()
-                  job = cron.new(command='python /home/pi/Desktop/workarea/setalarm.py')
-                  job.minute.every(1)
-                  cron.write()
-                  snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","w")
-                  snoozefile.write('0')
-                  snoozefile.close()
-        #alarm stoppen
-        elif buttonStop.is_pressed:
-            s.stop()
-            playing = False
-            job = cron.new(command='python /home/pi/Desktop/workarea/setalarm.py')
-            job.minute.every(1)
-            cron.write()
-            print cron.render()
-            snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","w")
-            snoozefile.write('0')
-            snoozefile.close()
+        if snooze == False:
+                # snooze
+                if buttonSnooze.is_pressed or settime < datetime.datetime.now() - datetime.timedelta(seconds = 60):
+                    s.stop()
+                    print (snoozeCounter)
+                    if snoozeCounter <= 3:
+                          print ('in')
+                          snoozeCounter = snoozeCounter + 1
+                          snoozeTime = datetime.datetime.now()
+                          snooze = True
+                    else: #teveel gesnoozed >3
+                          s.stop()
+                          playing = False
+                          emergency()
+                          cron.remove_all()
+                          job = cron.new(command='python /home/pi/Desktop/workarea/setalarm.py')
+                          job.minute.every(1)
+                          cron.write()
+                #alarm stoppen
+                elif buttonStop.is_pressed:
+                    s.stop()
+                    playing = False
+                    job = cron.new(command='python /home/pi/Desktop/workarea/setalarm.py')
+                    job.minute.every(1)
+                    cron.write()
+                    print cron.render()
+                    snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","w")
+                    snoozefile.write('0')
+                    snoozefile.close()
+        else:
+                if snoozeTime < datetime.datetime.now() - datetime.timedelta(seconds = 60*5):
+                        snooze = False
+                        s.play()
+                elif buttonStop.is_pressed:
+                    s.stop()
+                    job = cron.new(command='python /home/pi/Desktop/workarea/setalarm.py')
+                    job.minute.every(1)
+                    cron.write()
+                    print cron.render()
+                    snoozefile = open("/home/pi/Desktop/workarea/snooze.txt","w")
+                    snoozefile.write('0')
+                    snoozefile.close()
         
         
