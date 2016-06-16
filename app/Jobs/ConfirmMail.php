@@ -33,19 +33,16 @@ class ConfirmMail extends Job implements ShouldQueue
      */
     public function handle()
     {
-        $to = $this->to;
-
-        $content = " emergency has sended to :" . $to . "</br>
+        $content = " emergency has sended to :" . $this->to . "</br>
         with following message: </br>".$this->content;
-         $user = $this->user;
 
         Mail::send('mails.send', [
             'title' => 'emergency sended',
             'content' => $content
         ],
-            function ($message) use ($to,$user)
+            function ($message)
             {
-                $message->to($user);
+                $message->to($this->user);
             });
 
         return response()->json(['message' => 'mail completed']);

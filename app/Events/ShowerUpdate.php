@@ -12,6 +12,9 @@ class ShowerUpdate extends Event implements ShouldBroadcast
 {
     use SerializesModels;
 
+    /**
+     * @var Showers
+     */
     public $showers;
 
     /**

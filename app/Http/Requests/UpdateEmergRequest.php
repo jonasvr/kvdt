@@ -8,17 +8,6 @@ use App\Emergencies;
 class UpdateEmergRequest extends Request
 {
     /**
-     * @var Emergencies
-     */
-    protected $emerg;
-
-    public function __construct(Emergencies $emerg)
-    {
-//        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
-        $this->emerg = $emerg; //=> gedoet hier niks mee
-    }
-
-    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool

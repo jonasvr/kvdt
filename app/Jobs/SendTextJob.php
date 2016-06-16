@@ -32,15 +32,13 @@ class SendTextJob extends Job implements ShouldQueue
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function handle(){
-        // same as u andere job + code styling
-        $number = $this->number;
-        $text = $this->text;
-        $text =  strip_tags($text);
+    public function handle()
+    {
+        $text =  strip_tags($this->text);
 
         Textmagic::trigger('messages','create', [
             'text'      => $text,
-            'phones'    => $number,
+            'phones'    => $this->number,
         ]);
 
         return response()->json(['message' => 'text completed']);

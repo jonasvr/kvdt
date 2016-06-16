@@ -14,17 +14,25 @@ use App\Http\Requests\UpdateEmergRequest;
 
 class AlarmController extends Controller
 {
-    /** => not good dockblock per property
+    /**
      * @var PhoneNumbers
-     * @var Mails
-     * @var Messages
-     * @var Emergencies
-     * @var Alarms
      */
     protected $nrs;
+    /**
+     * @var Mails
+     */
     protected $mail;
+    /**
+     * @var Messages
+     */
     protected $messages;
+    /**
+     * @var Emergencies
+     */
     protected $emergencies;
+    /**
+     * @var Alarms
+     */
     protected $alarms;
 
     /**
@@ -65,8 +73,7 @@ class AlarmController extends Controller
             ->orderBy('alarmDate','ASC')
             ->orderBy('alarmTime','ASC')
             ->get();
-        if($alarms->count() == 0)
-        { // code styling => { op zelfde lijn als if
+        if($alarms->count() == 0) {
             return redirect()->route('calendars');
         }
         $data = ['alarms' => $alarms];
@@ -184,11 +191,11 @@ class AlarmController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteEmerg($alarm_id) //helper
-    { //code styling dubbele tabs gebruikt
-            $emerg = $this->emergencies->FirstIfExist($alarm_id);
-            if($emerg){
-                $emerg->delete();
-            }
+    {
+        $emerg = $this->emergencies->FirstIfExist($alarm_id);
+        if($emerg){
+            $emerg->delete();
+        }
         
         return back();
     }

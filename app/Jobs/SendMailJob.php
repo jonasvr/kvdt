@@ -44,19 +44,12 @@ class SendMailJob extends Job implements ShouldQueue
      */
     public function handle()
     {
-        // waarom steekt ge dit nog eens in lokale variablene als je class gloabals hebt die je overal kan gebruiken???
-        $to = $this->to;
-        $subject = $this->subject;
-        $content = $this->content;
-        $from = $this->from;
-        $user = $this->user; 
-
-        Mail::send('mails.send', ['title' => $subject, 'content' => $content],
-            function ($message) use ($subject, $to,$from,$user)
+        Mail::send('mails.send', ['title' => $this->subject, 'content' => $this->content],
+            function ($message)
         {
-            $message->from($from, 'Jonas Van Reeth');
-            $message->subject($subject);
-            $message->to($to);
+            $message->from($this->from, $this->user->name);
+            $message->subject($this->subject);
+            $message->to($this->to);
         });
 
         return response()->json(['message' => 'mail completed']);

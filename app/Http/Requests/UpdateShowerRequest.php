@@ -33,10 +33,14 @@ class UpdateShowerRequest extends Request
      */
     public function authorize()
     {
-        $device = $this->devices->where('device_id','=',$this->device_id)->firstOrFail();
-        $this->showers->where('device_id','=',$device->id)->firstOrFail();
-        /// whuuut?
-        return true;
+        $device = $this->devices->where('device_id','=',$this->device_id)->first();
+        if ($device->count()){
+            if ($this->showers->where('device_id','=',$device->id)->first()->count()){
+                return true;
+            }
+        }
+        return false;
+
     }
 
     /**

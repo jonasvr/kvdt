@@ -7,18 +7,7 @@ use App\Koten;
 
 class AddKotRequest extends Request
 {
-    protected $koten;
-
-    /**
-     * AddKotRequest constructor.
-     * @param Kotens $koten
-     */
-    public function __construct(Koten $koten)
-    {
-        $this->koten = $koten; // ge doet hier niks mee?
-    }
-
-    /**
+   /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
