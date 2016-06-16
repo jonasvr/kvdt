@@ -29,7 +29,7 @@
                         <a href="#" class="list-group-item">
                             <i class="fa fa-calendar-o fa-fw"></i> {{$event->summary}}
                             <span class="pull-right text-muted small">
-                            <br><em>{{ $event->start }}</em>
+                            <br><em>{{  substr(substr($event->start, 5),0, -3) }}</em>
                                     </span>
                         </a>
                     @endforeach

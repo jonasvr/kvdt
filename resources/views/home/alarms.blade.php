@@ -15,7 +15,7 @@
                     <a href="#" class="list-group-item">
                         <i class="fa fa-clock-o fa-fw"></i> {{$alarm->summary}}
                         <span class="pull-right text-muted small">
-                            <br><em>{{ $alarm->alarmDate }} {{ $alarm->alarmTime }}</em>
+                            <br><em>{{ substr($alarm->alarmDate, 5) }} {{ substr($alarm->alarmTime,0, -3) }}</em>
                                     </span>
                     </a>
                 @endforeach
