@@ -35,7 +35,7 @@ class UpdateShowerRequest extends Request
     {
         $device = $this->devices->where('device_id','=',$this->device_id)->firstOrFail();
         $this->showers->where('device_id','=',$device->id)->firstOrFail();
-
+        /// whuuut?
         return true;
     }
 

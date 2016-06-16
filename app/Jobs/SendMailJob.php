@@ -39,11 +39,12 @@ class SendMailJob extends Job implements ShouldQueue
      */
     public function handle()
     {
+        // waarom steekt ge dit nog eens in lokale variablene als je class gloabals hebt die je overal kan gebruiken???
         $to = $this->to;
         $subject = $this->subject;
         $content = $this->content;
         $from = $this->from;
-        $user = $this->user;
+        $user = $this->user; 
 
         Mail::send('mails.send', ['title' => $subject, 'content' => $content],
             function ($message) use ($subject, $to,$from,$user)

@@ -15,7 +15,7 @@ class AddKotRequest extends Request
      */
     public function __construct(Koten $koten)
     {
-        $this->koten = $koten;
+        $this->koten = $koten; // ge doet hier niks mee?
     }
 
     /**

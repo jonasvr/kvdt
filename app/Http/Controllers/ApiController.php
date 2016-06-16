@@ -22,7 +22,7 @@ use App\Http\Requests\UpdateshowerRequest;
 
 class ApiController extends Controller
 {
-    /**
+    /** => what does this do here????
      * ApiController constructor.
      * @var Devices
      * @var Alarms

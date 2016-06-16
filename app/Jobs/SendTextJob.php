@@ -33,6 +33,7 @@ class SendTextJob extends Job implements ShouldQueue
      * @return \Illuminate\Http\JsonResponse
      */
     public function handle(){
+        // same as u andere job + code styling
         $number = $this->number;
         $text = $this->text;
         $text =  strip_tags($text);

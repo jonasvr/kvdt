@@ -15,7 +15,7 @@ class UpdateEmergRequest extends Request
     public function __construct(Emergencies $emerg)
     {
 //        parent::__construct($query, $request, $attributes, $cookies, $files, $server, $content);
-        $this->emerg = $emerg;
+        $this->emerg = $emerg; //=> gedoet hier niks mee
     }
 
     /**
