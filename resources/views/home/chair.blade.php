@@ -5,7 +5,7 @@
     {{--10 min wandelen--}}
 {{--</div>--}}
 
-<div class="col-lg-3 col-md-6">
+<div class="col-lg-4 col-md-6">
     <div class="panel panel-info">
         <div class="panel-heading">
             <div class="row">

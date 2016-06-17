@@ -115,7 +115,7 @@
                 </p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="/img/ipad.png" alt="">
+                <img class="img-responsive" src="/img/chair.jpg" alt="">
             </div>
         </div>
 
@@ -140,7 +140,7 @@
                 </p>
             </div>
             <div class="col-lg-5 col-sm-pull-6  col-sm-6">
-                <img class="img-responsive" src="/img/dog.png" alt="">
+                <img class="img-responsive" src="/img/lock.jpg" alt="">
             </div>
         </div>
 
@@ -166,7 +166,7 @@
                 </p>
             </div>
             <div class="col-lg-5 col-lg-offset-2 col-sm-6">
-                <img class="img-responsive" src="/img/phones.png" alt="">
+                <img class="img-responsive" src="/img/clock.jpg" alt="">
             </div>
         </div>
 

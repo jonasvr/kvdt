@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-6 col-md-5">
 
             <div class="panel panel-primary">
                 <div class="panel-heading">
@@ -33,7 +33,7 @@
                 <!-- /.panel-body -->
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-5">
 
             <div class="panel panel-green">
                 <div class="panel-heading">

@@ -88,18 +88,44 @@
         }).trigger("change");
     </script>
 @endsection
-{{-- {{ Form::open(array('url' => URL::route('updateAlarm'), 'method' => 'Post')) }}
-@foreach($alarms as $key => $event)
-    <div value="event">
-        {{ Form::checkbox("event[$key]", $event['event_id'], FALSE, ['id'=>'link' . $key]) }}
-        {{ Form::time("alarmTime[$key]",$event['alarmTime']) }}
-
-        {{ Form::label("link$key" , $event['start'] . ' => ' .$event['summary']) }}
-        <a href="{{ URL::route('deleteMess', ['id'=>$event->id]) }}"><span class="glyphicon glyphicon-cog"></span></a>
-        <a href="{{ URL::route('deleteMess', ['id'=>$message->id]) }}"><span class="glyphicon glyphicon-remove"></span></a>
-        {{  Form::hidden("alarmDate[$key]", $event['alarmDate'], ['class' => 'time'])}}
+<h2>Choose a new emergency setting</h2>
+{{ Form::open(array('url' => URL::route('updateEmerg'), 'method' => 'Post')) }}
+<div class="row">
+    <div class="col-offset-1 col-md-4">
+        {{  Form::label("type" , "email") }}
+        {{  Form::radio('type', 'mail',['selected'=>'selected'])}}
+        {{  Form::label("type" , "text message") }}
+        {{  Form::radio('type', 'sms')}}
     </div>
-@endforeach
-{{ Form::submit('update!', ['name' => 'action']) }}
-{{ Form::submit('remove!',['name' => 'action']) }}
-{{ Form::close() }} --}}
+    <br><br><br>
+    <div class="col-md-12">
+        @foreach($messages as $key => $message)
+            <div class="{{ count($message->message)>140? 'mail':'sms' }}" >
+                <div class="col-lg-6 col-md-6">
+                    <div class="panel panel-green">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    {{Form::radio('message_id', $message->id)}}
+                                    <i class="fa fa-envelope fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <strong class="">{{ $message->title }}</strong>
+                                    <p>{!! substr($message->message,0,200) !!}...</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{--<h4>{{ Form::label("message_id" , $message->title) }}--}}
+                {{--{{Form::radio('message_id', $message->id)}}--}}
+                {{--</h4>--}}
+                {{--<p>--}}
+                {{--{!! substr($message->message,0,200) !!}...--}}
+                {{--</p>--}}
+            </div>
+
+        @endforeach
+    </div>

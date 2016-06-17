@@ -45,6 +45,8 @@ label.green{
 .bgclr-gray{
     background-color: #374E58;
 }
+
+
 /************************Margins*************************/
 .margin-25{
     margin:25px;
@@ -132,3 +134,46 @@ label.green{
 .capitalize {
     text-transform: capitalize;
 }
+
+/***************************panel*****************/
+
+.panel-primary>.panel-heading{
+    background-color: #99C3DD;
+    border-color: #99C3DD;
+}
+.panel-primary{
+    border-color: #99C3DD;
+}
+
+.panel-yellow>.panel-heading{
+    background-color: #F8D244;
+    border-color: #F8D244;
+}
+.panel-yellow{
+    border-color: #F8D244;
+}
+
+.panel-green>.panel-heading{
+    background-color: #89aa44;
+    border-color: #89aa44;
+}
+.panel-green{
+    border-color: #89aa44;
+}
+
+.panel-red>.panel-heading{
+    background-color: #e38881;
+    border-color: #e38881;
+}
+.panel-red{
+    border-color: #e38881;
+}
+
+.panel-info>.panel-heading{
+    background-color: #CAEBFF;
+    border-color: #CAEBFF;
+}
+.panel-info{
+    border-color: #CAEBFF;
+}
+

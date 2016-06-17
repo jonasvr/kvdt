@@ -1,5 +1,8 @@
-var showers = window.showers;
-console.log(koten_id)
+// var showers = window.showers;
+// console.log(koten_id)
+// if(typeof koten_id == "undefined") {
+// koten_id = 1;
+// }
 var socket = io('http://192.168.56.101:3000');
 new Vue({
     el: '.showerelement',
@@ -18,6 +21,7 @@ new Vue({
         console.log('in ready');
         socket.on('shower-channel:App\\Events\\ShowerUpdate', function(data) {
             this.showers = data.showers;
+            console.log(showers);
         }.bind(this));
     }
 });

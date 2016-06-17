@@ -64,14 +64,23 @@ class AuthController extends Controller
     //notice we are not doing any validation, you should do it
         setcookie('accessToken', '', time()-3600, "/");
         // dd( Socialite::driver($provider)->user());
-       $user = Socialite::driver($provider)->user();
+       $user = Socialite::driver($provider)->stateless()->user();
     //  dd($user);
     //  dd($user->getToken());
        // stroing data to our use table and logging them in
        $data = [
-           'name' => $user->getName(),
-           'email' => $user->getEmail(),
+           'name' => $user->name,
+           'email' => $user->email,
        ];
+
+//       $user = Socialite::driver($provider)->user();
+//       //  dd($user);
+//       //  dd($user->getToken());
+//       // stroing data to our use table and logging them in
+//       $data = [
+//           'name' => $user->getName(),
+//           'email' => $user->getEmail(),
+//       ];
        Auth::login(User::firstOrCreate($data));
     // dd($user); //=> zelf geschreven in vendor/socialite/src/two/user.php
     //    setcookie('accessToken', $user->getToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
