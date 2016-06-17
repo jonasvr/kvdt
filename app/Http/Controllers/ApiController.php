@@ -19,6 +19,7 @@ use App\Jobs\ConfirmMail;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
 use App\Http\Requests\UpdateshowerRequest;
+use App\Http\Requests\UpdateChairRequest;
 
 
 class ApiController extends Controller
@@ -137,10 +138,31 @@ class ApiController extends Controller
         $shower->save();
         
         
-        event(new ShowerUpdate($this->showers->all()));
+        event(new ShowerUpdate($this->showers));
 
         return 'succes';
     }
+
+    public function ShowerGet($device_id, $state)
+    {
+        $device = $this->devices->where('device_id','=',$device_id)->firstOrFail();
+        $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
+        $shower->state = $state;
+        $shower->save();
+
+
+        event(new ShowerUpdate($this->showers));
+
+        return 'succes';
+    }
+
+
+    public function Chair(UpdateChairRequest $request)
+    {
+
+    }
+
+
 /////////////////Helpers//////////////////////
     private function sendMail($emergency, $content)
     {

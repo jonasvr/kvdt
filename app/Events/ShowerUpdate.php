@@ -23,7 +23,7 @@ class ShowerUpdate extends Event implements ShouldBroadcast
      */
     public function __construct(Showers $showers)
     {
-        $this->showers = $showers;
+        $this->showers = $showers->all();
     }
 
     /**

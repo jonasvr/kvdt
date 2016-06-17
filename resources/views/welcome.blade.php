@@ -196,7 +196,7 @@
                         <a href="#services">Services</a>
                     </li>
                 </ul>
-                <p class="copyright text-muted small">Copyright &copy; Your Company 2014. All Rights Reserved</p>
+                <p class="copyright text-muted small">Copyright &copy; Kot van de Toekomst 2016. All Rights Reserved</p>
             </div>
         </div>
     </div>

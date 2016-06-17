@@ -4,30 +4,24 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\Request;
 use App\Devices;
-use App\Showers;
+use App\Chairs;
 
-class UpdateShowerRequest extends Request
+class UpdateChairRequest extends Request
 {
     /**
      * @var Devices
      */
     protected $devices;
     /**
-     * @var Showers
+     * @var Chairs
      */
-    protected $showers;
+    protected $chairs;
 
-    /**
-     * UpdateShowerRequest constructor.
-     * @param Devices $devices
-     * @param Showers $showers
-     */
-    public function __construct(Devices $devices, Showers $showers)
+    public function __construct(Devices $devices, Chairs $chairs)
     {
         $this->devices = $devices;
-        $this->showers = $showers;
+        $this->chairs = $chairs;
     }
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -37,12 +31,11 @@ class UpdateShowerRequest extends Request
     {
         $device = $this->devices->where('device_id','=',$this->device_id)->first();
         if ($device->count()){
-            if ($this->showers->where('device_id','=',$device->id)->first()->count()){
+            if ($this->chairs->where('device_id','=',$device->id)->first()->count()){
                 return true;
             }
         }
         return false;
-
     }
 
     /**
@@ -53,7 +46,7 @@ class UpdateShowerRequest extends Request
     public function rules()
     {
         return [
-            'state' => 'required|boolean',
+            'state' => 'required',
         ];
     }
 }

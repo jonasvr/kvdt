@@ -16,14 +16,21 @@ class HomeController extends Controller
 {
     /**
      * @var Alarms
-     * @var Devices
-     * @var Showers
-     * @var Events
      */
     protected $alarms;
+    /**
+     * @var Showers
+     */
     protected $showers;
+    /**
+     * @var Devices
+     */
     protected $devices;
+    /**
+     * @var Events
+     */
     protected $events;
+
 
     /**
      * HomeController constructor.

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Chairs;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,20 +21,37 @@ class ProfileController extends Controller
 {
     /**
      * @var Devices
-     * @var Koten
-     * @var Showers
-     * @var ApplyKotens
-     * @var User
      */
     protected $devices;
+    /**
+     * @var Koten
+     */
     protected $koten;
+    /**
+     * @var Showers
+     */
     protected $showers;
+    /**
+     * @var ApplyKotens
+     */
     protected $apply;
+    /**
+     * @var User
+     */
     protected $user;
+    /**
+     * @var Chairs
+     */
+    protected $chair;
 
     /**
      * ProfileController constructor.
      * @param Devices $devices
+     * @param Koten $koten
+     * @param Showers $showers
+     * @param ApplyKotens $apply
+     * @param User $user
+     * @param \App\Http\Controllers\Chairs $chair
      */
     public function __construct
     (
@@ -41,7 +59,8 @@ class ProfileController extends Controller
         Koten $koten,
         Showers $showers,
         ApplyKotens $apply,
-        User $user
+        User $user,
+        Chairs $chair
     ){
         parent::__construct();
         $this->devices = $devices;
@@ -49,6 +68,7 @@ class ProfileController extends Controller
         $this->showers = $showers;
         $this->apply = $apply;
         $this->user = $user;
+        $this->chair = $chair;
     }
 
     /**
@@ -100,25 +120,31 @@ class ProfileController extends Controller
         switch ($type[0]){
             case 'w':
                 $data['device_type'] = 'wekker';
+                $device = $this->devices->create($data);
                 break;
             case 's':
                 $data['device_type'] = 'shower';
+                $device = $this->devices->create($data);
+                $input=['device_id' => $device->id];
+                $this->newDevice($this->showers->create($input));
                 break;
-        }
-        $device = $this->devices->create($data);
-        if($type[0] = 's'){
-            $showerInput=[
-                'device_id' => $device->id,
-            ];
-//            dd($showerInput);
-            $newShower = $this->showers->create($showerInput);
-            $newShower->koten_id = Auth::user()->koten_id;
-            $newShower->save();
+            case 'c':
+                $data['device_type'] = 'chair';
+                $device = $this->devices->create($data);
+                $input=['device_id' => $device->id];
+                $this->newDevice($this->chairs->create($input));
+                break;
         }
         return back();
     }
 
     ///////////////Helper///////////////////////
+
+    private function newDevice($new)
+    {
+        $new->koten_id = Auth::user()->koten_id;
+        $new->save();
+    }
 
     private function getApplies()
     {

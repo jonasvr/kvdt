@@ -16,11 +16,15 @@ class KotController extends Controller
 {
     /**
      * @var Koten
-     * @var ApplyKotens
-     * @var User
      */
     protected $koten;
+    /**
+     * @var ApplyKotens
+     */
     protected $apply;
+    /**
+     * @var User
+     */
     protected $user;
 
     /**

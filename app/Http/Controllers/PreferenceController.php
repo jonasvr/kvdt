@@ -23,11 +23,15 @@ class PreferenceController extends Controller
 {
     /**
      * @var calendarList
-     * @var Alarms
-     * @var Events
      */
     protected $calendarList;
+    /**
+     * @var Alarms
+     */
     protected $alarms;
+    /**
+     * @var Events
+     */
     protected $events;
 
     /**
