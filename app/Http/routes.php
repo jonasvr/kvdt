@@ -16,6 +16,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/loginm',['as'=>'loginm', 'uses'=> 'Auth\AuthController@loginm']);
 
 Route::group(['prefix' => 'api','middleware' => 'api'], function () {
     Route::post('setalarm', 'ApiController@setAlarm');

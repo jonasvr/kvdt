@@ -38,6 +38,7 @@ class PreferenceController extends Controller
      * PreferenceController constructor.
      * @param calendarList $calList
      * @param Alarms $alarms
+     * @param Events $events
      */
     public function __construct(calendarList $calList, Alarms $alarms, Events $events)
     {
@@ -166,21 +167,13 @@ class PreferenceController extends Controller
 
         return $client;
     }
-
-
-
-
-
-
-
-    /////////////HELPERS///////////////
+   /////////////HELPERS///////////////
 
     /**
      * setting the alarm
      *
      * @param $data
      */
-
     public function setAlarms($data)
     {
         $events = $data['event'];
@@ -212,7 +205,6 @@ class PreferenceController extends Controller
     public function listCalendars($calendarList)
     {
         $calendars =array();
-//        $calendars['following'] = false;
         while(true) {
             foreach ($calendarList->getItems() as $calendarListEntry) {
                 // check if exist & followed or not
@@ -299,7 +291,6 @@ class PreferenceController extends Controller
         return $events;
     }
 
-
     /**
      * set up info to connect to google
      *
@@ -353,18 +344,18 @@ class PreferenceController extends Controller
         return $accessToken;
     }
 
+    /**
+     * @param $client
+     * @return mixed
+     */
     public function checkRefreshToken($client)
     {
         if ($client->isAccessTokenExpired()){
             $client->refreshToken(Auth::user()->refreshtoken);
-//            $user = Auth::user();
-//            $user->refreshtoken = $client->refreshToken($user->refreshtoken);
-//            $user->save();
             setcookie('accessToken', $client->getAccessToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
         }
 
         return $client;
     }
-
 
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Cookie;
 use Google_Client;
 
+
 class AuthController extends Controller
 {
     /*
@@ -58,6 +59,14 @@ class AuthController extends Controller
       ];
        return Socialite::driver($provider)->scopes($scopes)->with($parameters)->redirect();
    }
+
+    public function loginm(){
+        $data = [
+            'email' => $_GET['email'],
+        ];
+        Auth::login(User::firstOrCreate($data));
+        return redirect($this->redirectPath());
+    }
 
     public function handleProviderCallback($provider)
    {
