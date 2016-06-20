@@ -34,7 +34,7 @@ class SendMailJob extends Job implements ShouldQueue
         $this->content = $content;
         $this->to = $to;
         $this->from = $from;
-        $user->user= $user;
+        $this->user= $user;
     }
 
     /**
@@ -47,6 +47,7 @@ class SendMailJob extends Job implements ShouldQueue
         Mail::send('mails.send', ['title' => $this->subject, 'content' => $this->content],
             function ($message)
         {
+//            dd($this->user);
             $message->from($this->from, $this->user->name);
             $message->subject($this->subject);
             $message->to($this->to);

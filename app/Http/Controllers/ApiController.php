@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Events\ShowerUpdate;
+use App\User;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Auth;
 use App\Alarms;
 use App\Devices;
 use App\Mails;
@@ -111,12 +113,13 @@ class ApiController extends Controller
      */
     public function emergency(CallEmergencyRequest $request)
     {
-        $alarm = $this->alarms->scopeCheckID($this->alarm_id);
-        $emergency = $this->emergencies->FirstIffExist($alarm->id);
-        $content = $this->messages->firstOrFail($emergency->message_id);
+        $alarm = $this->alarms->CheckID($request->alarm_id);
+        $emergency = $this->emergencies->FirstIfExist($alarm->id);
+        $content = $this->messages->where('id','=',$emergency->message_id)->first();
         switch ($emergency->contact_type) {
             case 0:
-                $this->sendMail($emergency,$content);
+                $user = User::GetInfo($alarm->user_id);
+                $this->sendMail($emergency,$content,$user);
                 break;
             case 1:
                 $this->sendText($emergency,$content);
@@ -164,26 +167,28 @@ class ApiController extends Controller
 
 
 /////////////////Helpers//////////////////////
-    private function sendMail($emergency, $content)
+    private function sendMail($emergency, $content,$user)
     {
         $to = $this->mails->find($emergency->contact_id);
-        $from = Auth::user()->email;
-        if (Auth::user()->mailAlias) {
-            $from = Auth::user()->mailAlias;
+//        $this->alarms;
+        if ($user->mailAlias) {
+            $from = $user->mailAlias;
+        }else{
+            $from = $user->email;
         }
-        $this->dispatch(new SendMailJob(
-            $content->title,
-            $content->message,
-            $to->mail, $from,
-            Auth::user()->name
-        ));
+//        dd($user->name);
+//        $this->dispatch(new SendMailJob(
+//            $content->title,
+//            $content->message,
+//            $to->mail, $from,
+//            $user
+//        ));
 
 
         $this->dispatch(new ConfirmMail(
-            $content->title,
             $content->message,
-            $to->mail, $from,
-            Auth::user()->name
+            $to->mail,
+            $user
         ));
     }
 
