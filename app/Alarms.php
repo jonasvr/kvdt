@@ -23,7 +23,7 @@ class Alarms extends Model
         $alarm = $query->where('user_id','=',$user_id)
             ->orderby('alarmDate','ASC')
             ->orderby('alarmTime', 'DESC')
-            ->where('alarmTime', '>',$time)
+            ->where('alarmTime', '>=',$time)
             ->where('alarmDate', '>=',$date)
             ->first();
 
@@ -32,9 +32,16 @@ class Alarms extends Model
 
     public function scopeGetAlarm($query,$alarm_id)
     {
+        $now = Carbon::now();
+        $time = $now->toTimeString();
+        $date = $now->toDateSTring();
         return $query->where('event_id','=', $alarm_id)
             ->where('user_id', '=', Auth::user()->id)
-            ->first();
+            ->orderby('alarmDate','ASC')
+            ->orderby('alarmTime', 'DESC')
+            ->where('alarmTime', '>=',$time)
+            ->where('alarmDate', '>=',$date)
+            ->get();
     }
 
     public function scopeCheckUser($query,$user_id)
