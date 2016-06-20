@@ -37,6 +37,13 @@ class Alarms extends Model
             ->first();
     }
 
+    public function scopeGetDelAlarm($query,$alarm_id)
+    {
+        return $query->where('id','=', $alarm_id)
+            ->where('user_id', '=', Auth::user()->id)
+            ->first();
+    }
+
     public function scopeCheckUser($query,$user_id)
     {
         return $query->where('user_id','=',$user_id);
@@ -44,7 +51,10 @@ class Alarms extends Model
 
     public function scopeToday($query)
     {
-        return $query->where('alarmDate', '>=' , carbon::today());
+        $now = carbon::now();
+        $time = $now->toTimeString();
+        return $query->where('alarmDate', '>=' , carbon::today())
+                ->where('alarmtime','<',$time);
     }
 
     public function scopeCheckEvent($query,$id)

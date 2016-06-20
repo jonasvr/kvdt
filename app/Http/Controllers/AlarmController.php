@@ -192,8 +192,8 @@ class AlarmController extends Controller
      */
     public function deleteEmerg($alarm_id) //helper
     {
-        $emerg = $this->emergencies->FirstIfExist($alarm_id);
-        if($emerg){
+       $emerg = $this->emergencies->FirstIfExist($alarm_id);
+        if($emerg->count()){
             $emerg->delete();
         }
         
@@ -202,7 +202,7 @@ class AlarmController extends Controller
 
     public function deleteAlarm($alarm_id)
     {
-        $alarm = $this->alarms->GetAlarm($alarm_id);
+        $alarm = $this->alarms->GetDelAlarm($alarm_id);
         $alarm->delete();
         $this->deleteEmerg($alarm_id);
 
