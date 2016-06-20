@@ -65,7 +65,7 @@ class AuthController extends Controller
             'email' => $_GET['email'],
         ];
         Auth::login(User::firstOrCreate($data));
-        return redirect($this->redirectPath());
+	return redirect($this->redirectPath());
     }
 
     public function handleProviderCallback($provider)

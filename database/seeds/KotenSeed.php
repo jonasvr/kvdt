@@ -17,7 +17,7 @@ class KotenSeed extends Seeder
         ]);
 
         DB::table('users')->insert([
-            'name' => 'Jonas Van Reeth',
+            'name' => 'Jonas Van Rth',
             'email' => 'test@gmail.com',
         ]);
     }
