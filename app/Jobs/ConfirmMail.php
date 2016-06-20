@@ -13,6 +13,10 @@ class ConfirmMail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    protected $to;
+    protected $content;
+    protected $user;
+
     /**
      * ConfirmMail constructor.
      * @param $content
@@ -23,7 +27,7 @@ class ConfirmMail extends Job implements ShouldQueue
     {
         $this->content = $content;
         $this->to = $to;
-        $user->user= $user;
+        $this->user= $user;
     }
 
     /**
@@ -33,6 +37,7 @@ class ConfirmMail extends Job implements ShouldQueue
      */
     public function handle()
     {
+//        dd($this->user);
         $content = " emergency has sended to :" . $this->to . "</br>
         with following message: </br>".$this->content;
 
@@ -42,7 +47,9 @@ class ConfirmMail extends Job implements ShouldQueue
         ],
             function ($message)
             {
-                $message->to($this->user);
+                $message->from('messagesystem@kvdt.be');
+                $message->subject('emergency sended');
+                $message->to($this->user->email);
             });
 
         return response()->json(['message' => 'mail completed']);

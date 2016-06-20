@@ -12,7 +12,14 @@ class Messages extends Model
         'user_id', 'title', 'message',
     ];
 
-    public function scopeGetAll($query,$user_id){
+    public function scopeGetAll($query,$user_id)
+    {
         return $query->where('user_id','=',$user_id)->get();
+    }
+
+    public function scopeFirstOrFail($query, $message_id)
+    {
+        dd('in');
+        return $query->where('id','=',$message_id)->first();
     }
 }
