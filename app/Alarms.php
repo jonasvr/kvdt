@@ -32,16 +32,9 @@ class Alarms extends Model
 
     public function scopeGetAlarm($query,$alarm_id)
     {
-        $now = Carbon::now();
-        $time = $now->toTimeString();
-        $date = $now->toDateSTring();
         return $query->where('event_id','=', $alarm_id)
             ->where('user_id', '=', Auth::user()->id)
-            ->orderby('alarmDate','ASC')
-            ->orderby('alarmTime', 'DESC')
-            ->where('alarmTime', '>=',$time)
-            ->where('alarmDate', '>=',$date)
-            ->get();
+            ->first();
     }
 
     public function scopeCheckUser($query,$user_id)
