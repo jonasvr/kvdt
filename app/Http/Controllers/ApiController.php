@@ -116,13 +116,13 @@ class ApiController extends Controller
         $alarm = $this->alarms->CheckID($request->alarm_id);
         $emergency = $this->emergencies->FirstIfExist($alarm->id);
         $content = $this->messages->where('id','=',$emergency->message_id)->first();
+        $user = User::GetInfo($alarm->user_id);
         switch ($emergency->contact_type) {
             case 0:
-                $user = User::GetInfo($alarm->user_id);
                 $this->sendMail($emergency,$content,$user);
                 break;
             case 1:
-                $this->sendText($emergency,$content);
+                $this->sendText($emergency,$content,$user);
                 break;
         }
 
@@ -176,13 +176,12 @@ class ApiController extends Controller
         }else{
             $from = $user->email;
         }
-//        dd($user->name);
-//        $this->dispatch(new SendMailJob(
-//            $content->title,
-//            $content->message,
-//            $to->mail, $from,
-//            $user
-//        ));
+        $this->dispatch(new SendMailJob(
+            $content->title,
+            $content->message,
+            $to->mail, $from,
+            $user
+        ));
 
 
         $this->dispatch(new ConfirmMail(
@@ -192,7 +191,7 @@ class ApiController extends Controller
         ));
     }
 
-    private function sendText($emergency, $content)
+    private function sendText($emergency, $content,$user)
     {
         echo 'sending text 1';
         $to = $this->nrs->findOrFail($emergency->contact_id);
@@ -201,7 +200,7 @@ class ApiController extends Controller
         $this->dispatch(new ConfirmMail(
             $content->message,
             $to->mail,
-            Auth::user()->name
+            $user->name
         ));
     }
 }
