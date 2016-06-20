@@ -15,10 +15,10 @@ class KotenSeed extends Seeder
             'kot_id' => 'k@test123',
             'pass' => 'test123',
         ]);
-
-        DB::table('users')->insert([
-            'name' => 'Jonas Van Reeth',
-            'email' => 'test@gmail.com',
-        ]);
+//
+//        DB::table('users')->insert([
+//            'name' => 'Jonas Van Reeth',
+//            'email' => 'test@gmail.com',
+//        ]);
     }
 }
