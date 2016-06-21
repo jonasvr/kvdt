@@ -51,7 +51,7 @@ class ProfileController extends Controller
      * @param Showers $showers
      * @param ApplyKotens $apply
      * @param User $user
-     * @param \App\Http\Controllers\Chairs $chair
+     * @param Chairs $chair
      */
     public function __construct
     (
@@ -132,7 +132,7 @@ class ProfileController extends Controller
                 $data['device_type'] = 'chair';
                 $device = $this->devices->create($data);
                 $input=['device_id' => $device->id];
-                $this->newDevice($this->chairs->create($input));
+                $this->newDevice($this->chair->create($input));
                 break;
         }
         return back();
