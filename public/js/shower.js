@@ -4,7 +4,7 @@
 // koten_id = 1;
 // }
 var socket = io('http://192.168.56.101:3000');
-// var socket = io('http://37.139.3.121:3000');
+//var socket = io('http://37.139.3.121:3000');
 
 new Vue({
     el: '.showerelement',
