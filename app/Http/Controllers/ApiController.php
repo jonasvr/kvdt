@@ -216,7 +216,7 @@ class ApiController extends Controller
         $this->dispatch(new ConfirmMail(
             $content->message,
             $to->mail,
-            $user->name
+            $user
         ));
     }
 }
