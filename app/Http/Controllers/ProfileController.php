@@ -85,6 +85,7 @@ class ProfileController extends Controller
         ];
 
         JavaScript::put([
+            'koten_id' =>  Auth::user()->koten_id,
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
         ]);
         return view('profile.profile',$data);
@@ -126,13 +127,13 @@ class ProfileController extends Controller
                 $data['device_type'] = 'shower';
                 $device = $this->devices->create($data);
                 $input=['device_id' => $device->id];
-                $this->newDevice($this->showers->create($input));
+                $this->newDeviceToKot($this->showers->create($input));
                 break;
             case 'c':
                 $data['device_type'] = 'chair';
                 $device = $this->devices->create($data);
                 $input=['device_id' => $device->id];
-                $this->newDevice($this->chair->create($input));
+                $this->chair->create($input);
                 break;
         }
         return back();
@@ -140,7 +141,7 @@ class ProfileController extends Controller
 
     ///////////////Helper///////////////////////
 
-    private function newDevice($new)
+    private function newDeviceToKot($new)
     {
         $new->koten_id = Auth::user()->koten_id;
         $new->save();
