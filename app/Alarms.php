@@ -52,9 +52,9 @@ class Alarms extends Model
     public function scopeToday($query)
     {
         $now = carbon::now();
-        $time = $now->toTimeString();
-        return $query->where('alarmDate', '>=' , carbon::today())
-                ->where('alarmtime','<',$time);
+//        $time = $now->toTimeString();
+        return $query->where('alarmDate', '>=' , carbon::today());
+//                ->where('alarmtime','<',$time);
     }
 
     public function scopeCheckEvent($query,$id)
