@@ -10,6 +10,7 @@ new Vue({
     el: '.showerelement',
 
     data:{
+        devices:devices,
         showers:showers,
         panel:'panel',
         green: 'panel-green',
@@ -24,6 +25,17 @@ new Vue({
         socket.on('shower-channel:App\\Events\\ShowerUpdate', function(data) {
             this.showers = data.showers;
             console.log(showers);
+        }.bind(this));
+
+        socket.on('chair-channel:App\\Events\\ChairUpdate', function() {
+            var baseUrl = document.location.origin;
+            $.get(baseUrl + "/api/chair/check", function(data){
+                console.log("Data: " + data);
+                if(data){
+                    alert('Neem een pauze, ge verdient het.');
+                }
+            });
+           // alert('test');
         }.bind(this));
     }
 });

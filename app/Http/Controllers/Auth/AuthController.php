@@ -43,9 +43,14 @@ class AuthController extends Controller
      *
      * @return void
      */
+//    public function __construct()
+//    {
+//        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+//    }
+
     public function __construct()
     {
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware('guest', ['except' => ['logout', 'getLogout']]);
     }
 
     public function redirectToProvider($provider)
@@ -65,7 +70,8 @@ class AuthController extends Controller
             'email' => $_GET['email'],
         ];
         Auth::login(User::firstOrCreate($data));
-	return redirect($this->redirectPath());
+        dd('passed');
+        return redirect($this->redirectPath());
     }
 
     public function handleProviderCallback($provider)
@@ -74,25 +80,12 @@ class AuthController extends Controller
         setcookie('accessToken', '', time()-3600, "/");
         // dd( Socialite::driver($provider)->user());
        $user = Socialite::driver($provider)->stateless()->user();
-    //  dd($user);
-    //  dd($user->getToken());
        // stroing data to our use table and logging them in
        $data = [
            'name' => $user->name,
            'email' => $user->email,
        ];
-
-//       $user = Socialite::driver($provider)->user();
-//       //  dd($user);
-//       //  dd($user->getToken());
-//       // stroing data to our use table and logging them in
-//       $data = [
-//           'name' => $user->getName(),
-//           'email' => $user->getEmail(),
-//       ];
-       Auth::login(User::firstOrCreate($data));
-    // dd($user); //=> zelf geschreven in vendor/socialite/src/two/user.php
-    //    setcookie('accessToken', $user->getToken(), time() + (86400 * 30), "/"); // 86400 = 1 day
+      Auth::login(User::firstOrCreate($data));
     //    //after login redirecting to home page
        return redirect($this->redirectPath());
    }
@@ -126,4 +119,11 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
+//    public function getLogout()
+//    {
+//       auth()->logout();
+//    }
 }
+

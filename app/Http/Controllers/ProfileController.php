@@ -79,7 +79,7 @@ class ProfileController extends Controller
     public function profile()
     {
         $data=[
-            'devices' => Auth::user()->getDevices(),
+            'devices' => Auth::user()->getDevices()->count(),
             'applies' => $this->getApplies(),
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
         ];
@@ -87,6 +87,7 @@ class ProfileController extends Controller
         JavaScript::put([
             'koten_id' =>  Auth::user()->koten_id,
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
+            'devices' => Auth::user()->getDevices(),
         ]);
         return view('profile.profile',$data);
     }
@@ -124,10 +125,13 @@ class ProfileController extends Controller
                 $device = $this->devices->create($data);
                 break;
             case 's':
-                $data['device_type'] = 'shower';
-                $device = $this->devices->create($data);
-                $input=['device_id' => $device->id];
-                $this->newDeviceToKot($this->showers->create($input));
+
+               if ($this->checkKot()) {
+                   $data['device_type'] = 'shower';
+                   $device = $this->devices->create($data);
+                   $input = ['device_id' => $device->id];
+                   $this->newDeviceToKot($this->showers->create($input));
+               }
                 break;
             case 'c':
                 $data['device_type'] = 'chair';
@@ -140,6 +144,18 @@ class ProfileController extends Controller
     }
 
     ///////////////Helper///////////////////////
+
+    private function checkKot()
+    {
+        $userKot=Auth::user()->koten_id;
+//        dd($userKot);
+        $kot = $this->koten->where('id','=',$userKot)->first();
+//        dd($kot);
+        if ($kot->user_id == Auth::user()->id){
+            return True;
+        }
+        return False;
+    }
 
     private function newDeviceToKot($new)
     {

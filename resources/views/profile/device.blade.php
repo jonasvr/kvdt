@@ -13,37 +13,10 @@
             {{ Form::submit('Submit!',['class'=>'btn btn-default']) }}
         </div>
         {{ Form::close() }}
-
-        @if(count($devices) > 0)
+        @if($devices > 0)
             <div class="panel-footer">
                 <div class="row">
-                @foreach($devices as $key => $device)
-                        @if(!($device['device_type']=='shower'))
-                        <div class="col-lg-3 col-md-6">
-                            <div class="panel panel-yellow">
-                                <div class="panel-heading">
-                                    <div class="row">
-                                        <div class="col-xs-offset-2 col-xs-10 text-right">
-                                            <div class="huge text-capitalize">{{$device->device_type}}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="#">
-                                    <div class="panel-footer">
-                                        <span class="pull-left">{{$device->name}}</span>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        @endif
-
-
-
-                    {{--@if(!($device['device_type']=='shower'))--}}
-                        {{--<p>{{$device->device_type}} =>  {{$device->name}}</p>--}}
-                    {{--@endif--}}
-                @endforeach
+                    @include('home.chair')
                 </div>
             </div>
         @endif
