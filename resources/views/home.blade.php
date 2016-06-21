@@ -11,6 +11,7 @@
             <div class="changing">
                 @include('home.shower')
                 @include('home.chair')
+{{--                @include('profile.device')--}}
             </div>
         </div>
 

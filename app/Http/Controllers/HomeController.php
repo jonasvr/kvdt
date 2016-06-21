@@ -60,6 +60,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+
         $alarms = $this->getAlarms();
         $showers = $this->showers->ShowerByKot(Auth::user()->koten_id)->get();
         $agenda = $this->events->GetAgenda(Auth::user()->id)->all();
@@ -75,7 +76,7 @@ class HomeController extends Controller
 
         $data = [
             'alarms' => $alarms,
-            'showers' => $showers,
+            'devices' => Auth::user()->getDevices()->count(),
             'agenda' => $agenda,
             'today' => Carbon::today()->format('j-m-y'),
         ];
@@ -83,6 +84,7 @@ class HomeController extends Controller
         JavaScript::put([
             'showers' => $showers,
             'koten_id' => Auth::user()->koten_id,
+            'devices' => Auth::user()->getDevices(),
         ]);
         return view('home', $data);
     }

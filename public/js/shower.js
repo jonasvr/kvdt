@@ -10,6 +10,7 @@ new Vue({
     el: '.showerelement',
 
     data:{
+        devices:devices,
         showers:showers,
         panel:'panel',
         green: 'panel-green',

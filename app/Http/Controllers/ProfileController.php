@@ -79,7 +79,7 @@ class ProfileController extends Controller
     public function profile()
     {
         $data=[
-            'devices' => Auth::user()->getDevices(),
+            'devices' => Auth::user()->getDevices()->count(),
             'applies' => $this->getApplies(),
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
         ];
@@ -87,6 +87,7 @@ class ProfileController extends Controller
         JavaScript::put([
             'koten_id' =>  Auth::user()->koten_id,
             'showers' => $this->showers->ShowerByKot(Auth::user()->koten_id)->get(),
+            'devices' => Auth::user()->getDevices(),
         ]);
         return view('profile.profile',$data);
     }
