@@ -20,7 +20,7 @@ use App\Jobs\SendTextJob;
 use App\Jobs\ConfirmMail;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
-use App\Http\Requests\UpdateshowerRequest;
+//use App\Http\Requests\UpdateshowerRequest;
 use App\Http\Requests\UpdateChairRequest;
 
 
@@ -132,19 +132,19 @@ class ApiController extends Controller
         return 'sended';
     }
 
-    public function Shower(UpdateShowerRequest $request)
-    {
-        $device = $this->devices->where('device_id','=',$request->device_id)->firstOrFail();
-//        dd($request->all());
-        $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
-        $shower->state = $request->state;
-        $shower->save();
-        
-        
-        event(new ShowerUpdate($this->showers));
-
-        return 'succes';
-    }
+//    public function Shower(UpdateShowerRequest $request)
+//    {
+//        $device = $this->devices->where('device_id','=',$request->device_id)->firstOrFail();
+////        dd($request->all());
+//        $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
+//        $shower->state = $request->state;
+//        $shower->save();
+//
+//
+//        event(new ShowerUpdate($this->showers));
+//
+//        return 'succes';
+//    }
 
     public function ShowerGet($device_id, $state)
     {
