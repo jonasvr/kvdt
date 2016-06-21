@@ -107,6 +107,6 @@
                 $("#selectMail").hide();
                 $("#selectNumber").show();
             }
-        }).trigger("change");
+        }).filter(':checked').trigger("change");
     </script>
 @endsection

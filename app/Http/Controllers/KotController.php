@@ -60,9 +60,7 @@ class KotController extends Controller
             $user = Auth::user();
             $user->koten_id = $kot->id;
             $user->save();
-        }
-        //geen admin geset of admin niet gelijk aan huidige user
-        if($kot->user_id !== 0 && $kot->user_id !== Auth::user()->id){
+        }else if($kot->user_id !== 0 && $kot->user_id !== Auth::user()->id){
             $add=[
                 'kot_id' => $kot->id,
                 'user_id' => Auth::user()->id,

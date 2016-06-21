@@ -12,9 +12,8 @@ use App\events\NewUserSignedUp;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
 Route::get('social/login/redirect/{provider}', ['uses' => 'Auth\AuthController@redirectToProvider', 'as' => 'social.login']);
 Route::get('social/login/{provider}', 'Auth\AuthController@handleProviderCallback');
 
@@ -92,11 +91,8 @@ Route::group(['middleware'=>'auth'],function(){
         Route::post('edit',         ['as' => 'editMess',    'uses'=>'MessageController@edit']);
 
     });
-
-    Route::get('/home', 'HomeController@index');
-
 });
 
-Route::auth();
+Route::get('/logout', 'Auth\AuthController@getLogout');
 
 
