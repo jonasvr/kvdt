@@ -23,7 +23,10 @@ Route::group(['prefix' => 'api','middleware' => 'api'], function () {
     Route::post('emergency', 'ApiController@emergency');
 //    Route::post('shower', 'ApiController@shower');
     Route::get('shower/{device_id}/{state}', 'ApiController@showerGet');
+    Route::get('chair/{device_id}/{alert}', 'ApiController@UpdateChair');
+    Route::get('chair/check', 'ApiController@CheckChair');
 });
+
 
 
 

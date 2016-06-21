@@ -7,7 +7,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">Kot van de toekomst</a>
+        <a class="navbar-brand" href="/home">Kot van de toekomst</a>
     </div>
     <!-- /.navbar-header -->
 

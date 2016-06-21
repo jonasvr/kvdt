@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ChairUpdate;
 use App\Events\ShowerUpdate;
 use App\User;
 use Illuminate\Http\Request;
@@ -20,9 +21,7 @@ use App\Jobs\SendTextJob;
 use App\Jobs\ConfirmMail;
 use App\Http\Requests\SetAlarmRequest;
 use App\Http\Requests\CallEmergencyRequest;
-//use App\Http\Requests\UpdateshowerRequest;
-use App\Http\Requests\UpdateChairRequest;
-
+use App\Chairs;
 
 class ApiController extends Controller
 {
@@ -56,6 +55,10 @@ class ApiController extends Controller
     protected $showers;
 
     /**
+     * @var Chairs
+     */
+    protected $chairs;
+    /**
      * ApiController constructor.
      * @param Devices $devices
      * @param Alarms $alarms
@@ -63,6 +66,8 @@ class ApiController extends Controller
      * @param Messages $messages
      * @param Mails $mails
      * @param PhoneNumbers $nrs
+     * @param Showers $showers
+     * @param Chairs $chairs
      */
     public function __construct
     (
@@ -72,7 +77,8 @@ class ApiController extends Controller
         Messages $messages,
         Mails $mails,
         PhoneNumbers $nrs,
-        Showers $showers
+        Showers $showers,
+        Chairs $chairs
     ){
         $this->devices = $devices;
         $this->alarms = $alarms;
@@ -81,6 +87,7 @@ class ApiController extends Controller
         $this->mails = $mails;
         $this->nrs = $nrs;
         $this->showers = $showers;
+        $this->chairs = $chairs;
     }
 
     //////////////////Calls////////////////////////
@@ -126,26 +133,15 @@ class ApiController extends Controller
                 break;
         }
 
-
-
-        
         return 'sended';
     }
 
-//    public function Shower(UpdateShowerRequest $request)
-//    {
-//        $device = $this->devices->where('device_id','=',$request->device_id)->firstOrFail();
-////        dd($request->all());
-//        $shower = $this->showers->where('device_id','=',$device->id)->firstOrFail();
-//        $shower->state = $request->state;
-//        $shower->save();
-//
-//
-//        event(new ShowerUpdate($this->showers));
-//
-//        return 'succes';
-//    }
 
+    /**
+     * @param $device_id
+     * @param $state
+     * @return string
+     */
     public function ShowerGet($device_id, $state)
     {
         $device = $this->devices->where('device_id','=',$device_id)->firstOrFail();
@@ -160,11 +156,31 @@ class ApiController extends Controller
     }
 
 
-    public function Chair(UpdateChairRequest $request)
+    public function updateChair($device_id, $alert)
     {
-
+        $device = $this->devices->where('device_id','=',$device_id)->firstOrFail();
+        $chair = $this->chairs->where('device_id','=',$device->id)->firstOrFail();
+        $chair->alert = $alert;
+        $chair->save();
+//        dd($chair);
+        event(new ChairUpdate());
+        return 'succes';
     }
 
+
+    public function CheckChair()
+    {
+        $chairs = $this->chairs->CheckAlert(Auth::user()->id)->get();
+        if(count($chairs)){
+            foreach($chairs as $key => $chair){
+               $foundChair = $this->chairs->find($chair->id);
+                $foundChair->alert = '0';
+                $foundChair->save();
+            }
+            return 'True';
+        }
+        return 'False';
+    }
 
 /////////////////Helpers//////////////////////
     private function sendMail($emergency, $content,$user)

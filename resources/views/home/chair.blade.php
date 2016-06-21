@@ -7,7 +7,7 @@
                                 <div class="row">
                                     <div class="col-xs-offset-3 col-xs-9 text-right">
                                         <div class="huge text-capitalize">@{{device.device_type}}</div>
-                                        <p>hours seated</p>
+                                        <p><br></p>
                                     </div>
                                 </div>
                             </div>

@@ -16,6 +16,7 @@ class CreateChairsTable extends Migration
             $table->increments('id');
             $table->integer('device_id');
             $table->integer('time');
+            $table->integer('alert');
             $table->timestamps();
         });
     }

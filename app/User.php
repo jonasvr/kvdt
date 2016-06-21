@@ -39,6 +39,8 @@ class User extends Authenticatable
             ->hasMany('App\Devices','user_id')->get();
     }
 
+
+
     /**
      * link between users en koten
      *
