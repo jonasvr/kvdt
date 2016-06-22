@@ -177,9 +177,9 @@ class ApiController extends Controller
                 $foundChair->alert = '0';
                 $foundChair->save();
             }
-            return 'True';
+            return 1;
         }
-        return 'False';
+        return 0;
     }
 
 /////////////////Helpers//////////////////////
@@ -215,7 +215,7 @@ class ApiController extends Controller
 
         $this->dispatch(new ConfirmMail(
             $content->message,
-            $to->mail,
+            $to->nr,
             $user
         ));
     }

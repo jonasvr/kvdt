@@ -31,7 +31,7 @@ new Vue({
             var baseUrl = document.location.origin;
             $.get(baseUrl + "/api/chair/check", function(data){
                 console.log("Data: " + data);
-                if(data){
+                if(data == 1){
                     alert('Neem een pauze, ge verdient het.');
                 }
             });

@@ -13,8 +13,17 @@ class ConfirmMail extends Job implements ShouldQueue
 {
     use InteractsWithQueue, SerializesModels;
 
+    /**
+     * @var
+     */
     protected $to;
+    /**
+     * @var
+     */
     protected $content;
+    /**
+     * @var
+     */
     protected $user;
 
     /**
@@ -37,7 +46,7 @@ class ConfirmMail extends Job implements ShouldQueue
      */
     public function handle()
     {
-//        dd($this->user);
+        dd($this->to);
         $content = " emergency has sended to :" . $this->to . "</br>
         with following message: </br>".$this->content;
 
