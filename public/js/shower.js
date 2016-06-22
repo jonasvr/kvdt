@@ -23,12 +23,7 @@ new Vue({
     ready: function() {
         console.log('in ready');
         socket.on('shower-channel:App\\Events\\ShowerUpdate', function(data) {
-            console.log(data);
-            console.log(data.showers);
             this.showers = data.showers;
-            console.log(this[0].koten_id);
-
-            console.log(this.showers.koten_id);
         }.bind(this));
 
         socket.on('chair-channel:App\\Events\\ChairUpdate', function() {
