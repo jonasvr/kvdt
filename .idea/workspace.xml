@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="051d063a-6fd1-42c0-a034-1d008dfc9fe7" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/home/shower.blade.php" afterPath="$PROJECT_DIR$/resources/views/home/shower.blade.php" />
     </list>
     <ignored path="kvdt.iws" />
@@ -38,7 +37,7 @@
       <file leaf-file-name="shower.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/js/shower.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="644">
+            <state relative-caret-position="752">
               <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
@@ -51,7 +50,7 @@
         <entry file="file://$PROJECT_DIR$/resources/views/home/shower.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="36">
-              <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+              <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -426,12 +425,12 @@
       <workItem from="1466506185799" duration="19283000" />
       <workItem from="1466533966224" duration="3158000" />
       <workItem from="1466555517960" duration="1631000" />
-      <workItem from="1466592372927" duration="2103000" />
+      <workItem from="1466592372927" duration="2251000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="256554000" />
+    <option name="totallyTimeSpent" value="256702000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-11" y="-11" width="1942" height="1056" extended-state="6" />
@@ -858,7 +857,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/js/shower.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="644">
+        <state relative-caret-position="752">
           <caret line="27" column="39" selection-start-line="27" selection-start-column="39" selection-end-line="27" selection-end-column="39" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
@@ -869,7 +868,7 @@
     <entry file="file://$PROJECT_DIR$/resources/views/home/shower.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
-          <caret line="1" column="18" selection-start-line="1" selection-start-column="18" selection-end-line="1" selection-end-column="18" />
+          <caret line="1" column="11" selection-start-line="1" selection-start-column="11" selection-end-line="1" selection-end-column="11" />
           <folding />
         </state>
       </provider>
