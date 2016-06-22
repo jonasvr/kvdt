@@ -1,5 +1,5 @@
 <div v-for="(key, shower) in showers"> {{--foreach--}}
-    @{{ shower[key].koten_id }}
+    @{{ shower['koten_id']}}
    <div v-if="shower.koten_id = koten_id" class="col-lg-4 col-md-6">
        <div  v-bind:class=" [panel, shower.state  == 0 ? green : red]">
            <div class="panel-heading">
