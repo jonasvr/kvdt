@@ -177,9 +177,9 @@ class ApiController extends Controller
                 $foundChair->alert = '0';
                 $foundChair->save();
             }
-            return 1;
+            return 'True';
         }
-        return 0;
+        return 'False';
     }
 
 /////////////////Helpers//////////////////////
