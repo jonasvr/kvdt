@@ -26,7 +26,7 @@ new Vue({
             console.log(data);
             console.log(data.showers);
             this.showers = data.showers;
-            console.log(this.koten_id);
+            console.log(this[0].koten_id);
 
             console.log(this.showers.koten_id);
         }.bind(this));
