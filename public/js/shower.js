@@ -25,6 +25,7 @@ new Vue({
         socket.on('shower-channel:App\\Events\\ShowerUpdate', function(data) {
             console.log(data);
             console.log(data.showers[0]);
+            console.log(this.koten_id);
             this.showers = data.showers;
             console.log(this.showers.koten_id);
         }.bind(this));
